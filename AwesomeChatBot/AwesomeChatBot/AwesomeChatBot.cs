@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace AwesomeChatBot
+{
+    /// <summary>
+    /// The main class (create an instance of this class to use the framework)
+    /// </summary>
+    public class AwesomeChatBot
+    {
+        /// <summary>
+        /// The Api Wrapper to use to communicate with the API / Chat network
+        /// </summary>
+        public ApiWrapper ApiWrapper { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public AwesomeChatBot(ApiWrapper wrapper)
+        {
+
+        }
+    }
+}
