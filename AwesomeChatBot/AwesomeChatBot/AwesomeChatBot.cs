@@ -12,12 +12,28 @@ namespace AwesomeChatBot
         /// <summary>
         /// The Api Wrapper to use to communicate with the API / Chat network
         /// </summary>
-        public ApiWrapper ApiWrapper { get; private set; }
+        protected ApiWrapper ApiWrapper { get; private set; }
+
+        /// <summary>
+        /// Holds the reference to the command factory
+        /// </summary>
+        protected CommandFactory CommandFactory { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         public AwesomeChatBot(ApiWrapper wrapper)
+        {
+            this.ApiWrapper = wrapper;
+            this.CommandFactory = new CommandFactory();
+            this.ApiWrapper.OnMessageRecieved += OnMessageRecieved;
+        }
+
+        /// <summary>
+        /// Will be fired when the ApiWrapper reports a new message
+        /// </summary>
+        /// <param name="recievedMessage"></param>
+        protected virtual void OnMessageRecieved(Context.Message recievedMessage)
         {
 
         }

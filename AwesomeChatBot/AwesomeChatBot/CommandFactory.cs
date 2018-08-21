@@ -9,5 +9,6 @@ namespace AwesomeChatBot
     /// </summary>
     public class CommandFactory
     {
+
     }
 }
