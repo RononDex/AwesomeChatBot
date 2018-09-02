@@ -1,12 +1,14 @@
 ﻿using Discord.WebSocket;
+using AwesomeChatBot.ApiWrapper;
 using System;
+using System.Collections.Generic;
 
 namespace AwesomeChatBot.DiscordWrapper
 {
     /// <summary>
     /// Discord API Wrapper for the "AwesomeChatBot" Framework
     /// </summary>
-    public class DiscordWrapper : ApiWrapper
+    public class DiscordWrapper : ApiWrapper.ApiWrapper
     {
         /// <summary>
         /// The token used to authenticate against discord API
@@ -33,10 +35,16 @@ namespace AwesomeChatBot.DiscordWrapper
             this.DiscordClient = new DiscordSocketClient(new DiscordSocketConfig()
             {
                 MessageCacheSize = 50,
+                
             });
 
             // Login into discord
             this.DiscordClient.LoginAsync(Discord.TokenType.Bot, this.DiscordToken).Wait();
+        }
+
+        public override List<Server> GetAvailableServers()
+        {
+            throw new NotImplementedException();
         }
     }
 }

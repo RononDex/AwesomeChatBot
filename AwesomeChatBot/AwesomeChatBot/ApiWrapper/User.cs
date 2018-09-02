@@ -2,22 +2,28 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AwesomeChatBot.Context
+namespace AwesomeChatBot.ApiWrapper
 {
-    public abstract class Attachement
+    public abstract class User
     {
         /// <summary>
         /// A reference to the ApiWrapper for internal usage
         /// </summary>
-        protected ApiWrapper ApiWrapper { get; set; }
+        public ApiWrapper ApiWrapper { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="wrapper"></param>
-        public Attachement(ApiWrapper wrapper)
+        public User(ApiWrapper wrapper)
         {
             this.ApiWrapper = wrapper;
         }
+
+        /// <summary>
+        /// Get a string that is used to mention this user
+        /// </summary>
+        /// <returns></returns>
+        public abstract string GetMention();
     }
 }

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AwesomeChatBot.Context
+namespace AwesomeChatBot.ApiWrapper
 {
+    /// <summary>
+    /// Represents a message object
+    /// </summary>
     public abstract class Message
     {
         /// <summary>
@@ -29,20 +32,5 @@ namespace AwesomeChatBot.Context
         /// Raw text message
         /// </summary>
         public string TextRaw { get; set; }
-
-        /// <summary>
-        /// Formatted text message (user friendly to read)
-        /// </summary>
-        public string TextFormatted { get; set; }
-
-        /// <summary>
-        /// The author of the message
-        /// </summary>
-        public User Author { get; set; }
-
-        /// <summary>
-        /// The time stamp, for when this message was posted
-        /// </summary>
-        public DateTime PostedOn { get; set; }
     }
 }
