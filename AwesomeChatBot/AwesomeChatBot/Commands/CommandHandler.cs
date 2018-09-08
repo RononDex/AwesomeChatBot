@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AwesomeChatBot.ApiWrapper;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,32 +30,11 @@ namespace AwesomeChatBot.Commands
         }
 
         /// <summary>
-        /// CHeck if a certain command has to be executed for a specific message
+        /// 
         /// </summary>
         /// <param name="recievedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public Task<bool> CheckAndExecuteCommand(ApiWrapper.RecievedMessage recievedMessage, Command command)
-        {
-            if (this.CheckIfCommandShouldExecute(recievedMessage, command))
-            {
-                return command.ExecuteCommand(recievedMessage);
-            }
-            else
-            {
-                return new Task<bool>(() =>
-                {
-                    return false;
-                });
-            }
-        }
-
-        /// <summary>
-        /// Check wether the given command should be executed for the given message
-        /// </summary>
-        /// <param name="recievedMessage"></param>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        protected abstract bool CheckIfCommandShouldExecute(ApiWrapper.RecievedMessage recievedMessage, Command command);     
+        public abstract Task<bool> ExecuteCommand(RecievedMessage recievedMessage, Command command);
     }
 }

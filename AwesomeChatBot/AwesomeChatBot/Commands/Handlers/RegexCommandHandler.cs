@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AwesomeChatBot.ApiWrapper;
+using System.Text.RegularExpressions;
 
 namespace AwesomeChatBot.Commands.Handlers
 {
@@ -16,9 +17,37 @@ namespace AwesomeChatBot.Commands.Handlers
 
         public override Type CommandType => typeof(IRegexCommand);
 
-        protected override bool CheckIfCommandShouldExecute(RecievedMessage recievedMessage, Command command)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="recievedMessage"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public override bool ExecuteCommand(RecievedMessage recievedMessage, Command command)
         {
-            
+            var regexCommand = command as IRegexCommand;
+            if (regexCommand == null)
+                return false;
+
+            foreach (var pattern in regexCommand.Regex)
+            {
+                var regex = new Regex(pattern);
+
+                var match = regex.Match(recievedMessage.TextRaw);
+                if (match.Success)
+                    return true;
+
+                var executionTask = command.ExecuteCommand(recievedMessage);
+
+                // Wait for the task to execute, timeout after defined time in the command factory
+                executionTask.Wait(this.CommandFactory.TaskTimeout * 1000);
+
+                // Check wether message was handled
+                if (executionTask.Result)
+                    return true;
+            }
+
+            return false;
         }
     }
 
@@ -27,6 +56,11 @@ namespace AwesomeChatBot.Commands.Handlers
     /// </summary>
     public interface IRegexCommand
     {
+        /// <summary>
+        /// A list of regex patterns that trigger the command
+        /// </summary>
         List<string> Regex { get; set; }
+
+        
     }
 }

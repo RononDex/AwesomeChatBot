@@ -12,6 +12,11 @@ namespace AwesomeChatBot.Commands
     public class CommandFactory
     {
         /// <summary>
+        /// The timeout for a task in seconds
+        /// </summary>
+        public int TaskTimeout { get; set; } = 5 * 60;
+
+        /// <summary>
         /// ApiWrapper reference used for internal reference
         /// </summary>
         protected ApiWrapper.ApiWrapper ApiWrapper { get; set; }
@@ -49,7 +54,7 @@ namespace AwesomeChatBot.Commands
                 {
                     foreach (var handler in this.Handlers.Where(x => command.GetType().GetInterfaces().Contains(x.CommandType)))
                     { 
-                        var commandTask = handler.CheckAndExecuteCommand(recievedMessage, command);
+                        var commandTask = handler.ExecuteCommand(recievedMessage, command);
                         commandTask.Wait();
                         if (commandTask.Result)
                             return;
