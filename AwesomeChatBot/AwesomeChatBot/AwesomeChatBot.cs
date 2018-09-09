@@ -20,6 +20,8 @@ namespace AwesomeChatBot
         /// </summary>
         protected CommandFactory CommandFactory { get; set; }
 
+        public Config.ConfigStore MyProperty { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
