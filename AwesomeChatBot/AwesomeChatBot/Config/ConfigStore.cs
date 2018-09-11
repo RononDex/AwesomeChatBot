@@ -31,13 +31,55 @@ namespace AwesomeChatBot.Config
         }
 
         /// <summary>
-        /// Gets a value from the config store
+        /// Gets a value from the config store. Returns default value if config value not defined
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T GetConfigValue<T>(params IConfigurationDependency[] dependencies) where T : IConvertible
+        public T GetConfigValue<T>(string key, params IConfigurationDependency[] dependencies) where T : IConvertible
         {
+            var fileName = GetFileNameFromDependencies(dependencies);
+            var configNotFound = false;
+            var configFile = this.ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
 
+            // if config file does not exist or is empty
+            // return default value for the requested type (means config value is not set)
+            if (configFile == null || configFile.Sections == null || configFile.Sections.Count == 0)
+                configNotFound = true;
+
+            var dependenciesOrdered = dependencies.OrderBy(x => x.ConfigOrder).ToList();
+            var curSection = configFile.Sections.FirstOrDefault(x => x.Id == dependenciesOrdered[0].ConfigId);
+
+            if (!configNotFound)
+            {
+                // Find the config entry section
+                foreach (var dependency in dependenciesOrdered)
+                {
+                    // If section was not found, return default value (config value not set)
+                    if (curSection == null)
+                    {
+                        configNotFound = true;
+                        break;
+                    }
+
+                    curSection = curSection.SubSections.FirstOrDefault(x => x.Id == dependency.ConfigId);
+                }
+            }
+
+            // Get the configuration value
+            if (!configNotFound)
+            {
+                var configEntry = curSection.Config.FirstOrDefault(x => x.Key == key);
+                if (configEntry == null)
+                    configNotFound = true;
+                else
+                {
+                    return (T)Convert.ChangeType(configEntry.Value, typeof(T));
+                }
+            }
+
+            // If section was not found, return default value (config value not set)
+            if (configNotFound)
+                return default(T);             
         }
 
         /// <summary>

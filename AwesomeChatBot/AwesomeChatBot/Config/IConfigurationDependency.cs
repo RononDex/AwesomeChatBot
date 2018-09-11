@@ -11,6 +11,7 @@ namespace AwesomeChatBot.Config
     {
         /// <summary>
         /// The id used to identify the config inside the file
+        /// In the format [API]_[TYPE]_[ID])
         /// </summary>
         string ConfigId { get; }
 
