@@ -1,4 +1,6 @@
 ﻿using AwesomeChatBot.Commands;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,6 +23,11 @@ namespace AwesomeChatBot
         protected CommandFactory CommandFactory { get; set; }
 
         /// <summary>
+        /// The settings of this Framework
+        /// </summary>
+        public AwesomeChatBotSettings Settings { get; private set; }
+
+        /// <summary>
         /// The config store used to access the config of this bot
         /// </summary>
         public Config.ConfigStore ConfigStore { get; set; }
@@ -28,12 +35,26 @@ namespace AwesomeChatBot
         /// <summary>
         /// 
         /// </summary>
-        public AwesomeChatBot(ApiWrapper.ApiWrapper wrapper, string configFolder)
+        public AwesomeChatBot(ApiWrapper.ApiWrapper wrapper, ILogger<AwesomeChatBot> logger, AwesomeChatBotSettings settings)
         {
+            #region PRECONDITIONS
+
+            if (wrapper == null)
+                throw new ArgumentNullException("No ApiWrapper provided to AwesomeChatBot");
+            if (logger == null)
+                throw new ArgumentNullException("No logger provided to AwesomeChatBot");
+            if (settings == null)
+                throw new ArgumentNullException("No settings provided to AwesomeChatBot");
+
+
+            #endregion
+
             this.ApiWrapper = wrapper;
             this.CommandFactory = new CommandFactory(wrapper);
             this.ApiWrapper.OnMessageRecieved += OnMessageRecieved;
-            this.ConfigStore = new Config.ConfigStore(configFolder);
+            
+            this.ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath);
+            this.Settings = settings;
         }
 
         /// <summary>

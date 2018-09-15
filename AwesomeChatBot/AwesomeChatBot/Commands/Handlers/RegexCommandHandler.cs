@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AwesomeChatBot.ApiWrapper;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace AwesomeChatBot.Commands.Handlers
 {
@@ -23,31 +24,34 @@ namespace AwesomeChatBot.Commands.Handlers
         /// <param name="recievedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public override bool ExecuteCommand(RecievedMessage recievedMessage, Command command)
+        public override Task<bool> ExecuteCommand(RecievedMessage recievedMessage, Command command)
         {
-            var regexCommand = command as IRegexCommand;
-            if (regexCommand == null)
-                return false;
-
-            foreach (var pattern in regexCommand.Regex)
+            return new Task<bool>(() =>
             {
-                var regex = new Regex(pattern);
+                var regexCommand = command as IRegexCommand;
+                if (regexCommand == null)
+                    return false;
 
-                var match = regex.Match(recievedMessage.TextRaw);
-                if (match.Success)
-                    return true;
+                foreach (var pattern in regexCommand.Regex)
+                {
+                    var regex = new Regex(pattern);
 
-                var executionTask = command.ExecuteCommand(recievedMessage);
+                    var match = regex.Match(recievedMessage.TextRaw);
+                    if (match.Success)
+                        return true;
 
-                // Wait for the task to execute, timeout after defined time in the command factory
-                executionTask.Wait(this.CommandFactory.TaskTimeout * 1000);
+                    var executionTask = command.ExecuteCommand(recievedMessage);
 
-                // Check wether message was handled
-                if (executionTask.Result)
-                    return true;
-            }
+                    // Wait for the task to execute, timeout after defined time in the command factory
+                    executionTask.Wait(this.CommandFactory.TaskTimeout * 1000);
 
-            return false;
+                    // Check wether message was handled
+                    if (executionTask.Result)
+                        return true;
+                }
+
+                return false;
+            });
         }
     }
 

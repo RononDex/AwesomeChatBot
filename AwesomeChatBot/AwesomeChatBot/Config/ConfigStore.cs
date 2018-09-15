@@ -35,7 +35,7 @@ namespace AwesomeChatBot.Config
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T GetConfigValue<T>(string key, params IConfigurationDependency[] dependencies) where T : IConvertible
+        public T GetConfigValue<T>(string key, T defaultValue = default(T), params IConfigurationDependency[] dependencies) where T : IConvertible
         {
             var fileName = GetFileNameFromDependencies(dependencies);
             var configNotFound = false;
@@ -78,8 +78,71 @@ namespace AwesomeChatBot.Config
             }
 
             // If section was not found, return default value (config value not set)
-            if (configNotFound)
-                return default(T);             
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="dependencies"></param>
+        public void SetConfigValue<T>(string key, T value, params IConfigurationDependency[] dependencies) where T : IConvertible
+        {
+            var fileName = GetFileNameFromDependencies(dependencies);
+
+            // Get file, create it if it doesnt exist yet
+            var configFile = this.ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
+            if (configFile == null)
+            {
+                configFile = new ConfigFile();
+                configFile.Name = fileName.ToLower();
+                configFile.Sections = new List<ConfigSection>();
+                this.ConfigFiles.Add(configFile);
+            }
+
+            var dependenciesSorted = dependencies.OrderBy(x => x.ConfigOrder);
+            ConfigSection curParentSection = null;
+
+            // Find the section
+            foreach (var dependency in dependenciesSorted)
+            {
+                ConfigSection section = null;
+                if (curParentSection == null)
+                    section = configFile.Sections.FirstOrDefault(x => x.Id == dependency.ConfigId);
+                else
+                    section = curParentSection.SubSections.FirstOrDefault(x => x.Id == dependency.ConfigId);
+
+                // Create section if it doesnt exist yet
+                if (section == null)
+                {
+                    section = new ConfigSection();
+                    section.Id = dependency.ConfigId;
+
+                    // Add to parent
+                    if (curParentSection == null)
+                        configFile.Sections.Add(section);
+                    else
+                        curParentSection.SubSections.Add(section);
+                }
+
+                curParentSection = section;
+
+                // Save the config value
+                var configEntry = curParentSection.Config.FirstOrDefault(x => x.Key == key);
+                if (configEntry == null)
+                {
+                    configEntry = new ConfigValue();
+                    configEntry.Key = key;
+                    configEntry.Value = value?.ToString();
+                }
+                else
+                    configEntry.Value = value?.ToString();
+            }
+
+            // Save the changed config file
+            SaveConfigFile(configFile);
         }
 
         /// <summary>
@@ -88,7 +151,6 @@ namespace AwesomeChatBot.Config
         private void LoadConfigFiles()
         {
             var jsonFiles = Directory.GetFiles(this.ConfigFolder, "*.json");
-            var serializer = new JsonSerializer();
 
             foreach (var jsonFile in jsonFiles)
             {
@@ -96,6 +158,17 @@ namespace AwesomeChatBot.Config
                 parsedConfigFile.Name = Path.GetFileNameWithoutExtension(jsonFile);
                 this.ConfigFiles.Add(parsedConfigFile);
             }
+        }
+
+        /// <summary>
+        /// Saves the given configuration file
+        /// </summary>
+        private void SaveConfigFile(ConfigFile file)
+        {
+            var fileName = file.Name + ".json";
+            var json = JsonConvert.SerializeObject(file);
+            var path = Path.Combine(this.ConfigFolder, fileName);
+            File.WriteAllText(path, json);
         }
 
         /// <summary>
