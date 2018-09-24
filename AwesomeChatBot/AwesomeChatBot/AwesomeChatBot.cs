@@ -23,6 +23,11 @@ namespace AwesomeChatBot
         protected CommandFactory CommandFactory { get; set; }
 
         /// <summary>
+        /// A reference to the logger
+        /// </summary>
+        public ILogger<AwesomeChatBot> Logger { get; set; }
+
+        /// <summary>
         /// The settings of this Framework
         /// </summary>
         public AwesomeChatBotSettings Settings { get; private set; }
@@ -51,10 +56,12 @@ namespace AwesomeChatBot
 
             this.ApiWrapper = wrapper;
             this.CommandFactory = new CommandFactory(wrapper);
-            this.ApiWrapper.OnMessageRecieved += OnMessageRecieved;
+            this.Logger = logger;
             
             this.ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath);
             this.Settings = settings;
+
+            this.ApiWrapper.MessageRecieved += OnMessageRecieved;
         }
 
         /// <summary>
@@ -63,7 +70,7 @@ namespace AwesomeChatBot
         /// <param name="recievedMessage"></param>
         protected virtual void OnMessageRecieved(ApiWrapper.RecievedMessage recievedMessage)
         {
-
+            this.CommandFactory.HandleMessage(recievedMessage);
         }
     }
 }

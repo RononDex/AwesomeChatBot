@@ -36,7 +36,7 @@ namespace AwesomeChatBot.Commands.Handlers
                 {
                     var regex = new Regex(pattern);
 
-                    var match = regex.Match(recievedMessage.TextRaw);
+                    var match = regex.Match(recievedMessage.Content);
                     if (match.Success)
                         return true;
 

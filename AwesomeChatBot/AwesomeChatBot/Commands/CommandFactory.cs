@@ -32,6 +32,11 @@ namespace AwesomeChatBot.Commands
         protected List<Command> Commands { get; set; } = new List<Command>();
 
         /// <summary>
+        /// Holds a list of registered event handlers
+        /// </summary>
+        protected List<EventHandler> EventHandlers => new List<EventHandler>();
+
+        /// <summary>
         /// Constructor of CommandFacotry
         /// </summary>
         /// <param name="wrapper"></param>
@@ -89,6 +94,21 @@ namespace AwesomeChatBot.Commands
                 throw new ArgumentException("command can not be null!");
 
             this.Commands.Add(command);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Registers an event handler on the command factory
+        /// </summary>
+        /// <param name="eventHandler"></param>
+        /// <returns></returns>
+        public CommandFactory RegisterEventHandler(EventHandler eventHandler)
+        {
+            if (eventHandler == null)
+                throw new ArgumentException("eventHandler can not be null!");
+
+            this.EventHandlers.Add(eventHandler);
 
             return this;
         }

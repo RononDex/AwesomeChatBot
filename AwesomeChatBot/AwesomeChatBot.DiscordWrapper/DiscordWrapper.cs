@@ -2,6 +2,7 @@
 using AwesomeChatBot.ApiWrapper;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AwesomeChatBot.DiscordWrapper
 {
@@ -35,11 +36,32 @@ namespace AwesomeChatBot.DiscordWrapper
             this.DiscordClient = new DiscordSocketClient(new DiscordSocketConfig()
             {
                 MessageCacheSize = 50,
-                
+
             });
+
+            // Setup the events
+            this.DiscordClient.MessageReceived += OnMessageRecieved;
 
             // Login into discord
             this.DiscordClient.LoginAsync(Discord.TokenType.Bot, this.DiscordToken).Wait();
+        }
+
+
+        /// <summary>
+        /// When a new message is recieved
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        protected Task OnMessageRecieved(SocketMessage message)
+        {
+            return Task.Factory.StartNew(() =>
+               {
+                   // Create the message object
+                   var messageObj = new DiscordRecievedMessage(this, message);
+
+                   // Propagate the event
+                   base.OnMessageRecieved(messageObj);
+               });
         }
 
         public override List<Server> GetAvailableServers()

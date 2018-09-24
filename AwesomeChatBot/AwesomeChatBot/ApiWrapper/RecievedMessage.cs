@@ -24,11 +24,6 @@ namespace AwesomeChatBot.ApiWrapper
         public User Author { get; set; }
 
         /// <summary>
-        /// Formatted text message (user friendly to read)
-        /// </summary>
-        public string TextFormatted { get; set; }
-
-        /// <summary>
         /// The time stamp, for when this message was posted
         /// </summary>
         public DateTime PostedOn { get; set; }

@@ -32,7 +32,12 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// This event is used to communicate that a message was recieved to the framework
         /// </summary>
-        public event OnMessageRecievedDeleagte OnMessageRecieved;
+        public event OnMessageRecievedDeleagte MessageRecieved;
+
+        protected virtual void OnMessageRecieved(RecievedMessage message)
+        {
+            this.MessageRecieved(message);
+        }
 
         #endregion
     }

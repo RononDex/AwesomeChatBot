@@ -31,6 +31,6 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Raw text message
         /// </summary>
-        public string TextRaw { get; set; }
+        public string Content { get; set; }
     }
 }
