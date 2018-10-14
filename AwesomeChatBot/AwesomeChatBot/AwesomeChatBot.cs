@@ -25,7 +25,7 @@ namespace AwesomeChatBot
         /// <summary>
         /// A reference to the logger
         /// </summary>
-        public ILogger<AwesomeChatBot> Logger { get; set; }
+        public ILoggerFactory LoggerFactory { get; set; }
 
         /// <summary>
         /// The settings of this Framework
@@ -40,14 +40,14 @@ namespace AwesomeChatBot
         /// <summary>
         /// 
         /// </summary>
-        public AwesomeChatBot(ApiWrapper.ApiWrapper wrapper, ILogger<AwesomeChatBot> logger, AwesomeChatBotSettings settings)
+        public AwesomeChatBot(ApiWrapper.ApiWrapper wrapper, ILoggerFactory loggerFactory, AwesomeChatBotSettings settings)
         {
             #region PRECONDITIONS
 
             if (wrapper == null)
                 throw new ArgumentNullException("No ApiWrapper provided to AwesomeChatBot");
-            if (logger == null)
-                throw new ArgumentNullException("No logger provided to AwesomeChatBot");
+            if (loggerFactory == null)
+                throw new ArgumentNullException("No loggerFactory provided to AwesomeChatBot");
             if (settings == null)
                 throw new ArgumentNullException("No settings provided to AwesomeChatBot");
 
