@@ -21,6 +21,11 @@ namespace AwesomeChatBot.ApiWrapper
         }
 
         /// <summary>
+        /// An ID used by the API to identify the user
+        /// </summary>
+        public string UserID { get; set; }
+
+        /// <summary>
         /// Get a string that is used to mention this user
         /// </summary>
         /// <returns></returns>
