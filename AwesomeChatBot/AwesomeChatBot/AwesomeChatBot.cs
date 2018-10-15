@@ -50,13 +50,16 @@ namespace AwesomeChatBot
                 throw new ArgumentNullException("No loggerFactory provided to AwesomeChatBot");
             if (settings == null)
                 throw new ArgumentNullException("No settings provided to AwesomeChatBot");
-
+            if (string.IsNullOrEmpty(settings.ConfigFolderPath))
+                loggerFactory.CreateLogger(this.GetType().Name).LogWarning("No ConfigFolderPath provided, will be using the application root directory!");
 
             #endregion
 
             this.ApiWrapper = wrapper;
+            this.ApiWrapper.Initialize();
+
             this.CommandFactory = new CommandFactory(wrapper);
-            this.Logger = logger;
+            this.LoggerFactory = loggerFactory;
             
             this.ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath);
             this.Settings = settings;

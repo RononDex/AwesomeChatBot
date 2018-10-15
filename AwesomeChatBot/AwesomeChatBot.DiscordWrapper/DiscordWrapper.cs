@@ -3,6 +3,7 @@ using AwesomeChatBot.ApiWrapper;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace AwesomeChatBot.DiscordWrapper
 {
@@ -19,12 +20,27 @@ namespace AwesomeChatBot.DiscordWrapper
         private DiscordSocketClient DiscordClient { get; set; }
 
         /// <summary>
+        /// The logging factory used to create new loggers
+        /// </summary>
+        public ILoggerFactory LoggerFactory { get; set; }
+
+        /// <summary>
         /// Creates an instance of the DiscordWrapper
         /// </summary>
         /// <param name="token">The token to authenticate with the discord API</param>
-        public DiscordWrapper(string token)
+        public DiscordWrapper(string token, ILoggerFactory loggingFactory)
         {
+            #region  PRECONDITIONS
+
+            if (string.IsNullOrEmpty(token))
+                throw new ArgumentNullException("Parameter \"token\" can not be null!");
+            if (loggingFactory == null)
+                throw new ArgumentNullException("Parameter \"loggingFactory\" can not be null!");
+
+            #endregion
+
             this.DiscordToken = token;
+            this.LoggerFactory = loggingFactory;
         }
 
         /// <summary>
@@ -36,14 +52,27 @@ namespace AwesomeChatBot.DiscordWrapper
             this.DiscordClient = new DiscordSocketClient(new DiscordSocketConfig()
             {
                 MessageCacheSize = 50,
-
             });
+
+            this.LoggerFactory.CreateLogger(this.GetType().Name).LogInformation("Loging into discord");
+
+            try
+            {
+                // Login into discord
+                this.DiscordClient.LoginAsync(Discord.TokenType.Bot, this.DiscordToken).Wait();
+            }
+            catch (Exception)
+            {
+                this.LoggerFactory.CreateLogger(this.GetType().Name).LogCritical("Login failed, check if discord token is valid!");
+                throw;
+            }
+
+            this.LoggerFactory.CreateLogger(this.GetType().Name).LogInformation("Login successfull");
+
+            this.DiscordClient.StartAsync().Wait();
 
             // Setup the events
             this.DiscordClient.MessageReceived += OnMessageRecieved;
-
-            // Login into discord
-            this.DiscordClient.LoginAsync(Discord.TokenType.Bot, this.DiscordToken).Wait();
         }
 
 
