@@ -5,7 +5,7 @@ using System.Text;
 namespace AwesomeChatBot.ApiWrapper
 {
     /// <summary>
-    /// Represents a message object
+    /// Represents a message object that is used to send a message
     /// </summary>
     public abstract class Message
     {

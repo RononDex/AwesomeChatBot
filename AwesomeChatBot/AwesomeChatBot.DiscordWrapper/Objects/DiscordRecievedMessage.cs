@@ -4,7 +4,7 @@ using System.Text;
 using AwesomeChatBot.ApiWrapper;
 using Discord.WebSocket;
 
-namespace AwesomeChatBot.DiscordWrapper
+namespace AwesomeChatBot.DiscordWrapper.Objects
 {
     /// <summary>
     /// A recieved discord message

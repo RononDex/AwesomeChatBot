@@ -5,7 +5,7 @@ using System.Text;
 namespace AwesomeChatBot.ApiWrapper
 {
     /// <summary>
-    /// Represents a recieved message, holding more context than a "normal" message object
+    /// Represents a recieved message, used when recieving a message
     /// </summary>
     public abstract class RecievedMessage : Message
     {

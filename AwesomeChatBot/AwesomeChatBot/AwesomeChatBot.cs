@@ -51,7 +51,7 @@ namespace AwesomeChatBot
             if (settings == null)
                 throw new ArgumentNullException("No settings provided to AwesomeChatBot");
             if (string.IsNullOrEmpty(settings.ConfigFolderPath))
-                loggerFactory.CreateLogger(this.GetType().Name).LogWarning("No ConfigFolderPath provided, will be using the application root directory!");
+                loggerFactory.CreateLogger(this.GetType().FullName).LogWarning("No ConfigFolderPath provided, will be using the application root directory!");
 
             #endregion
 

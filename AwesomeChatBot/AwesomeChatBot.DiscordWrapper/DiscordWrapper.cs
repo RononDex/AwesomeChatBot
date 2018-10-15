@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using AwesomeChatBot.DiscordWrapper.Objects;
 
 namespace AwesomeChatBot.DiscordWrapper
 {
@@ -54,7 +55,7 @@ namespace AwesomeChatBot.DiscordWrapper
                 MessageCacheSize = 50,
             });
 
-            this.LoggerFactory.CreateLogger(this.GetType().Name).LogInformation("Loging into discord");
+            this.LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation("Loging into discord");
 
             try
             {
@@ -63,11 +64,11 @@ namespace AwesomeChatBot.DiscordWrapper
             }
             catch (Exception)
             {
-                this.LoggerFactory.CreateLogger(this.GetType().Name).LogCritical("Login failed, check if discord token is valid!");
+                this.LoggerFactory.CreateLogger(this.GetType().FullName).LogCritical("Login failed, check if discord token is valid!");
                 throw;
             }
 
-            this.LoggerFactory.CreateLogger(this.GetType().Name).LogInformation("Login successfull");
+            this.LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation("Login successfull");
 
             this.DiscordClient.StartAsync().Wait();
 
