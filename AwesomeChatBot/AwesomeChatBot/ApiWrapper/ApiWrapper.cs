@@ -11,6 +11,11 @@ namespace AwesomeChatBot.ApiWrapper
     public abstract class ApiWrapper
     {
         /// <summary>
+        /// The name of the wrapper
+        /// </summary>
+        public abstract string Name { get; }
+
+        /// <summary>
         /// Initialises the Wrapper (login into API, ...)
         /// </summary>
         public abstract void Initialize();

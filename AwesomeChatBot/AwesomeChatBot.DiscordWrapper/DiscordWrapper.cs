@@ -26,6 +26,11 @@ namespace AwesomeChatBot.DiscordWrapper
         public ILoggerFactory LoggerFactory { get; set; }
 
         /// <summary>
+        /// Name of the wrapper
+        /// </summary>
+        public override string Name => "Discord";
+
+        /// <summary>
         /// Creates an instance of the DiscordWrapper
         /// </summary>
         /// <param name="token">The token to authenticate with the discord API</param>

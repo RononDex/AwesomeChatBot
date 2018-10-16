@@ -52,20 +52,28 @@ namespace AwesomeChatBot.Commands
         /// <returns></returns>
         public Task HandleMessage(ApiWrapper.RecievedMessage recievedMessage)
         {
-            return new Task(() =>
+            var task = new Task(() =>
             {
                 // Iterate through all commands and check if one of them gets triggered
                 foreach (var command in this.Commands)
                 {
                     foreach (var handler in this.Handlers.Where(x => command.GetType().GetInterfaces().Contains(x.CommandType)))
-                    { 
-                        var commandTask = handler.ExecuteCommand(recievedMessage, command);
+                    {
+                        // If command should not execute, ignore command and continue to next
+                        var shouldExecute = handler.ShouldExecute(recievedMessage, command);
+                        if (!shouldExecute.Item1)
+                            continue;
+
+                        var commandTask = command.ExecuteCommand(recievedMessage, shouldExecute.Item2);
                         commandTask.Wait();
                         if (commandTask.Result)
                             return;
                     }
                 }
             });
+
+            task.Start();
+            return task;
         }
 
         /// <summary>

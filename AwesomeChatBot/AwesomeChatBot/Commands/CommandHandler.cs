@@ -30,11 +30,13 @@ namespace AwesomeChatBot.Commands
         }
 
         /// <summary>
-        /// 
+        /// Determines wether the given command should be executed
+        /// Returns a boolean saying wether the command should execute,
+        /// and a list of parameters provided to the command
         /// </summary>
         /// <param name="recievedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public abstract Task<bool> ExecuteCommand(RecievedMessage recievedMessage, Command command);
+        public abstract (bool, List<string>) ShouldExecute(RecievedMessage recievedMessage, Command command);
     }
 }
