@@ -26,11 +26,11 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// A list of attachements on the message (if any)
         /// </summary>
-        public List<Attachement> Attacehemnts { get; set; }
+        public abstract List<Attachement> Attacehemnts { get; set; }
 
         /// <summary>
-        /// Raw text message
+        /// Formatted text message
         /// </summary>
-        public string Content { get; set; }
+        public abstract string Content { get; set; }
     }
 }

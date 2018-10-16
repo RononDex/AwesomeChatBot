@@ -19,5 +19,15 @@ namespace AwesomeChatBot.ApiWrapper
         {
             this.ApiWrapper = wrapper;
         }
+
+        /// <summary>
+        /// The name of the attachement
+        /// </summary>
+        public abstract string Name { get; set; }
+
+        /// <summary>
+        /// The byte contents of the attachement
+        /// </summary>
+        public abstract byte[] Content { get; set; }
     }
 }

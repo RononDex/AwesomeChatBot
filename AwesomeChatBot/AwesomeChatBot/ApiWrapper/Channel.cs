@@ -26,7 +26,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public abstract Task SendMessageAsync(string message);
+        public abstract Task SendMessageAsync(Message message);
 
         /// <summary>
         /// Sends a file in the current channel asynchroniously

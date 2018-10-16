@@ -21,11 +21,11 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// The author of the message
         /// </summary>
-        public User Author { get; set; }
+        public abstract User Author { get; }
 
         /// <summary>
         /// The time stamp, for when this message was posted
         /// </summary>
-        public DateTime PostedOn { get; set; }
+        public abstract DateTime PostedOnUtc { get; }
     }
 }

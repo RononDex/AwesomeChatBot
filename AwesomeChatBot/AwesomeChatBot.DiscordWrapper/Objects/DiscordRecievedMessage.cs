@@ -16,6 +16,35 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// </summary>
         public SocketMessage DiscordMessage { get; private set; }
 
+
+        private DiscordUser _author;
+
+        /// <summary>
+        /// The author of the message
+        /// </summary>
+        public override User Author
+        {
+            get => _author;
+        }
+
+        /// <summary>
+        /// DateTime (UTC) of when the message was posted
+        /// </summary>
+        public override DateTime PostedOnUtc
+        {
+            get => DiscordMessage.CreatedAt.UtcDateTime;
+        }
+
+        /// <summary>
+        /// List of attachements
+        /// </summary>
+        public override List<Attachement> Attacehemnts { get; set; } = new List<Attachement>();
+
+        /// <summary>
+        /// The formatted content of the message
+        /// </summary>
+        public override string Content { get => DiscordMessage.Content; set => throw new NotSupportedException(); }
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -30,7 +59,17 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             #endregion
 
             this.DiscordMessage = discordMessage;
-            this.Content = this.DiscordMessage.Content;
+
+            this._author = new DiscordUser(wrapper, DiscordMessage.Author);
+
+            // Load attachements
+            if (discordMessage.Attachments != null && discordMessage.Attachments.Count > 0)
+            {
+                foreach (var attachement in discordMessage.Attachments)
+                {
+                    this.Attacehemnts.Add(new DiscordAttachement(wrapper, attachement));
+                }
+            }
         }
     }
 }
