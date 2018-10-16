@@ -24,34 +24,44 @@ namespace AwesomeChatBot.Commands.Handlers
         /// <param name="recievedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public override Task<bool> ExecuteCommand(RecievedMessage recievedMessage, Command command)
+        public override Task<bool> ExecuteCommand(RecievedMessage recievedMessage, Command command, object parameters)
         {
-            return new Task<bool>(() =>
+            #region PRECONDITIONS
+
+            if (!(command is IRegexCommand))
+                throw new Exception("Tried to execute the regex handler on a non regex command");
+            if (parameters == null || !(parameters is Match))
+                throw new Exception("Invalid parameters provided to regex handler");
+
+            #endregion
+
+
+                return (command as IRegexCommand).ExecuteRegexCommand(recievedMessage, parameters as Match);
+        }
+
+        /// <summary>
+        /// Determines wether the command should execute for the givem message
+        /// </summary>
+        /// <param name="recievedMessage"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public override (bool, object) ShouldExecute(RecievedMessage recievedMessage, Command command)
+        {
+            var regexCommand = command as IRegexCommand;
+            if (regexCommand == null)
+                return (false, null);
+
+            foreach (var pattern in regexCommand.Regex)
             {
-                var regexCommand = command as IRegexCommand;
-                if (regexCommand == null)
-                    return false;
+                var regex = new Regex(pattern);
 
-                foreach (var pattern in regexCommand.Regex)
-                {
-                    var regex = new Regex(pattern);
+                var match = regex.Match(recievedMessage.Content);
+                if (match.Success)
+                    return (true, match);
+            }
 
-                    var match = regex.Match(recievedMessage.Content);
-                    if (match.Success)
-                        return true;
-
-                    var executionTask = command.ExecuteCommand(recievedMessage);
-
-                    // Wait for the task to execute, timeout after defined time in the command factory
-                    executionTask.Wait(this.CommandFactory.TaskTimeout * 1000);
-
-                    // Check wether message was handled
-                    if (executionTask.Result)
-                        return true;
-                }
-
-                return false;
-            });
+            // If not regex matches, then this command should not execute
+            return (false, null);
         }
     }
 
@@ -65,6 +75,12 @@ namespace AwesomeChatBot.Commands.Handlers
         /// </summary>
         List<string> Regex { get; set; }
 
-        
+        /// <summary>
+        /// Execute the command
+        /// </summary>
+        /// <param name="recievedMessage"></param>
+        /// <param name="regexMatch"></param>
+        /// <returns></returns>
+        Task<bool> ExecuteRegexCommand(RecievedMessage recievedMessage, Match regexMatch);
     }
 }

@@ -64,9 +64,9 @@ namespace AwesomeChatBot.Commands
                         if (!shouldExecute.Item1)
                             continue;
 
-                        var commandTask = command.ExecuteCommand(recievedMessage, shouldExecute.Item2);
-                        commandTask.Wait();
-                        if (commandTask.Result)
+                        var commandResult = handler.ExecuteCommand(recievedMessage, command, shouldExecute.Item2);
+                        commandResult.Wait();
+                        if (commandResult.Result)
                             return;
                     }
                 }

@@ -67,6 +67,7 @@ namespace AwesomeChatBot
             this.ApiWrapper.MessageRecieved += OnMessageRecieved;
 
             loggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"AwesomeChatBot Framework has been loaded with wrapper \"{wrapper.Name}\"");
+            loggerFactory.CreateLogger(this.GetType().FullName).LogInformation("Bot is ready...");
         }
 
         /// <summary>
