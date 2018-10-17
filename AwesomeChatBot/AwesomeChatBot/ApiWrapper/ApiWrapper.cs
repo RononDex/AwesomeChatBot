@@ -44,6 +44,41 @@ namespace AwesomeChatBot.ApiWrapper
             this.MessageRecieved(message);
         }
 
+
+
+        /// <summary>
+        /// Event that gets raised when a message is recieved
+        /// </summary>
+        /// <param name="message"></param>
+        public delegate void OnServerAvilableDelegate(Server server);
+
+        /// <summary>
+        /// This event is used to communicate that a message was recieved to the framework
+        /// </summary>
+        public event OnServerAvilableDelegate ServerAvailable;
+
+        protected virtual void OnServerAvailable(Server server)
+        {
+            this.ServerAvailable(server);
+        }
+
+
+
+        /// <summary>
+        /// Event that gets raised when a message is recieved
+        /// </summary>
+        /// <param name="message"></param>
+        public delegate void OnServerUnavailableDelegate(Server server);
+
+        /// <summary>
+        /// This event is used to communicate that a message was recieved to the framework
+        /// </summary>
+        public event OnServerUnavailableDelegate ServerUnavailable;
+
+        protected virtual void OnServerUnavailable(Server server)
+        {
+            this.ServerUnavailable(server);
+        }
         #endregion
     }
 }

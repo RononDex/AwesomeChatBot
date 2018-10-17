@@ -60,13 +60,18 @@ namespace AwesomeChatBot
 
             this.CommandFactory = new CommandFactory(wrapper);
             this.LoggerFactory = loggerFactory;
-            
+
             this.ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath);
             this.Settings = settings;
 
-            this.ApiWrapper.MessageRecieved += OnMessageRecieved;
 
-            loggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"AwesomeChatBot Framework has been loaded with wrapper \"{wrapper.Name}\"");
+            // Setup Api events
+            this.ApiWrapper.MessageRecieved += OnMessageRecieved;
+            this.ApiWrapper.ServerAvailable += OnServerAvailable;
+
+            loggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"AwesomeChatBot Framework has been loaded using the wrapper \"{wrapper.Name}\"");
+
+            loggerFactory.CreateLogger(this.GetType().FullName).LogInformation("");
             loggerFactory.CreateLogger(this.GetType().FullName).LogInformation("Bot is ready...");
         }
 
@@ -78,5 +83,24 @@ namespace AwesomeChatBot
         {
             this.CommandFactory.HandleMessage(recievedMessage);
         }
+
+        /// <summary>
+        /// When a server becomes available (connected)
+        /// </summary>
+        /// <param name="server"></param>
+        protected virtual void OnServerAvailable(ApiWrapper.Server server)
+        {
+            LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"Server now available: {server.ServerName} ({server.ServerID})");
+        }
+
+        /// <summary>
+        /// When a server becomes unavailable (disconnected)
+        /// </summary>
+        /// <param name="server"></param>
+        protected virtual void OnServerUnavailable(ApiWrapper.Server server)
+        {
+            LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"Server now unavailable: {server.ServerName} ({server.ServerID})");
+        }
+
     }
 }

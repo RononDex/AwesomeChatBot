@@ -29,6 +29,15 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             this._name = attechement.Filename;
         }
 
+        /// <summary>
+        /// Constructor to use to create a new attachement
+        /// </summary>
+        /// <param name="wrapper"></param>
+        public DiscordAttachement() : base(null)
+        {
+            // Nothing to do here
+        }
+
 
         private string _name;
 

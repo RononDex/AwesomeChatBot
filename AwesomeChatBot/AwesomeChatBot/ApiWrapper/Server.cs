@@ -22,6 +22,21 @@ namespace AwesomeChatBot.ApiWrapper
         }
 
         /// <summary>
+        /// The name of the server
+        /// </summary>
+        public abstract string ServerName { get; }
+
+        /// <summary>
+        /// Some ID identifiyng the server
+        /// </summary>
+        public abstract string ServerID { get; }
+
+        /// <summary>
+        /// A short description of the server
+        /// </summary>
+        public abstract string Description { get; }
+
+        /// <summary>
         /// Resolves a channel given its name
         /// </summary>
         /// <param name="name"></param>

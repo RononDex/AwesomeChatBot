@@ -28,7 +28,7 @@ namespace AwesomeChatBot.DiscordWrapper
         /// <summary>
         /// Name of the wrapper
         /// </summary>
-        public override string Name => "Discord";
+        public override string Name => "DiscordWrapper";
 
         /// <summary>
         /// Creates an instance of the DiscordWrapper
@@ -79,6 +79,27 @@ namespace AwesomeChatBot.DiscordWrapper
 
             // Setup the events
             this.DiscordClient.MessageReceived += OnMessageRecieved;
+            this.DiscordClient.GuildAvailable += OnServerAvailable;
+            this.DiscordClient.GuildUnavailable += OnServerUnavaible;
+        }
+
+        #region API Events
+
+        /// <summary>
+        /// Raised when a new server becomes available (connected)
+        /// </summary>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        protected Task OnServerAvailable(SocketGuild server)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                // Create the server object
+                var serverObj = new DiscordGuild(this, server);
+
+                // Propagate event to framework
+                base.OnServerAvailable(serverObj);
+            });
         }
 
 
@@ -99,9 +120,40 @@ namespace AwesomeChatBot.DiscordWrapper
                });
         }
 
+
+        /// <summary>
+        /// When a server becomes unavailable (disconnected)
+        /// </summary>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        protected Task OnServerUnavaible(SocketGuild server)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                // Create the server object
+                var serverObj = new DiscordGuild(this, server);
+
+                // Raise the event
+                base.OnServerUnavailable(serverObj);
+            });
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Get a list of all avialable servers
+        /// </summary>
+        /// <returns></returns>
         public override List<Server> GetAvailableServers()
         {
-            throw new NotImplementedException();
+            var result = new List<Server>();
+
+            foreach (var guild in this.DiscordClient.Guilds)
+            {
+                result.Add(new DiscordGuild(this, guild));
+            }
+
+            return result;
         }
     }
 }
