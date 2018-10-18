@@ -94,20 +94,45 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <returns></returns>
         public override Task SendMessageAsync(Message message)
         {
+            // If direct message, we have to send the message in that channel
             if (this.IsDirectMessageChannel)
             {
-                var task = DMChannel.SendMessageAsync(message.Content);
+                Task task = DMChannel.SendMessageAsync(message.Content);
 
                 if (message.Attacehemnts != null && message.Attacehemnts.Count > 0)
                 {
                     foreach (var attachement in message.Attacehemnts)
                     {
-                        task = task.ContinueWith(DMChannel.SendFileAsync(new MemoryStream(attachement.Content), attachement.Name, null));
+                        task = task.ContinueWith((prevTask) =>
+                            {
+                                prevTask.Wait();
+                                return DMChannel.SendFileAsync(new MemoryStream(attachement.Content), attachement.Name, null);
+                            }
+                        );
                     }
                 }
+
+                return task;
             }
-            else
-                return ((ITextChannel)GuildChannel).SendMessageAsync(message.Content);
+            else // else use the discord guild channel
+            {
+                Task task = ((ITextChannel)GuildChannel).SendMessageAsync(message.Content);
+
+                if (message.Attacehemnts != null && message.Attacehemnts.Count > 0)
+                {
+                    foreach (var attachement in message.Attacehemnts)
+                    {
+                        task = task.ContinueWith((prevTask) =>
+                            {
+                                prevTask.Wait();
+                                task = ((ITextChannel)GuildChannel).SendFileAsync(new MemoryStream(attachement.Content), attachement.Name, null);
+                            }
+                        );
+                    }
+                }
+
+                return task;
+            }
         }
     }
 }
