@@ -27,5 +27,11 @@ namespace AwesomeChatBot.ApiWrapper
         /// The time stamp, for when this message was posted
         /// </summary>
         public abstract DateTime PostedOnUtc { get; }
+
+        /// <summary>
+        /// The parent Channel
+        /// </summary>
+        /// <value></value>
+        public abstract Channel Channel { get; }
     }
 }

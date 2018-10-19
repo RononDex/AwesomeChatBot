@@ -45,6 +45,18 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// </summary>
         public override string Content { get => DiscordMessage.Content; set => throw new NotSupportedException(); }
 
+
+        /// <summary>
+        /// Internal storage of the channel
+        /// </summary>
+        private Channel _channel;
+        
+        /// <summary>
+        /// The channel in which this message was recieved
+        /// </summary>
+        /// <value></value>
+        public override Channel Channel { }
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -61,6 +73,8 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             this.DiscordMessage = discordMessage;
 
             this._author = new DiscordUser(wrapper, DiscordMessage.Author);
+            
+            if (discordMessage.)
 
             // Load attachements
             if (discordMessage.Attachments != null && discordMessage.Attachments.Count > 0)

@@ -73,7 +73,7 @@ namespace AwesomeChatBot.Commands.Handlers
         /// <summary>
         /// A list of regex patterns that trigger the command
         /// </summary>
-        List<string> Regex { get; set; }
+        List<string> Regex { get; }
 
         /// <summary>
         /// Execute the command
