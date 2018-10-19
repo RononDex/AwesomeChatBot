@@ -112,11 +112,14 @@ namespace AwesomeChatBot.DiscordWrapper
         {
             return Task.Factory.StartNew(() =>
                {
-                   // Create the message object
-                   var messageObj = new DiscordRecievedMessage(this, message);
+                    var botUserMention = this.DiscordClient.CurrentUser.Mention.Replace("!", "");
+                    var isMentioned = message.Content.Contains(botUserMention);
 
-                   // Propagate the event
-                   base.OnMessageRecieved(messageObj);
+                    // Create the message object
+                    var messageObj = new DiscordRecievedMessage(this, message, isMentioned);
+
+                    // Propagate the event
+                    base.OnMessageRecieved(messageObj);
                });
         }
 

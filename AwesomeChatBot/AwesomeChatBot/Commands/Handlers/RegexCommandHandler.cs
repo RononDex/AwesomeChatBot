@@ -9,7 +9,7 @@ namespace AwesomeChatBot.Commands.Handlers
 {
     public class RegexCommandHandler : CommandHandler
     {
-        public RegexCommandHandler(CommandFactory factory) : base(factory)
+        public RegexCommandHandler() : base()
         {
             // Nothing to do here
         }

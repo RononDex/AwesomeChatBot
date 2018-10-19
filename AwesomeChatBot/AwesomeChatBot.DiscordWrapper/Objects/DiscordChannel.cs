@@ -92,7 +92,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public override Task SendMessageAsync(Message message)
+        public override Task SendMessageAsync(SendMessage message)
         {
             // If direct message, we have to send the message in that channel
             if (this.IsDirectMessageChannel)

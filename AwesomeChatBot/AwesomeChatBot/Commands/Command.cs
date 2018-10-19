@@ -15,12 +15,5 @@ namespace AwesomeChatBot.Commands
         /// Unique name of the command
         /// </summary>
         public abstract string Name { get; }
-
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        /// <param name="recievedMessage"></param>
-        /// <returns></returns>
-        public abstract Task<bool> ExecuteCommand(RecievedMessage recievedMessage, List<string> parameters);
     }
 }

@@ -57,7 +57,8 @@ namespace AwesomeChatBot.Commands
                 // Iterate through all commands and check if one of them gets triggered
                 foreach (var command in this.Commands)
                 {
-                    foreach (var handler in this.Handlers.Where(x => command.GetType().GetInterfaces().Contains(x.CommandType)))
+                    foreach (var handler in this.Handlers.Where(x => command.GetType().GetInterfaces().Contains(x.CommandType)
+                                && (recievedMessage.IsBotMentioned)))
                     {
                         // If command should not execute, ignore command and continue to next
                         var shouldExecute = handler.ShouldExecute(recievedMessage, command);

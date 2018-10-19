@@ -46,7 +46,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public abstract Task SendMessageAsync(Message message);
+        public abstract Task SendMessageAsync(SendMessage message);
 
         /// <summary>
         /// Gets a string to mention this channel in the chat

@@ -8,10 +8,6 @@ namespace AwesomeChatBot.Commands
 {
     public abstract class CommandHandler
     {
-        /// <summary>
-        /// An internal reference to the Command factory
-        /// </summary>
-        protected CommandFactory CommandFactory { get; set; }
 
         /// <summary>
         /// The unique name of the handler
@@ -24,9 +20,9 @@ namespace AwesomeChatBot.Commands
         /// </summary>
         public abstract Type CommandType { get; }
 
-        public CommandHandler(CommandFactory factory)
+        public CommandHandler()
         {
-            this.CommandFactory = factory;
+
         }
 
         /// <summary>

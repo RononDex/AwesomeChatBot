@@ -55,13 +55,17 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// The channel in which this message was recieved
         /// </summary>
         /// <value></value>
-        public override Channel Channel { }
+        public override Channel Channel { get {return _channel;} }
+
+        private bool _isBotMentioned;
+
+        public override bool IsBotMentioned => _isBotMentioned;
 
         /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="wrapper"></param>
-        public DiscordRecievedMessage(ApiWrapper.ApiWrapper wrapper, SocketMessage discordMessage) : base(wrapper)
+        public DiscordRecievedMessage(ApiWrapper.ApiWrapper wrapper, SocketMessage discordMessage, bool isBotMentioned = false) : base(wrapper)
         {
             #region PRECONDITIONS
 
@@ -71,10 +75,15 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             #endregion
 
             this.DiscordMessage = discordMessage;
+            this._isBotMentioned = isBotMentioned;
 
             this._author = new DiscordUser(wrapper, DiscordMessage.Author);
             
-            if (discordMessage.)
+            if (discordMessage.Channel is SocketDMChannel)            
+                this._channel = new DiscordChannel(wrapper, discordMessage.Channel as SocketDMChannel);
+            else
+                this._channel = new DiscordChannel(wrapper, discordMessage.Channel as SocketGuildChannel);
+            
 
             // Load attachements
             if (discordMessage.Attachments != null && discordMessage.Attachments.Count > 0)

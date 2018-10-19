@@ -33,5 +33,11 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         /// <value></value>
         public abstract Channel Channel { get; }
+
+        /// <summary>
+        /// true if the bot was mentoined in the message
+        /// </summary>
+        /// <value></value>
+        public abstract bool IsBotMentioned {get;}
     }
 }
