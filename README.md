@@ -1,15 +1,24 @@
+### NOTE:
+This framework is in pre-release / alpha stage, not everything has been implemented yet and the Framework API might change from one release to another.
+
 # AwesomeChatBot
+
+Nuget package: https://www.nuget.org/packages/AwesomeChatBot/
 
 AwesomeChatBot is a chat bot framework that can work with any chat program.
 It is built on .net core, and thus OS independent.
 
-**Extensebility**<br />
-The framework was built with extensibility in mind. Pretty much any part from this framework can be overriden and tailored to the personal needs. Basically everything is decoupled and talks through standardised interfaces to each other <br />
+**Extensebility**
+
+
+The framework was built with extensibility in mind. Pretty much any part from this framework can be overriden and tailored to the personal needs. Basically everything is decoupled and talks through standardised interfaces to each other 
 ____________________________________
 
 The set of classes / modules this framework provides by default, will give you a good start and should allow you to implement the common use cases.
 
-**Moduls**<br />
+**Moduls**
+
+
 This framework uses moduls to allow you to define, how your chat commands will be handled, how the bot reacts to them, basically how the user interacts with the bot.
 
 ## Getting started
@@ -26,15 +35,15 @@ var discordWrapper = new DiscordWrapper(discordToken, loggerFactory);
 var chatbotFramework = new AwesomeChatBot.AwesomeChatBot(discordWrapper, loggerFactory, chatbotSettings);
  ```
 
-This code initializes the framework using the discord API wrapper. `loggerFactory` is the factory used to create loggers, this allows you to use your logging framework of choise (loggerFactory is of type ILoggerFactory from the Microsoft.Extensions.Logging nuget package).
+This code initializes the framework using the discord API wrapper. `loggerFactory` is the factory used to create loggers, this allows you to use your logging framework of choice (loggerFactory is of type ILoggerFactory from the Microsoft.Extensions.Logging nuget package).
 And last `chatBotSettings` is a value object passing on the different config values.
 
 ## API Wrappers
 Since the framework is decoupled from the chat app API, the framework won't be able to use any chat application by default. For each chat application one will need an API Wrapper doing the talking between your bot / the bot framework and the chat app API.
 
 One API wrapper that was also written by me, is the AwesomeChatBot.Discord wrapper, 
-<br/>see github here: https://github.com/RononDex/AwesomeChatBot.Discord
-<br/>or Nuget here: https://www.nuget.org/packages/AwesomeChatBot.Discord/
+ - see github here: https://github.com/RononDex/AwesomeChatBot.Discord
+ - or Nuget here: https://www.nuget.org/packages/AwesomeChatBot.Discord/
 
 If a wrapper for yout chat app does not exist, you can create your own wrapper, it's pretty easy, but more on that later.
 
