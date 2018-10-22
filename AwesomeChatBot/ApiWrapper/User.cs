@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AwesomeChatBot.ApiWrapper
 {
-    public abstract class User
+    public abstract class User : Config.IConfigurationDependency
     {
         /// <summary>
         /// A reference to the ApiWrapper for internal usage
@@ -35,6 +35,18 @@ namespace AwesomeChatBot.ApiWrapper
         /// uniquely identify a user.
         /// </summary>
         public abstract string UniqueUserName { get; }
+
+        /// <summary>
+        /// The Id that is used to identify this object in config files
+        /// </summary>
+        /// <returns></returns>
+        public string ConfigId => $"User_{this.UserID}";
+
+        /// <summary>
+        /// A user sertting is usually server dependent, so in this case we want it to be higher than server, but lower than channel
+        /// </summary>
+        /// <returns></returns>
+        public int ConfigOrder => 100;
 
         /// <summary>
         /// Get a string that is used to mention this user

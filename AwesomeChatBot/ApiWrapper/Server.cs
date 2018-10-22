@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AwesomeChatBot.ApiWrapper
 {
-    public abstract class Server
+    public abstract class Server : Config.IConfigurationDependency
     {
         /// <summary>
         /// ApiWrapper reference for internal usage
@@ -35,6 +35,18 @@ namespace AwesomeChatBot.ApiWrapper
         /// A short description of the server
         /// </summary>
         public abstract string Description { get; }
+
+        /// <summary>
+        /// The Id used to identify this server in config files
+        /// </summary>
+        /// <returns></returns>
+        public string ConfigId => $"Server_{this.ServerID}";
+
+        /// <summary>
+        /// The server is usually one of the highest up in hirarchy, having an order of 10
+        /// </summary>
+        /// <returns></returns>
+        public int ConfigOrder => 10;
 
         /// <summary>
         /// Resolves a channel given its name

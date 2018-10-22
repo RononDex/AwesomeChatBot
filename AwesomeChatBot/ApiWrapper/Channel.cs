@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AwesomeChatBot.ApiWrapper
 {
-    public abstract class Channel
+    public abstract class Channel : Config.IConfigurationDependency
     {
         /// <summary>
         /// A reference to the ApiWrapper for internal usage
@@ -39,7 +39,19 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// The id of the channel
         /// </summary>
-        public abstract string ID { get; }
+        public abstract string ChannelId { get; }
+
+        /// <summary>
+        /// ID used to identify this channel in the config files
+        /// </summary>
+        /// <returns></returns>
+        public string ConfigId => $"Channel_{this.ChannelId}";
+
+        /// <summary>
+        /// The channel is usually at the end of the hirarchy
+        /// </summary>
+        /// <returns></returns>
+        public int ConfigOrder => 1000;
 
         /// <summary>
         /// Sends a message asynchroniously in the current channel

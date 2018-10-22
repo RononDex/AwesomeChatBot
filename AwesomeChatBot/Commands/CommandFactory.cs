@@ -17,6 +17,12 @@ namespace AwesomeChatBot.Commands
         public int TaskTimeout { get; set; } = 5 * 60;
 
         /// <summary>
+        /// Configstore that manages all the configs
+        /// </summary>
+        /// <value></value>
+        public Config.ConfigStore ConfigStore { get; private set; }
+
+        /// <summary>
         /// ApiWrapper reference used for internal reference
         /// </summary>
         protected ApiWrapper.ApiWrapper ApiWrapper { get; set; }
@@ -54,10 +60,13 @@ namespace AwesomeChatBot.Commands
         {
             var task = new Task(() =>
             {
+                var configContext = new Config.IConfigurationDependency[] { recievedMessage.Channel.ParentServer, recievedMessage.Channel };
+
                 // Iterate through all commands and check if one of them gets triggered
                 foreach (var command in this.Commands)
                 {
-                    foreach (var handler in this.Handlers.Where(x => command.GetType().GetInterfaces().Contains(x.CommandType)
+                    foreach (var handler in this.Handlers.Where(x => this.ConfigStore.IsCommandActive(command, configContext) 
+                                    && command.GetType().GetInterfaces().Contains(x.CommandType)
                                 && (recievedMessage.IsBotMentioned)))
                     {
                         // If command should not execute, ignore command and continue to next

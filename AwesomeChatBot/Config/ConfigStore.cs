@@ -46,7 +46,7 @@ namespace AwesomeChatBot.Config
             if (configFile == null || configFile.Sections == null || configFile.Sections.Count == 0)
                 configNotFound = true;
 
-            var dependenciesOrdered = dependencies.OrderBy(x => x.ConfigOrder).ToList();
+            var dependenciesOrdered = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).ToList();
             var curSection = configFile.Sections.FirstOrDefault(x => x.Id == dependenciesOrdered[0].ConfigId);
 
             if (!configNotFound)
@@ -102,7 +102,7 @@ namespace AwesomeChatBot.Config
                 this.ConfigFiles.Add(configFile);
             }
 
-            var dependenciesSorted = dependencies.OrderBy(x => x.ConfigOrder);
+            var dependenciesSorted = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder);
             ConfigSection curParentSection = null;
 
             // Find the section
@@ -143,6 +143,44 @@ namespace AwesomeChatBot.Config
 
             // Save the changed config file
             SaveConfigFile(configFile);
+        }
+
+        /// <summary>
+        /// Determines wether a command is active in the given context
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="channel"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public bool IsCommandActive(Commands.Command command, params IConfigurationDependency[] dependencies)
+        {
+            // get "enabled" setting for the command in the given context, using "false" by default
+            var isActive = this.GetConfigValue<bool>("enabled", false, dependencies);    
+            return isActive;
+        }
+
+        /// <summary>
+        /// Enables the given command in the given context
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="dependencies"></param>
+        /// <returns></returns>
+        public void EnableCommand(Commands.Command command, params IConfigurationDependency[] dependencies)
+        {
+            // Enables the command in the config file
+            this.SetConfigValue<bool>("enabled", true, dependencies);
+        }
+
+        /// <summary>
+        /// Disables the given command in the given context
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="dependencies"></param>
+        /// <returns></returns>
+        public void DisableCommand(Commands.Command command, params IConfigurationDependency[] dependencies)
+        {
+            // Enables the command in the config file
+            this.SetConfigValue<bool>("enabled", false, dependencies);
         }
 
         /// <summary>
