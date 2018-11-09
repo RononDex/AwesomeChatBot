@@ -19,7 +19,7 @@ namespace AwesomeChatBot.Config
         /// <summary>
         /// Internal list of all config files
         /// </summary>
-        private List<ConfigFile> ConfigFiles { get; set; }
+        private List<ConfigFile> ConfigFiles { get; set; } = new List<ConfigFile>();
 
         /// <summary>
         /// 
@@ -28,6 +28,11 @@ namespace AwesomeChatBot.Config
         public ConfigStore(string configFolder)
         {
             this.ConfigFolder = configFolder;
+
+            if (string.IsNullOrEmpty(this.ConfigFolder))
+                this.ConfigFolder = "./config";
+
+            this.LoadConfigFiles();
         }
 
         /// <summary>
@@ -46,11 +51,11 @@ namespace AwesomeChatBot.Config
             if (configFile == null || configFile.Sections == null || configFile.Sections.Count == 0)
                 configNotFound = true;
 
-            var dependenciesOrdered = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).ToList();
-            var curSection = configFile.Sections.FirstOrDefault(x => x.Id == dependenciesOrdered[0].ConfigId);
-
             if (!configNotFound)
             {
+                var dependenciesOrdered = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).ToList();
+                var curSection = configFile.Sections.FirstOrDefault(x => x.Id == dependenciesOrdered[0].ConfigId);
+
                 // Find the config entry section
                 foreach (var dependency in dependenciesOrdered)
                 {
@@ -188,6 +193,10 @@ namespace AwesomeChatBot.Config
         /// </summary>
         private void LoadConfigFiles()
         {
+            // Create directory if it does not exist
+            if (!Directory.Exists(this.ConfigFolder))
+                Directory.CreateDirectory(this.ConfigFolder);
+
             var jsonFiles = Directory.GetFiles(this.ConfigFolder, "*.json");
 
             foreach (var jsonFile in jsonFiles)

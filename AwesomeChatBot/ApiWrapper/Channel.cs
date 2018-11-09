@@ -13,11 +13,6 @@ namespace AwesomeChatBot.ApiWrapper
         protected ApiWrapper ApiWrapper { get; set; }
 
         /// <summary>
-        /// A reference to the pranent server (if any)
-        /// </summary>
-        public Server ParentServer { get; private set; }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="wrapper"></param>
@@ -35,6 +30,11 @@ namespace AwesomeChatBot.ApiWrapper
         /// The name of the channel
         /// </summary>
         public abstract string Name { get; }
+
+        /// <summary>
+        /// A reference to the pranent server (if any)
+        /// </summary>
+        public abstract Server ParentServer { get;  }
 
         /// <summary>
         /// The id of the channel

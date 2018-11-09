@@ -58,12 +58,11 @@ namespace AwesomeChatBot
             this.ApiWrapper = wrapper;
             this.ApiWrapper.Initialize();
 
-            this.CommandFactory = new CommandFactory(wrapper);
-            this.LoggerFactory = loggerFactory;
-
             this.ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath);
             this.Settings = settings;
 
+            this.CommandFactory = new CommandFactory(wrapper, this.ConfigStore);
+            this.LoggerFactory = loggerFactory;
 
             // Setup Api events
             this.ApiWrapper.MessageRecieved += OnMessageRecieved;

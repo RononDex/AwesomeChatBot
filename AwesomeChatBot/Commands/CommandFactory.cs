@@ -46,9 +46,10 @@ namespace AwesomeChatBot.Commands
         /// Constructor of CommandFacotry
         /// </summary>
         /// <param name="wrapper"></param>
-        public CommandFactory(ApiWrapper.ApiWrapper wrapper)
+        public CommandFactory(ApiWrapper.ApiWrapper wrapper, Config.ConfigStore configStore)
         {
             this.ApiWrapper = wrapper;
+            this.ConfigStore = configStore;
         }
 
         /// <summary>
