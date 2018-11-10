@@ -5,10 +5,10 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>RononDex</Authors>
     <Company />
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>0.2.0.0</AssemblyVersion>
-    <FileVersion>0.2.0.0</FileVersion>
-    <Version>0.2.0-pre</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <AssemblyVersion>0.3.0.0</AssemblyVersion>
+    <FileVersion>0.3.0.0</FileVersion>
+    <Version>0.3.0-pre</Version>
   </PropertyGroup>
 
   <ItemGroup>
