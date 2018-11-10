@@ -13,5 +13,11 @@ namespace AwesomeChatBot
         /// Path to the folder containing all the .json config files
         /// </summary>
         public string ConfigFolderPath { get; set; }
+
+        /// <summary>
+        /// Defines wether commands are enabled by default, when new server becomes available for example
+        /// </summary>
+        /// <value></value>
+        public bool CommandsEnabledByDefault { get; set; }
     }
 }

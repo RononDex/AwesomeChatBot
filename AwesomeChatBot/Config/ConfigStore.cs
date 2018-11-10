@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,16 +22,21 @@ namespace AwesomeChatBot.Config
         /// </summary>
         private List<ConfigFile> ConfigFiles { get; set; } = new List<ConfigFile>();
 
+        private ILoggerFactory LoggerFactory {get;set;}
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="configFolder">Path to the folder containing the config files</param>
-        public ConfigStore(string configFolder)
+        public ConfigStore(string configFolder, ILoggerFactory loggerFactory)
         {
             this.ConfigFolder = configFolder;
+            this.LoggerFactory = loggerFactory;
 
-            if (string.IsNullOrEmpty(this.ConfigFolder))
+            if (string.IsNullOrEmpty(this.ConfigFolder)) {
+                loggerFactory.CreateLogger(this.GetType().FullName).LogWarning("No ConfigFolderPath provided, will be using the default './config' directory!");
                 this.ConfigFolder = "./config";
+            }
 
             this.LoadConfigFiles();
         }
@@ -59,20 +65,20 @@ namespace AwesomeChatBot.Config
                 // Find the config entry section
                 foreach (var dependency in dependenciesOrdered)
                 {
+                    // Ignore null entries
+                    if (dependency == null)
+                        continue;
+
                     // If section was not found, return default value (config value not set)
                     if (curSection == null)
                     {
                         configNotFound = true;
-                        break;
+                        return defaultValue;
                     }
 
                     curSection = curSection.SubSections.FirstOrDefault(x => x.Id == dependency.ConfigId);
                 }
-            }
 
-            // Get the configuration value
-            if (!configNotFound)
-            {
                 var configEntry = curSection.Config.FirstOrDefault(x => x.Key == key);
                 if (configEntry == null)
                     configNotFound = true;
@@ -157,10 +163,10 @@ namespace AwesomeChatBot.Config
         /// <param name="channel"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public bool IsCommandActive(Commands.Command command, params IConfigurationDependency[] dependencies)
+        public bool IsCommandActive(Commands.Command command, bool enabledByDefault, params IConfigurationDependency[] dependencies)
         {
             // get "enabled" setting for the command in the given context, using "false" by default
-            var isActive = this.GetConfigValue<bool>("enabled", false, dependencies);    
+            var isActive = this.GetConfigValue<bool>("enabled", enabledByDefault, dependencies);    
             return isActive;
         }
 
@@ -230,7 +236,7 @@ namespace AwesomeChatBot.Config
                 fileName = "global.json";
             else
             {
-                fileName = string.Join('-', dependencies.OrderBy(x => x.ConfigOrder).Select(x => x.GetType().Name.ToLower()));
+                fileName = string.Join('-', dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).Select(x => x.GetType().Name.ToLower()));
                 fileName += ".json";
             }
 

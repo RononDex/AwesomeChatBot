@@ -23,9 +23,9 @@ namespace AwesomeChatBot.Commands
         public Config.ConfigStore ConfigStore { get; private set; }
 
         /// <summary>
-        /// ApiWrapper reference used for internal reference
+        /// Reference to the bot framework
         /// </summary>
-        protected ApiWrapper.ApiWrapper ApiWrapper { get; set; }
+        protected AwesomeChatBot BotFramework { get; set; }
 
         /// <summary>
         /// Internal storage of registered handlers
@@ -46,9 +46,18 @@ namespace AwesomeChatBot.Commands
         /// Constructor of CommandFacotry
         /// </summary>
         /// <param name="wrapper"></param>
-        public CommandFactory(ApiWrapper.ApiWrapper wrapper, Config.ConfigStore configStore)
+        public CommandFactory(AwesomeChatBot botFramework, Config.ConfigStore configStore)
         {
-            this.ApiWrapper = wrapper;
+            #region PRECONDITIONS
+
+            if (botFramework == null)
+                throw new ArgumentNullException("botFramework parameter can not be null!");
+            if (configStore == null)
+                throw new ArgumentNullException("configStore parameter can not be null!");
+
+            #endregion
+
+            this.BotFramework = botFramework;
             this.ConfigStore = configStore;
         }
 
@@ -66,7 +75,7 @@ namespace AwesomeChatBot.Commands
                 // Iterate through all commands and check if one of them gets triggered
                 foreach (var command in this.Commands)
                 {
-                    foreach (var handler in this.Handlers.Where(x => this.ConfigStore.IsCommandActive(command, configContext) 
+                    foreach (var handler in this.Handlers.Where(x => this.ConfigStore.IsCommandActive(command, this.BotFramework.Settings.CommandsEnabledByDefault, configContext) 
                                     && command.GetType().GetInterfaces().Contains(x.CommandType)
                                 && (recievedMessage.IsBotMentioned)))
                     {

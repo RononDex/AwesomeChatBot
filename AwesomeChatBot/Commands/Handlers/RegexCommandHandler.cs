@@ -36,7 +36,7 @@ namespace AwesomeChatBot.Commands.Handlers
             #endregion
 
 
-                return (command as IRegexCommand).ExecuteRegexCommand(recievedMessage, parameters as Match);
+            return (command as IRegexCommand).ExecuteRegexCommand(recievedMessage, parameters as Match);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace AwesomeChatBot.Commands.Handlers
 
             foreach (var pattern in regexCommand.Regex)
             {
-                var regex = new Regex(pattern);
+                var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 
                 var match = regex.Match(recievedMessage.Content);
                 if (match.Success)
