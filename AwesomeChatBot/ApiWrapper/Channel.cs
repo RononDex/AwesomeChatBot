@@ -61,6 +61,16 @@ namespace AwesomeChatBot.ApiWrapper
         public abstract Task SendMessageAsync(SendMessage message);
 
         /// <summary>
+        /// Sends a message asynchroniously in the current channel
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public Task SendMessageAsync(string message)
+        {
+            return this.SendMessageAsync(new SendMessage(message));
+        }
+
+        /// <summary>
         /// Gets a string to mention this channel in the chat
         /// </summary>
         /// <returns></returns>

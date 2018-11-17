@@ -12,7 +12,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Internal reference to the ApiWrapper
         /// </summary>
-        protected ApiWrapper ApiWrapper { get; set; }
+        public ApiWrapper ApiWrapper { get; private set; }
 
         /// <summary>
         /// 

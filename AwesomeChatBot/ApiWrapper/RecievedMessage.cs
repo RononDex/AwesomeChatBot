@@ -9,6 +9,7 @@ namespace AwesomeChatBot.ApiWrapper
     /// </summary>
     public abstract class RecievedMessage : Message
     {
+
         /// <summary>
         /// 
         /// </summary>

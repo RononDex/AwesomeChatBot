@@ -16,6 +16,12 @@ namespace AwesomeChatBot.ApiWrapper
         public abstract string Name { get; }
 
         /// <summary>
+        /// The formatter used to format messages
+        /// </summary>
+        /// <value></value>
+        public abstract MessageFormatter MessageFormatter { get; }
+
+        /// <summary>
         /// Initialises the Wrapper (login into API, ...)
         /// </summary>
         public abstract void Initialize();
