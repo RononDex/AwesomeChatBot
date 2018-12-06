@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using AwesomeChatBot.Config;
 
 namespace AwesomeChatBot.ApiWrapper
 {
@@ -22,9 +23,24 @@ namespace AwesomeChatBot.ApiWrapper
         public abstract MessageFormatter MessageFormatter { get; }
 
         /// <summary>
+        /// The internal reference to the config store
+        /// </summary>
+        /// <value></value>
+        public ConfigStore ConfgiStore { get; private set; }
+
+        /// <summary>
         /// Initialises the Wrapper (login into API, ...)
         /// </summary>
-        public abstract void Initialize();
+        public virtual void Initialize(ConfigStore configStore) {
+            #region PRECONDITIONS
+
+            if (configStore == null)
+                throw new ArgumentNullException("Parameter \"configStore\" can not be null!");
+
+            #endregion
+        
+            this.ConfgiStore = configStore;        
+        }
 
         /// <summary>
         /// Gets a list of available servers

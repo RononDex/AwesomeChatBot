@@ -25,5 +25,13 @@ namespace AwesomeChatBot.ApiWrapper
         /// <param name="message"></param>
         /// <returns></returns>
         public abstract string Italic(string message);
+
+        /// <summary>
+        /// Formats a message as a code block
+        /// </summary>
+        /// <param name="message">The message to display as code block</param>
+        /// <param name="language">(optional) programming language, like csharp</param>
+        /// <returns></returns>
+        public abstract string CodeBlock(string message, string language = null);
     }
 }

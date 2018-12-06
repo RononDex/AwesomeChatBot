@@ -15,7 +15,7 @@ namespace AwesomeChatBot
         /// <summary>
         /// The Api Wrapper to use to communicate with the API / Chat network
         /// </summary>
-        protected ApiWrapper.ApiWrapper ApiWrapper { get; private set; }
+        public ApiWrapper.ApiWrapper ApiWrapper { get; private set; }
 
         /// <summary>
         /// Holds the reference to the command factory
@@ -53,11 +53,13 @@ namespace AwesomeChatBot
 
             #endregion
 
-            this.ApiWrapper = wrapper;
-            this.ApiWrapper.Initialize();
+
 
             this.ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath, loggerFactory);
             this.Settings = settings;
+
+            this.ApiWrapper = wrapper;
+            this.ApiWrapper.Initialize(this.ConfigStore);
 
             this.CommandFactory = new CommandFactory(this, this.ConfigStore);
             this.LoggerFactory = loggerFactory;
