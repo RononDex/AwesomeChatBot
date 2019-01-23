@@ -236,7 +236,7 @@ namespace AwesomeChatBot.Config
                 fileName = "global.json";
             else
             {
-                fileName = string.Join('-', dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).Select(x => x.GetType().Name.ToLower()));
+                fileName = string.Join("-", dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).Select(x => x.GetType().Name.ToLower()));
                 fileName += ".json";
             }
 

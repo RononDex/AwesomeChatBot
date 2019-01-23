@@ -5,7 +5,7 @@
     <id>AwesomeChatBot</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>$version$</version>
+    <version>1.0.2</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org 
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -21,7 +21,7 @@
     <owners>RononDex</owners>
 
     <!-- License and project URLs provide links for the gallery -->
-    <licenseUrl>https://github.com/RononDex/AwesomeChatBot/blob/master/LICENSE</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/RononDex/AwesomeChatBot</projectUrl>
 
     <!-- The icon is used in Visual Studio's package manager UI -->
@@ -34,17 +34,19 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
 
     <!-- Any details about this particular release -->
-    <releaseNotes>Initial upload for testing (WIP)</releaseNotes>
+    <releaseNotes>Fixing version numbering</releaseNotes>
 
     <!-- 
             The description can be used in package manager UI. Note that the
             nuget.org gallery uses information you add in the portal. 
         -->
     <description>
-      A full featured chat bot framework, that can be used to setup your own chatbot with ease.
+      A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
       Allows you to define commands for a chatbot that will work with every chat app (be it Discord, slack, ...).
       
       Will need an api wrapper per chat app that you intend to use (for example AwesomeChatBot.Discord)
+
+      See project site for further docuemntation.
     </description>
 
     <!-- Tags appear in the gallery and can be used for tag searches -->
@@ -54,12 +56,12 @@
     <dependencies>
       <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.1.1" />
       <dependency id="Microsoft.Extensions.Logging" version="2.1.1" />
-      <dependency id="Newtonsoft.Json" version="11.0.2" />
+      <dependency id="Newtonsoft.Json" version="12.0.1" />
     </dependencies>
   </metadata>
 
   <!-- A readme.txt to display when the package is installed -->
   <files>
-    <!--<file src="readme.txt" target="" />-->
+    <file src="bin/Release/netstandard2.0/*.dll" target="lib/netstandard2.0/"/>
   </files>
 </package>

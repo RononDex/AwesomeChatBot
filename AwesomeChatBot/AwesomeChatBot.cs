@@ -53,8 +53,6 @@ namespace AwesomeChatBot
 
             #endregion
 
-
-
             this.ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath, loggerFactory);
             this.Settings = settings;
 
