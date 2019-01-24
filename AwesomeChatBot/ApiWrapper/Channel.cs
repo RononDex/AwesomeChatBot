@@ -32,7 +32,7 @@ namespace AwesomeChatBot.ApiWrapper
         public abstract string Name { get; }
 
         /// <summary>
-        /// A reference to the pranent server (if any)
+        /// A reference to the parent server (if any)
         /// </summary>
         public abstract Server ParentServer { get;  }
 
@@ -54,7 +54,7 @@ namespace AwesomeChatBot.ApiWrapper
         public int ConfigOrder => 1000;
 
         /// <summary>
-        /// Sends a message asynchroniously in the current channel
+        /// Sends a message asynchronously in the current channel
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
