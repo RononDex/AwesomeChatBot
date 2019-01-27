@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using AwesomeChatBot.Config;
 
 namespace AwesomeChatBot.ApiWrapper
@@ -26,10 +24,10 @@ namespace AwesomeChatBot.ApiWrapper
         /// The internal reference to the config store
         /// </summary>
         /// <value></value>
-        public ConfigStore ConfgiStore { get; private set; }
+        public ConfigStore ConfigStore { get; private set; }
 
         /// <summary>
-        /// Initialises the Wrapper (login into API, ...)
+        /// Initializes the Wrapper (login into API, ...)
         /// </summary>
         public virtual void Initialize(ConfigStore configStore) {
             #region PRECONDITIONS
@@ -39,7 +37,7 @@ namespace AwesomeChatBot.ApiWrapper
 
             #endregion
         
-            this.ConfgiStore = configStore;        
+            this.ConfigStore = configStore;        
         }
 
         /// <summary>
@@ -51,49 +49,45 @@ namespace AwesomeChatBot.ApiWrapper
         #region Event definitions
 
         /// <summary>
-        /// Event that gets raised when a message is recieved
+        /// Event that gets raised when a message is received
         /// </summary>
         /// <param name="message"></param>
-        public delegate void OnMessageRecievedDeleagte(RecievedMessage message);
+        public delegate void OnMessageReceivedDelegate(ReceivedMessage message);
 
         /// <summary>
-        /// This event is used to communicate that a message was recieved to the framework
+        /// This event is used to communicate that a message was received to the framework
         /// </summary>
-        public event OnMessageRecievedDeleagte MessageRecieved;
+        public event OnMessageReceivedDelegate MessageReceived;
 
-        protected virtual void OnMessageRecieved(RecievedMessage message)
+        protected virtual void OnMessageReceived(ReceivedMessage message)
         {
-            this.MessageRecieved(message);
+            this.MessageReceived(message);
         }
 
-
-
         /// <summary>
-        /// Event that gets raised when a message is recieved
+        /// Event that gets raised when a message is received
         /// </summary>
         /// <param name="message"></param>
-        public delegate void OnServerAvilableDelegate(Server server);
+        public delegate void OnServerAvailableDelegate(Server server);
 
         /// <summary>
-        /// This event is used to communicate that a message was recieved to the framework
+        /// This event is used to communicate that a message was received to the framework
         /// </summary>
-        public event OnServerAvilableDelegate ServerAvailable;
+        public event OnServerAvailableDelegate ServerAvailable;
 
         protected virtual void OnServerAvailable(Server server)
         {
             this.ServerAvailable(server);
         }
 
-
-
         /// <summary>
-        /// Event that gets raised when a message is recieved
+        /// Event that gets raised when a message is received
         /// </summary>
         /// <param name="message"></param>
         public delegate void OnServerUnavailableDelegate(Server server);
 
         /// <summary>
-        /// This event is used to communicate that a message was recieved to the framework
+        /// This event is used to communicate that a message was received to the framework
         /// </summary>
         public event OnServerUnavailableDelegate ServerUnavailable;
 

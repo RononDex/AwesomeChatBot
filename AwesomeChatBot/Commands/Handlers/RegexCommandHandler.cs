@@ -24,7 +24,7 @@ namespace AwesomeChatBot.Commands.Handlers
         /// <param name="recievedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public override Task<bool> ExecuteCommand(RecievedMessage recievedMessage, Command command, object parameters)
+        public override Task<bool> ExecuteCommand(ReceivedMessage recievedMessage, Command command, object parameters)
         {
             #region PRECONDITIONS
 
@@ -45,7 +45,7 @@ namespace AwesomeChatBot.Commands.Handlers
         /// <param name="recievedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public override (bool, object) ShouldExecute(RecievedMessage recievedMessage, Command command)
+        public override (bool, object) ShouldExecute(ReceivedMessage recievedMessage, Command command)
         {
             var regexCommand = command as IRegexCommand;
             if (regexCommand == null)
@@ -81,6 +81,6 @@ namespace AwesomeChatBot.Commands.Handlers
         /// <param name="recievedMessage"></param>
         /// <param name="regexMatch"></param>
         /// <returns></returns>
-        Task<bool> ExecuteRegexCommand(RecievedMessage recievedMessage, Match regexMatch);
+        Task<bool> ExecuteRegexCommand(ReceivedMessage recievedMessage, Match regexMatch);
     }
 }

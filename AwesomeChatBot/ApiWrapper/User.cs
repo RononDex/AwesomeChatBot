@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AwesomeChatBot.ApiWrapper
+﻿namespace AwesomeChatBot.ApiWrapper
 {
     public abstract class User : Config.IConfigurationDependency
     {
@@ -43,7 +39,7 @@ namespace AwesomeChatBot.ApiWrapper
         public string ConfigId => $"User_{this.UserID}";
 
         /// <summary>
-        /// A user sertting is usually server dependent, so in this case we want it to be higher than server, but lower than channel
+        /// A user setting is usually server dependent, so in this case we want it to be higher than server, but lower than channel
         /// </summary>
         /// <returns></returns>
         public int ConfigOrder => 100;

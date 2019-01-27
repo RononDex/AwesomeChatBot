@@ -66,7 +66,7 @@ namespace AwesomeChatBot.Commands
         /// </summary>
         /// <param name="recievedMessage"></param>
         /// <returns></returns>
-        public Task HandleMessage(ApiWrapper.RecievedMessage recievedMessage)
+        public Task HandleMessage(ApiWrapper.ReceivedMessage recievedMessage)
         {
             var task = new Task(() =>
             {

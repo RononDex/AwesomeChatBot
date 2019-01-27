@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AwesomeChatBot.ApiWrapper
 {
     /// <summary>
-    /// Represents a recieved message, used when recieving a message
+    /// Represents a received message, used when receiving a message
     /// </summary>
-    public abstract class RecievedMessage : Message
+    public abstract class ReceivedMessage : Message
     {
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="wrapper"></param>
-        public RecievedMessage(ApiWrapper wrapper) : base(wrapper)
+        public ReceivedMessage(ApiWrapper wrapper) : base(wrapper)
         {
             // Nothing to do here
         }
@@ -36,7 +34,7 @@ namespace AwesomeChatBot.ApiWrapper
         public abstract Channel Channel { get; }
 
         /// <summary>
-        /// true if the bot was mentoined in the message
+        /// true if the bot was mentioned in the message
         /// </summary>
         /// <value></value>
         public abstract bool IsBotMentioned {get;}

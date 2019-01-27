@@ -33,7 +33,7 @@ namespace AwesomeChatBot.Commands
         /// <param name="recievedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public abstract (bool, object) ShouldExecute(RecievedMessage recievedMessage, Command command);
+        public abstract (bool, object) ShouldExecute(ReceivedMessage recievedMessage, Command command);
 
         /// <summary>
         /// Execute the command
@@ -42,6 +42,6 @@ namespace AwesomeChatBot.Commands
         /// <param name="command"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public abstract Task<bool> ExecuteCommand(RecievedMessage recievedMessage, Command command, object parameters);
+        public abstract Task<bool> ExecuteCommand(ReceivedMessage recievedMessage, Command command, object parameters);
     }
 }

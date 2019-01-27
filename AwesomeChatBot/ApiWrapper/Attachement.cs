@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AwesomeChatBot.ApiWrapper
+﻿namespace AwesomeChatBot.ApiWrapper
 {
-    public abstract class Attachement
+    public abstract class Attachment
     {
         /// <summary>
         /// A reference to the ApiWrapper for internal usage
@@ -15,18 +11,18 @@ namespace AwesomeChatBot.ApiWrapper
         /// 
         /// </summary>
         /// <param name="wrapper"></param>
-        public Attachement(ApiWrapper wrapper)
+        public Attachment(ApiWrapper wrapper)
         {
             this.ApiWrapper = wrapper;
         }
 
         /// <summary>
-        /// The name of the attachement
+        /// The name of the attachment
         /// </summary>
         public abstract string Name { get; set; }
 
         /// <summary>
-        /// The byte contents of the attachement
+        /// The byte contents of the attachment
         /// </summary>
         public abstract byte[] Content { get; set; }
     }

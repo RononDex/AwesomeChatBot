@@ -22,7 +22,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         /// <param name="content">The content of the message</param>
         /// <returns></returns>
-        public SendMessage(string content, List<Attachement> attachements) : base (null)
+        public SendMessage(string content, List<Attachment> attachements) : base (null)
         {
             this.Content = content;
             this.Attacehemnts = attachements;
@@ -32,7 +32,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// A list of attachements
         /// </summary>
         /// <value></value>
-        public override List<Attachement> Attacehemnts { get; set; }
+        public override List<Attachment> Attacehemnts { get; set; }
 
         /// <summary>
         /// The message content

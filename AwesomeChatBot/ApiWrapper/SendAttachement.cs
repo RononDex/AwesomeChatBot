@@ -3,7 +3,7 @@ namespace AwesomeChatBot.ApiWrapper
     /// <summary>
     /// Value object used to send attachements
     /// </summary>
-    public class SendAttachement : Attachement
+    public class SendAttachement : Attachment
     {
         public SendAttachement() : base(null)
         {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AwesomeChatBot.ApiWrapper
@@ -27,7 +25,7 @@ namespace AwesomeChatBot.ApiWrapper
         public abstract string ServerName { get; }
 
         /// <summary>
-        /// Some ID identifiyng the server
+        /// Some ID identifying the server
         /// </summary>
         public abstract string ServerID { get; }
 
@@ -43,7 +41,7 @@ namespace AwesomeChatBot.ApiWrapper
         public string ConfigId => $"Server_{this.ServerID}";
 
         /// <summary>
-        /// The server is usually one of the highest up in hirarchy, having an order of 10
+        /// The server is usually one of the highest up in hierarchy, having an order of 10
         /// </summary>
         /// <returns></returns>
         public int ConfigOrder => 10;

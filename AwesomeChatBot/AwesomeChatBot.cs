@@ -1,9 +1,6 @@
 ﻿using AwesomeChatBot.Commands;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AwesomeChatBot
 {
@@ -63,7 +60,7 @@ namespace AwesomeChatBot
             this.LoggerFactory = loggerFactory;
 
             // Setup Api events
-            this.ApiWrapper.MessageRecieved += OnMessageRecieved;
+            this.ApiWrapper.MessageReceived += OnMessageReceived;
             this.ApiWrapper.ServerAvailable += OnServerAvailable;
 
             loggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"AwesomeChatBot Framework has been loaded using the wrapper \"{wrapper.Name}\"");
@@ -94,11 +91,11 @@ namespace AwesomeChatBot
         /// <summary>
         /// Will be fired when the ApiWrapper reports a new message
         /// </summary>
-        /// <param name="recievedMessage"></param>
-        protected virtual void OnMessageRecieved(ApiWrapper.RecievedMessage recievedMessage)
+        /// <param name="receivedMessage"></param>
+        protected virtual void OnMessageReceived(ApiWrapper.ReceivedMessage receivedMessage)
         {
-            this.LoggerFactory.CreateLogger(this.GetType().FullName).LogDebug($"Message recieved: {recievedMessage.Content})");
-            this.CommandFactory.HandleMessage(recievedMessage);
+            this.LoggerFactory.CreateLogger(this.GetType().FullName).LogDebug($"Message received: {receivedMessage.Content})");
+            this.CommandFactory.HandleMessage(receivedMessage);
         }
 
         /// <summary>
