@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using AwesomeChatBot.ApiWrapper;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -19,12 +18,12 @@ namespace AwesomeChatBot.Commands.Handlers
         public override Type CommandType => typeof(IRegexCommand);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
-        /// <param name="recievedMessage"></param>
+        /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public override Task<bool> ExecuteCommand(ReceivedMessage recievedMessage, Command command, object parameters)
+        public override Task<bool> ExecuteCommand(ReceivedMessage receivedMessage, Command command, object parameters)
         {
             #region PRECONDITIONS
 
@@ -36,16 +35,16 @@ namespace AwesomeChatBot.Commands.Handlers
             #endregion
 
 
-            return (command as IRegexCommand).ExecuteRegexCommand(recievedMessage, parameters as Match);
+            return (command as IRegexCommand).ExecuteRegexCommand(receivedMessage, parameters as Match);
         }
 
         /// <summary>
-        /// Determines wether the command should execute for the givem message
+        /// Determines wether the command should execute for the given message
         /// </summary>
-        /// <param name="recievedMessage"></param>
+        /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public override (bool, object) ShouldExecute(ReceivedMessage recievedMessage, Command command)
+        public override (bool, object) ShouldExecute(ReceivedMessage receivedMessage, Command command)
         {
             var regexCommand = command as IRegexCommand;
             if (regexCommand == null)
@@ -55,7 +54,7 @@ namespace AwesomeChatBot.Commands.Handlers
             {
                 var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 
-                var match = regex.Match(recievedMessage.Content);
+                var match = regex.Match(receivedMessage.Content);
                 if (match.Success)
                     return (true, match);
             }
@@ -78,9 +77,9 @@ namespace AwesomeChatBot.Commands.Handlers
         /// <summary>
         /// Execute the command
         /// </summary>
-        /// <param name="recievedMessage"></param>
+        /// <param name="receivedMessage"></param>
         /// <param name="regexMatch"></param>
         /// <returns></returns>
-        Task<bool> ExecuteRegexCommand(ReceivedMessage recievedMessage, Match regexMatch);
+        Task<bool> ExecuteRegexCommand(ReceivedMessage receivedMessage, Match regexMatch);
     }
 }

@@ -8,31 +8,31 @@ namespace AwesomeChatBot.ApiWrapper
     public class SendMessage : Message
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="content">The content of the message</param>
         /// <returns></returns>
-        public SendMessage(string content) : base (null)
+        public SendMessage(string content) : base(null)
         {
             this.Content = content;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="content">The content of the message</param>
         /// <returns></returns>
-        public SendMessage(string content, List<Attachment> attachements) : base (null)
+        public SendMessage(string content, List<Attachment> attachments) : base(null)
         {
             this.Content = content;
-            this.Attacehemnts = attachements;
+            this.Attachments = attachments;
         }
 
         /// <summary>
-        /// A list of attachements
+        /// A list of attachments
         /// </summary>
         /// <value></value>
-        public override List<Attachment> Attacehemnts { get; set; }
+        public override List<Attachment> Attachments { get; set; }
 
         /// <summary>
         /// The message content

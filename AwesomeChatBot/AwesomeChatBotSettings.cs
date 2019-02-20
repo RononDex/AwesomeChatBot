@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AwesomeChatBot
+﻿namespace AwesomeChatBot
 {
     /// <summary>
     /// A value object used to pass a long settings for the AwesomeChatBot Framework

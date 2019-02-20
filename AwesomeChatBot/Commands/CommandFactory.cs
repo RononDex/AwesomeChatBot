@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AwesomeChatBot.Commands
@@ -43,7 +42,7 @@ namespace AwesomeChatBot.Commands
         protected List<EventHandler> EventHandlers => new List<EventHandler>();
 
         /// <summary>
-        /// Constructor of CommandFacotry
+        /// Constructor of CommandFactory
         /// </summary>
         /// <param name="wrapper"></param>
         public CommandFactory(AwesomeChatBot botFramework, Config.ConfigStore configStore)
@@ -64,27 +63,27 @@ namespace AwesomeChatBot.Commands
         /// <summary>
         /// Handles a message
         /// </summary>
-        /// <param name="recievedMessage"></param>
+        /// <param name="receivedMessage"></param>
         /// <returns></returns>
-        public Task HandleMessage(ApiWrapper.ReceivedMessage recievedMessage)
+        public Task HandleMessage(ApiWrapper.ReceivedMessage receivedMessage)
         {
             var task = new Task(() =>
             {
-                var configContext = new Config.IConfigurationDependency[] { recievedMessage.Channel.ParentServer, recievedMessage.Channel };
+                var configContext = new Config.IConfigurationDependency[] { receivedMessage.Channel.ParentServer, receivedMessage.Channel };
 
                 // Iterate through all commands and check if one of them gets triggered
                 foreach (var command in this.Commands)
                 {
-                    foreach (var handler in this.Handlers.Where(x => this.ConfigStore.IsCommandActive(command, this.BotFramework.Settings.CommandsEnabledByDefault, configContext) 
+                    foreach (var handler in this.Handlers.Where(x => this.ConfigStore.IsCommandActive(command, this.BotFramework.Settings.CommandsEnabledByDefault, configContext)
                                     && command.GetType().GetInterfaces().Contains(x.CommandType)
-                                && (recievedMessage.IsBotMentioned)))
+                                && (receivedMessage.IsBotMentioned)))
                     {
                         // If command should not execute, ignore command and continue to next
-                        var shouldExecute = handler.ShouldExecute(recievedMessage, command);
+                        var shouldExecute = handler.ShouldExecute(receivedMessage, command);
                         if (!shouldExecute.Item1)
                             continue;
 
-                        var commandResult = handler.ExecuteCommand(recievedMessage, command, shouldExecute.Item2);
+                        var commandResult = handler.ExecuteCommand(receivedMessage, command, shouldExecute.Item2);
                         commandResult.Wait();
                         if (commandResult.Result)
                             return;
@@ -112,7 +111,7 @@ namespace AwesomeChatBot.Commands
         }
 
         /// <summary>
-        /// Registeres a new command
+        /// Registers a new command
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>

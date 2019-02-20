@@ -11,9 +11,9 @@
     <AssemblyVersion>1.0.2.0</AssemblyVersion>
     <FileVersion>1.0.2.0</FileVersion>
     <Version>1.0.2</Version>
-    
+
     <!-- The identifier that must be unique within the hosting gallery -->
-    <PackageId>AwesomeChatBot</PackageId>    
+    <PackageId>AwesomeChatBot</PackageId>
     <NuspecFile>.nuspec</NuspecFile>
   </PropertyGroup>
 

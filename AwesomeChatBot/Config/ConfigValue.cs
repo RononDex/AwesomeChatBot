@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AwesomeChatBot.Config
+﻿namespace AwesomeChatBot.Config
 {
     /// <summary>
     /// Represents a config entry

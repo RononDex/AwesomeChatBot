@@ -1,10 +1,4 @@
-﻿using AwesomeChatBot.ApiWrapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AwesomeChatBot.Commands
+﻿namespace AwesomeChatBot.Commands
 {
     /// <summary>
     /// A command represents an entity that reacts to defined messages
@@ -17,12 +11,12 @@ namespace AwesomeChatBot.Commands
         public abstract string Name { get; }
 
         /// <summary>
-        /// The unique named used to identfy this item in configuration files
+        /// The unique named used to identify this item in configuration files
         /// </summary>
         public string ConfigId => this.Name;
 
         /// <summary>
-        /// The hirachical order inside the config. Command level cofniguration values are usually server or channel dependent
+        /// The hierarchical order inside the config. Command level configuration values are usually server or channel dependent
         /// </summary>
         public int ConfigOrder => 99999999;
     }

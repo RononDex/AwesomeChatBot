@@ -1,7 +1,5 @@
 ﻿using AwesomeChatBot.ApiWrapper;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AwesomeChatBot.Commands
@@ -30,18 +28,18 @@ namespace AwesomeChatBot.Commands
         /// Returns a boolean saying wether the command should execute,
         /// and a list of parameters provided to the command
         /// </summary>
-        /// <param name="recievedMessage"></param>
+        /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public abstract (bool, object) ShouldExecute(ReceivedMessage recievedMessage, Command command);
+        public abstract (bool, object) ShouldExecute(ReceivedMessage receivedMessage, Command command);
 
         /// <summary>
         /// Execute the command
         /// </summary>
-        /// <param name="recievedMessage"></param>
+        /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public abstract Task<bool> ExecuteCommand(ReceivedMessage recievedMessage, Command command, object parameters);
+        public abstract Task<bool> ExecuteCommand(ReceivedMessage receivedMessage, Command command, object parameters);
     }
 }

@@ -10,7 +10,7 @@ namespace AwesomeChatBot.ApiWrapper
         protected ApiWrapper ApiWrapper { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="wrapper"></param>
         public Channel(ApiWrapper wrapper)
@@ -31,7 +31,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// A reference to the parent server (if any)
         /// </summary>
-        public abstract Server ParentServer { get;  }
+        public abstract Server ParentServer { get; }
 
         /// <summary>
         /// The id of the channel
@@ -45,7 +45,7 @@ namespace AwesomeChatBot.ApiWrapper
         public string ConfigId => $"Channel_{this.ChannelId}";
 
         /// <summary>
-        /// The channel is usually at the end of the hirarchy
+        /// The channel is usually at the end of the hierarchy
         /// </summary>
         /// <returns></returns>
         public int ConfigOrder => 1000;
@@ -58,7 +58,7 @@ namespace AwesomeChatBot.ApiWrapper
         public abstract Task SendMessageAsync(SendMessage message);
 
         /// <summary>
-        /// Sends a message asynchroniously in the current channel
+        /// Sends a message asynchronously in the current channel
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>

@@ -29,15 +29,16 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Initializes the Wrapper (login into API, ...)
         /// </summary>
-        public virtual void Initialize(ConfigStore configStore) {
+        public virtual void Initialize(ConfigStore configStore)
+        {
             #region PRECONDITIONS
 
             if (configStore == null)
                 throw new ArgumentNullException("Parameter \"configStore\" can not be null!");
 
             #endregion
-        
-            this.ConfigStore = configStore;        
+
+            this.ConfigStore = configStore;
         }
 
         /// <summary>

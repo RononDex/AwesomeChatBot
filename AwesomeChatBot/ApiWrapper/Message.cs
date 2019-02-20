@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace AwesomeChatBot.ApiWrapper
 {
@@ -15,7 +13,7 @@ namespace AwesomeChatBot.ApiWrapper
         public ApiWrapper ApiWrapper { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="wrapper"></param>
         public Message(ApiWrapper wrapper)
@@ -24,9 +22,9 @@ namespace AwesomeChatBot.ApiWrapper
         }
 
         /// <summary>
-        /// A list of attachements on the message (if any)
+        /// A list of attachments on the message (if any)
         /// </summary>
-        public abstract List<Attachment> Attacehemnts { get; set; }
+        public abstract List<Attachment> Attachments { get; set; }
 
         /// <summary>
         /// Formatted text message
