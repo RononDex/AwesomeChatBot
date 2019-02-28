@@ -5,18 +5,18 @@
     <id>AwesomeChatBot</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.0.2</version>
+    <version>1.1.0</version>
 
-    <!--A human-friendly title of the package, typically used in UI displays as on nuget.org 
+    <!--A human-friendly title of the package, typically used in UI displays as on nuget.org
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
     <title>AwesomeChatBot Framework</title>
-    
+
     <!-- Authors contain text that appears directly on the gallery -->
     <authors>RononDex</authors>
 
-    <!-- 
+    <!--
             Owners are typically nuget.org identities that allow gallery
-            users to easily find other packages by the same owners.  
+            users to easily find other packages by the same owners.
         -->
     <owners>RononDex</owners>
 
@@ -27,23 +27,23 @@
     <!-- The icon is used in Visual Studio's package manager UI -->
     <!--<iconUrl>http://github.com/contoso/UsefulStuff/nuget_icon.png</iconUrl>-->
 
-    <!-- 
+    <!--
             If true, this value prompts the user to accept the license when
-            installing the package. 
+            installing the package.
         -->
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
 
     <!-- Any details about this particular release -->
-    <releaseNotes>Fixing version numbering</releaseNotes>
+    <releaseNotes>Fixed a lot of typos in the api and some smaller bugfixes</releaseNotes>
 
-    <!-- 
+    <!--
             The description can be used in package manager UI. Note that the
-            nuget.org gallery uses information you add in the portal. 
+            nuget.org gallery uses information you add in the portal.
         -->
     <description>
       A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
       Allows you to define commands for a chatbot that will work with every chat app (be it Discord, slack, ...).
-      
+
       Will need an api wrapper per chat app that you intend to use (for example AwesomeChatBot.Discord)
 
       See project site for further docuemntation.

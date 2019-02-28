@@ -92,9 +92,35 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         public event OnServerUnavailableDelegate ServerUnavailable;
 
+        /// <summary>
+        /// Raises the OnServerUnavailable event
+        /// </summary>
+        /// <param name="server"></param>
         protected virtual void OnServerUnavailable(Server server)
         {
             this.ServerUnavailable(server);
+        }
+
+        /// <summary>
+        /// The delegate for the new user joined server event
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="server"></param>
+        public delegate void OnNewUserJoinedServerDelegate(User user, Server server);
+
+        /// <summary>
+        /// When a new user joins a server
+        /// </summary>
+        public event OnNewUserJoinedServerDelegate NewUserJoinedServer;
+
+        /// <summary>
+        /// Raises the "NewUserJoined" event
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="server"></param>
+        protected virtual void OnNewUserJoinedServer(User user, Server server)
+        {
+            this.NewUserJoinedServer(user, server);
         }
         #endregion
     }
