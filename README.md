@@ -1,6 +1,3 @@
-### NOTE:
-This framework is in pre-release / alpha stage, not everything has been implemented yet and the Framework API might change from one release to another.
-
 # AwesomeChatBot
 
 Nuget package: https://www.nuget.org/packages/AwesomeChatBot/
