@@ -33,5 +33,12 @@ namespace AwesomeChatBot.ApiWrapper
         /// <param name="language">(optional) programming language, like csharp</param>
         /// <returns></returns>
         public abstract string CodeBlock(string message, string language = null);
+
+        /// <summary>
+        /// Adds underline to a given text
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public abstract string Underline(string message);
     }
 }
