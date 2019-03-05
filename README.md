@@ -1,6 +1,3 @@
-### NOTE:
-This framework is in pre-release / alpha stage, not everything has been implemented yet and the Framework API might change from one release to another.
-
 # AwesomeChatBot
 
 Nuget package: https://www.nuget.org/packages/AwesomeChatBot/
@@ -16,10 +13,10 @@ ____________________________________
 
 The set of classes / modules this framework provides by default, will give you a good start and should allow you to implement the common use cases.
 
-**Modulus**
+**Modules**
 
 
-This framework uses modulus to allow you to define, how your chat commands will be handled, how the bot reacts to them, basically how the user interacts with the bot.
+This framework uses modules to allow you to define, how your chat commands will be handled, how the bot reacts to them, basically how the user interacts with the bot.
 
 ## Getting started
 For starters and a quick reference, check my own bot https://github.com/RononDex/Astrobot on how the framework is implemented, it's pretty straight forward!
