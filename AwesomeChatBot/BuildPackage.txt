@@ -1,1 +1,0 @@
-nuget pack AwesomeChatBot.csproj -properties Configuration=Release

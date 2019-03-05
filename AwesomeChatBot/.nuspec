@@ -5,7 +5,7 @@
     <id>AwesomeChatBot</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -21,7 +21,7 @@
     <owners>RononDex</owners>
 
     <!-- License and project URLs provide links for the gallery -->
-    <license type="expression">MIT</license>
+    <licenseUrl>https://github.com/RononDex/AwesomeChatBot/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/RononDex/AwesomeChatBot</projectUrl>
 
     <!-- The icon is used in Visual Studio's package manager UI -->
@@ -34,7 +34,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
 
     <!-- Any details about this particular release -->
-    <releaseNotes>Fixed a lot of typos in the api and some smaller bugfixes</releaseNotes>
+    <releaseNotes>Added Underline to message formatter</releaseNotes>
 
     <!--
             The description can be used in package manager UI. Note that the
@@ -46,7 +46,7 @@
 
       Will need an api wrapper per chat app that you intend to use (for example AwesomeChatBot.Discord)
 
-      See project site for further docuemntation.
+      See project website for further docuemntation.
     </description>
 
     <!-- Tags appear in the gallery and can be used for tag searches -->
@@ -54,13 +54,12 @@
 
     <!-- Dependencies are automatically installed when the package is installed -->
     <dependencies>
-      <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.1.1" />
-      <dependency id="Microsoft.Extensions.Logging" version="2.1.1" />
+      <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.2.0" />
+      <dependency id="Microsoft.Extensions.Logging" version="2.2.0" />
       <dependency id="Newtonsoft.Json" version="12.0.1" />
     </dependencies>
   </metadata>
 
-  <!-- A readme.txt to display when the package is installed -->
   <files>
     <file src="bin/Release/netstandard2.0/*.dll" target="lib/netstandard2.0/"/>
   </files>
