@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace AwesomeChatBot.Commands
 {
@@ -47,17 +47,8 @@ namespace AwesomeChatBot.Commands
         /// <param name="wrapper"></param>
         public CommandFactory(AwesomeChatBot botFramework, Config.ConfigStore configStore)
         {
-            #region PRECONDITIONS
-
-            if (botFramework == null)
-                throw new ArgumentNullException("botFramework parameter can not be null!");
-            if (configStore == null)
-                throw new ArgumentNullException("configStore parameter can not be null!");
-
-            #endregion
-
-            this.BotFramework = botFramework;
-            this.ConfigStore = configStore;
+            BotFramework = botFramework ?? throw new ArgumentNullException("botFramework parameter can not be null!");
+            ConfigStore = configStore ?? throw new ArgumentNullException("configStore parameter can not be null!");
         }
 
         /// <summary>
@@ -65,34 +56,35 @@ namespace AwesomeChatBot.Commands
         /// </summary>
         /// <param name="receivedMessage"></param>
         /// <returns></returns>
-        public Task HandleMessage(ApiWrapper.ReceivedMessage receivedMessage)
+        public async void HandleMessage(ApiWrapper.ReceivedMessage receivedMessage)
         {
-            var task = new Task(() =>
+            try
             {
                 var configContext = new Config.IConfigurationDependency[] { receivedMessage.Channel.ParentServer, receivedMessage.Channel };
 
                 // Iterate through all commands and check if one of them gets triggered
-                foreach (var command in this.Commands)
+                foreach (var command in Commands)
                 {
-                    foreach (var handler in this.Handlers.Where(x => this.ConfigStore.IsCommandActive(command, this.BotFramework.Settings.CommandsEnabledByDefault, configContext)
+                    foreach (var handler in Handlers.Where(x => ConfigStore.IsCommandActive(command, BotFramework.Settings.CommandsEnabledByDefault, configContext)
                                     && command.GetType().GetInterfaces().Contains(x.CommandType)
-                                && (receivedMessage.IsBotMentioned)))
+                                && receivedMessage.IsBotMentioned))
                     {
                         // If command should not execute, ignore command and continue to next
                         var shouldExecute = handler.ShouldExecute(receivedMessage, command);
                         if (!shouldExecute.Item1)
                             continue;
 
-                        var commandResult = handler.ExecuteCommand(receivedMessage, command, shouldExecute.Item2);
-                        commandResult.Wait();
-                        if (commandResult.Result)
+                        var commandResult = await handler.ExecuteCommand(receivedMessage, command, shouldExecute.Item2);
+                        if (commandResult)
                             return;
                     }
                 }
-            });
-
-            task.Start();
-            return task;
+            }
+            catch (Exception ex)
+            {
+                BotFramework.LoggerFactory.CreateLogger(this.GetType().Name).LogError($"Error processing message {receivedMessage.Content}: {ex}");
+                await receivedMessage.Channel.SendMessageAsync($"Oh no! Something caused me to crash: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -105,7 +97,7 @@ namespace AwesomeChatBot.Commands
             if (handler == null)
                 throw new ArgumentException("handler can not be null!");
 
-            this.Handlers.Add(handler);
+            Handlers.Add(handler);
 
             return this;
         }
@@ -120,7 +112,7 @@ namespace AwesomeChatBot.Commands
             if (command == null)
                 throw new ArgumentException("command can not be null!");
 
-            this.Commands.Add(command);
+            Commands.Add(command);
 
             return this;
         }
@@ -135,7 +127,7 @@ namespace AwesomeChatBot.Commands
             if (eventHandler == null)
                 throw new ArgumentException("eventHandler can not be null!");
 
-            this.EventHandlers.Add(eventHandler);
+            EventHandlers.Add(eventHandler);
 
             return this;
         }

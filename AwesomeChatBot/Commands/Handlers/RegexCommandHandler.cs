@@ -13,7 +13,7 @@ namespace AwesomeChatBot.Commands.Handlers
             // Nothing to do here
         }
 
-        public override string Name { get => "RegexHandler"; }
+        public override string Name => "RegexHandler";
 
         public override Type CommandType => typeof(IRegexCommand);
 
@@ -46,8 +46,7 @@ namespace AwesomeChatBot.Commands.Handlers
         /// <returns></returns>
         public override (bool, object) ShouldExecute(ReceivedMessage receivedMessage, Command command)
         {
-            var regexCommand = command as IRegexCommand;
-            if (regexCommand == null)
+            if (!(command is IRegexCommand regexCommand))
                 return (false, null);
 
             foreach (var pattern in regexCommand.Regex)

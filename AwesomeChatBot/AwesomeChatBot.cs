@@ -35,7 +35,7 @@ namespace AwesomeChatBot
         public Config.ConfigStore ConfigStore { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public AwesomeChatBot(ApiWrapper.ApiWrapper wrapper, ILoggerFactory loggerFactory, AwesomeChatBotSettings settings)
         {
@@ -73,7 +73,8 @@ namespace AwesomeChatBot
         /// Registers a command with the framework
         /// </summary>
         /// <param name="command"></param>
-        public void RegisterCommand(Command command) {
+        public void RegisterCommand(Command command)
+        {
             this.CommandFactory.RegisterCommand(command);
             this.LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"Command {command.Name} registered");
         }
@@ -83,7 +84,8 @@ namespace AwesomeChatBot
         /// </summary>
         /// <param name="handler"></param>
         /// <returns></returns>
-        public void RegisterCommandHandler(Commands.CommandHandler handler){
+        public void RegisterCommandHandler(Commands.CommandHandler handler)
+        {
             this.CommandFactory.RegisterHandler(handler);
             this.LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"Handler {handler.Name} registered");
         }
