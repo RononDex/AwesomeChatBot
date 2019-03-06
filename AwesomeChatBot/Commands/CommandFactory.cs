@@ -71,10 +71,10 @@ namespace AwesomeChatBot.Commands
                     {
                         // If command should not execute, ignore command and continue to next
                         var shouldExecute = handler.ShouldExecute(receivedMessage, command);
-                        if (!shouldExecute.Item1)
+                        if (!shouldExecute.shouldExecute)
                             continue;
 
-                        var commandResult = await handler.ExecuteCommand(receivedMessage, command, shouldExecute.Item2);
+                        var commandResult = await handler.ExecuteCommand(receivedMessage, command, shouldExecute.parameter);
                         if (commandResult)
                             return;
                     }

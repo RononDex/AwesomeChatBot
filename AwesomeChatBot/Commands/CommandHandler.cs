@@ -31,7 +31,7 @@ namespace AwesomeChatBot.Commands
         /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public abstract (bool, object) ShouldExecute(ReceivedMessage receivedMessage, Command command);
+        public abstract (bool shouldExecute, object parameter) ShouldExecute(ReceivedMessage receivedMessage, Command command);
 
         /// <summary>
         /// Execute the command

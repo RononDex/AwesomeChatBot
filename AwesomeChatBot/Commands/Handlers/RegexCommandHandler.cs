@@ -44,7 +44,7 @@ namespace AwesomeChatBot.Commands.Handlers
         /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public override (bool, object) ShouldExecute(ReceivedMessage receivedMessage, Command command)
+        public override (bool shouldExecute, object parameter) ShouldExecute(ReceivedMessage receivedMessage, Command command)
         {
             if (!(command is IRegexCommand regexCommand))
                 return (false, null);
