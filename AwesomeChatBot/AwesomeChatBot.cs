@@ -117,6 +117,5 @@ namespace AwesomeChatBot
         {
             LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"Server now unavailable: {server.ServerName} ({server.ServerID})");
         }
-
     }
 }
