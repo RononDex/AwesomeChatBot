@@ -1,4 +1,5 @@
-﻿namespace AwesomeChatBot.ApiWrapper
+﻿using System.Collections.Generic;
+namespace AwesomeChatBot.ApiWrapper
 {
     public abstract class User : Config.IConfigurationDependency
     {
@@ -8,7 +9,7 @@
         public ApiWrapper ApiWrapper { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="wrapper"></param>
         public User(ApiWrapper wrapper)
@@ -19,7 +20,7 @@
         /// <summary>
         /// An ID used by the API to identify the user
         /// </summary>
-        public abstract string UserID { get;  }
+        public abstract string UserID { get; }
 
         /// <summary>
         /// The username in the chat program
@@ -31,6 +32,12 @@
         /// uniquely identify a user.
         /// </summary>
         public abstract string UniqueUserName { get; }
+
+        /// <summary>
+        /// Roles of the user
+        /// </summary>
+        /// <value></value>
+        public abstract IReadOnlyList<UserRole> Roles { get; }
 
         /// <summary>
         /// The Id that is used to identify this object in config files
