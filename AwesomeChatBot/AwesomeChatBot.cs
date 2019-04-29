@@ -1,6 +1,8 @@
-﻿using AwesomeChatBot.Commands;
+﻿using System.Linq;
+using AwesomeChatBot.Commands;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 
 namespace AwesomeChatBot
 {
@@ -12,7 +14,7 @@ namespace AwesomeChatBot
         /// <summary>
         /// The Api Wrapper to use to communicate with the API / Chat network
         /// </summary>
-        public ApiWrapper.ApiWrapper ApiWrapper { get; private set; }
+        public IReadOnlyList<ApiWrapper.ApiWrapper> ApiWrappers { get; private set; }
 
         /// <summary>
         /// Holds the reference to the command factory
@@ -37,11 +39,11 @@ namespace AwesomeChatBot
         /// <summary>
         ///
         /// </summary>
-        public AwesomeChatBot(ApiWrapper.ApiWrapper wrapper, ILoggerFactory loggerFactory, AwesomeChatBotSettings settings)
+        public AwesomeChatBot(IReadOnlyList<ApiWrapper.ApiWrapper> wrappers, ILoggerFactory loggerFactory, AwesomeChatBotSettings settings)
         {
             #region PRECONDITIONS
 
-            if (wrapper == null)
+            if (wrappers == null || wrappers.Count == 0)
                 throw new ArgumentNullException("No ApiWrapper provided to AwesomeChatBot");
             if (loggerFactory == null)
                 throw new ArgumentNullException("No loggerFactory provided to AwesomeChatBot");
@@ -53,17 +55,18 @@ namespace AwesomeChatBot
             this.ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath, loggerFactory);
             this.Settings = settings;
 
-            this.ApiWrapper = wrapper;
-            this.ApiWrapper.Initialize(this.ConfigStore);
+            var wrappersList = wrappers.ToList();
+            this.ApiWrappers = wrappersList;
+            wrappersList.ForEach(x => x.Initialize(this.ConfigStore));
 
             this.CommandFactory = new CommandFactory(this, this.ConfigStore);
             this.LoggerFactory = loggerFactory;
 
             // Setup Api events
-            this.ApiWrapper.MessageReceived += OnMessageReceived;
-            this.ApiWrapper.ServerAvailable += OnServerAvailable;
+            wrappersList.ForEach(x => x.MessageReceived += OnMessageReceived);
+            wrappersList.ForEach(x => x.ServerAvailable += OnServerAvailable);
 
-            loggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"AwesomeChatBot Framework has been loaded using the wrapper \"{wrapper.Name}\"");
+            loggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"AwesomeChatBot Framework has been loaded using the wrappers \"{string.Join(" ", wrappers.Select(x => x.Name))}\"");
 
             loggerFactory.CreateLogger(this.GetType().FullName).LogInformation("");
             loggerFactory.CreateLogger(this.GetType().FullName).LogInformation("Bot is ready...");
