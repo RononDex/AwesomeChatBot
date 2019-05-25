@@ -2,6 +2,7 @@ namespace AwesomeChatBot.ApiWrapper
 {
     public partial class ApiWrapper
     {
+
         /// <summary>
         /// Event that gets raised when a message is received
         /// </summary>
