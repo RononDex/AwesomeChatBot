@@ -30,6 +30,11 @@ namespace AwesomeChatBot.ApiWrapper
         public abstract string Name { get; }
 
         /// <summary>
+        /// True if the role has admin (highest) privileges
+        /// </summary>
+        public abstract bool IsAdmin { get; }
+
+        /// <summary>
         /// Id in config files
         /// </summary>
         /// <value></value>
