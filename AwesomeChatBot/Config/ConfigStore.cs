@@ -22,10 +22,10 @@ namespace AwesomeChatBot.Config
         /// </summary>
         private List<ConfigFile> ConfigFiles { get; set; } = new List<ConfigFile>();
 
-        private ILoggerFactory LoggerFactory {get;set;}
+        private ILoggerFactory LoggerFactory { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="configFolder">Path to the folder containing the config files</param>
         public ConfigStore(string configFolder, ILoggerFactory loggerFactory)
@@ -33,7 +33,8 @@ namespace AwesomeChatBot.Config
             this.ConfigFolder = configFolder;
             this.LoggerFactory = loggerFactory;
 
-            if (string.IsNullOrEmpty(this.ConfigFolder)) {
+            if (string.IsNullOrEmpty(this.ConfigFolder))
+            {
                 loggerFactory.CreateLogger(this.GetType().FullName).LogWarning("No ConfigFolderPath provided, will be using the default './config' directory!");
                 this.ConfigFolder = "./config";
             }
@@ -93,7 +94,48 @@ namespace AwesomeChatBot.Config
         }
 
         /// <summary>
-        /// 
+        /// Gets a list of all currently set config values for given dependencies
+        /// </summary>
+        /// <param name="dependencies"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public IReadOnlyList<ConfigValue> GetAllConfigValues(params IConfigurationDependency[] dependencies) where T : IConvertible
+        {
+            var fileName = GetFileNameFromDependencies(dependencies);
+
+            var configFile = this.ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
+
+            // if config file does not exist or is empty
+            // return default value for the requested type (means config value is not set)
+            if (configFile == null || configFile.Sections == null || configFile.Sections.Count == 0)
+                return new List<ConfigValue>();
+
+            var dependenciesOrdered = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).ToList();
+            var curSection = configFile.Sections.FirstOrDefault(x => x.Id == dependenciesOrdered[0].ConfigId);
+
+            // Find the config entry section
+            foreach (var dependency in dependenciesOrdered)
+            {
+                // Ignore null entries
+                if (dependency == null)
+                    continue;
+
+                // If section was not found, return default value (config value not set)
+                if (curSection == null)
+                {
+                    return new List<ConfigValue>();
+                }
+
+                curSection = curSection.SubSections.FirstOrDefault(x => x.Id == dependency.ConfigId);
+            }
+
+            var configEntries = curSection.Config;
+
+            return configEntries;
+        }
+
+        /// <summary>
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
@@ -166,7 +208,7 @@ namespace AwesomeChatBot.Config
         public bool IsCommandActive(Commands.Command command, bool enabledByDefault, params IConfigurationDependency[] dependencies)
         {
             // get "enabled" setting for the command in the given context, using "false" by default
-            var isActive = this.GetConfigValue<bool>("enabled", enabledByDefault, dependencies);    
+            var isActive = this.GetConfigValue<bool>("enabled", enabledByDefault, dependencies);
             return isActive;
         }
 
