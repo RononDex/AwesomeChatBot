@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace AwesomeChatBot
 {
     /// <summary>
-    /// The main class (create an instance of this class to use the framework)
+    /// The main class (creates an instance of this class to use the framework)
     /// </summary>
     public partial class AwesomeChatBot
     {
