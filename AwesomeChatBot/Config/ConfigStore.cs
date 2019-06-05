@@ -99,7 +99,7 @@ namespace AwesomeChatBot.Config
         /// <param name="dependencies"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public IReadOnlyList<ConfigValue> GetAllConfigValues(params IConfigurationDependency[] dependencies) where T : IConvertible
+        public IReadOnlyList<ConfigValue> GetAllConfigValues(params IConfigurationDependency[] dependencies)
         {
             var fileName = GetFileNameFromDependencies(dependencies);
 
@@ -170,8 +170,10 @@ namespace AwesomeChatBot.Config
                 // Create section if it doesnt exist yet
                 if (section == null)
                 {
-                    section = new ConfigSection();
-                    section.Id = dependency.ConfigId;
+                    section = new ConfigSection
+                    {
+                        Id = dependency.ConfigId
+                    };
 
                     // Add to parent
                     if (curParentSection == null)
@@ -186,9 +188,11 @@ namespace AwesomeChatBot.Config
                 var configEntry = curParentSection.Config.FirstOrDefault(x => x.Key == key);
                 if (configEntry == null)
                 {
-                    configEntry = new ConfigValue();
-                    configEntry.Key = key;
-                    configEntry.Value = value?.ToString();
+                    configEntry = new ConfigValue
+                    {
+                        Key = key,
+                        Value = value?.ToString()
+                    };
                 }
                 else
                     configEntry.Value = value?.ToString();
