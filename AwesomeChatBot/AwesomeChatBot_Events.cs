@@ -34,11 +34,11 @@ namespace AwesomeChatBot
         /// Will be fired when the ApiWrapper reports a new message
         /// </summary>
         /// <param name="receivedMessage"></param>
-        protected virtual void OnMessageReceived(ApiWrapper.ReceivedMessage receivedMessage)
+        protected virtual void OnMessageReceived(ReceivedMessage receivedMessage)
         {
-            this.LoggerFactory.CreateLogger(this.GetType().FullName).LogDebug($"Message received: {receivedMessage.Content})");
-            this.CommandFactory.HandleMessage(receivedMessage);
-            this.MessageReceived(receivedMessage);
+            LoggerFactory.CreateLogger(GetType().FullName).LogDebug($"Message received: {receivedMessage.Content})");
+            CommandFactory.HandleMessage(receivedMessage);
+            MessageReceived?.Invoke(receivedMessage);
         }
 
         /// <summary>
@@ -57,10 +57,10 @@ namespace AwesomeChatBot
         /// When a server becomes available (connected)
         /// </summary>
         /// <param name="server"></param>
-        protected virtual void OnServerAvailable(ApiWrapper.Server server)
+        protected virtual void OnServerAvailable(Server server)
         {
-            this.LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"Server now available: {server.ServerName} ({server.ServerID})");
-            this.ServerAvailable(server);
+            LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Server now available: {server.ServerName} ({server.ServerID})");
+            ServerAvailable?.Invoke(server);
         }
 
         /// <summary>
@@ -79,10 +79,10 @@ namespace AwesomeChatBot
         /// When a server becomes unavailable (disconnected)
         /// </summary>
         /// <param name="server"></param>
-        protected virtual void OnServerUnavailable(ApiWrapper.Server server)
+        protected virtual void OnServerUnavailable(Server server)
         {
             LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"Server now unavailable: {server.ServerName} ({server.ServerID})");
-            this.ServerUnavailable(server);
+            ServerUnavailable?.Invoke(server);
         }
 
         /// <summary>
@@ -103,8 +103,10 @@ namespace AwesomeChatBot
         /// <param name="server"></param>
         private void OnNewUserJoinedServer(User user, Server server)
         {
-            LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"{nameof(NewUserJoinedServer)}: User: {user.UniqueUserName} Server: ({server.ServerName})");
-            this.NewUserJoinedServer(user, server);
+            LoggerFactory
+                .CreateLogger(GetType().FullName)
+                .LogInformation($"{nameof(NewUserJoinedServer)}: User: {user.UniqueUserName} Server: ({server.ServerName})");
+            NewUserJoinedServer?.Invoke(user, server);
         }
     }
 }
