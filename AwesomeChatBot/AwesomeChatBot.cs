@@ -52,23 +52,25 @@ namespace AwesomeChatBot
 
             #endregion
 
-            this.ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath, loggerFactory);
-            this.Settings = settings;
+            ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath, loggerFactory);
+            Settings = settings;
 
             var wrappersList = wrappers.ToList();
-            this.ApiWrappers = wrappersList;
+            ApiWrappers = wrappersList;
             wrappersList.ForEach(x => x.Initialize(this.ConfigStore));
 
-            this.CommandFactory = new CommandFactory(this, this.ConfigStore);
-            this.LoggerFactory = loggerFactory;
+            CommandFactory = new CommandFactory(this, this.ConfigStore);
+            LoggerFactory = loggerFactory;
 
             // Setup Api events
             SetupEvents();
 
-            loggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"AwesomeChatBot Framework has been loaded using the wrappers \"{string.Join(" ", wrappers.Select(x => x.Name))}\"");
+            loggerFactory
+                .CreateLogger(GetType().FullName)
+                .LogInformation($"AwesomeChatBot Framework has been loaded using the wrappers \"{string.Join(" ", wrappers.Select(x => x.Name))}\"");
 
-            loggerFactory.CreateLogger(this.GetType().FullName).LogInformation("");
-            loggerFactory.CreateLogger(this.GetType().FullName).LogInformation("Bot is ready...");
+            loggerFactory.CreateLogger(GetType().FullName).LogInformation("");
+            loggerFactory.CreateLogger(GetType().FullName).LogInformation("Bot is ready...");
         }
 
         /// <summary>
@@ -77,8 +79,8 @@ namespace AwesomeChatBot
         /// <param name="command"></param>
         public void RegisterCommand(Command command)
         {
-            this.CommandFactory.RegisterCommand(command);
-            this.LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"Command {command.Name} registered");
+            _ = CommandFactory.RegisterCommand(command);
+            LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Command {command.Name} registered");
         }
 
         /// <summary>
@@ -86,10 +88,10 @@ namespace AwesomeChatBot
         /// </summary>
         /// <param name="handler"></param>
         /// <returns></returns>
-        public void RegisterCommandHandler(Commands.CommandHandler handler)
+        public void RegisterCommandHandler(CommandHandler handler)
         {
-            this.CommandFactory.RegisterHandler(handler);
-            this.LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"Handler {handler.Name} registered");
+            _ = CommandFactory.RegisterHandler(handler);
+            LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Handler {handler.Name} registered");
         }
     }
 }

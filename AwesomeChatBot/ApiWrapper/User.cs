@@ -14,7 +14,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// <param name="wrapper"></param>
         public User(ApiWrapper wrapper)
         {
-            this.ApiWrapper = wrapper;
+            ApiWrapper = wrapper;
         }
 
         /// <summary>
