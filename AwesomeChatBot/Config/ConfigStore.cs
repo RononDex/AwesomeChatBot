@@ -30,16 +30,16 @@ namespace AwesomeChatBot.Config
         /// <param name="configFolder">Path to the folder containing the config files</param>
         public ConfigStore(string configFolder, ILoggerFactory loggerFactory)
         {
-            this.ConfigFolder = configFolder;
-            this.LoggerFactory = loggerFactory;
+            ConfigFolder = configFolder;
+            LoggerFactory = loggerFactory;
 
-            if (string.IsNullOrEmpty(this.ConfigFolder))
+            if (string.IsNullOrEmpty(ConfigFolder))
             {
-                loggerFactory.CreateLogger(this.GetType().FullName).LogWarning("No ConfigFolderPath provided, will be using the default './config' directory!");
-                this.ConfigFolder = "./config";
+                loggerFactory.CreateLogger(GetType().FullName).LogWarning("No ConfigFolderPath provided, will be using the default './config' directory!");
+                ConfigFolder = "config";
             }
 
-            this.LoadConfigFiles();
+            LoadConfigFiles();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace AwesomeChatBot.Config
         {
             var fileName = GetFileNameFromDependencies(dependencies);
             var configNotFound = false;
-            var configFile = this.ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
+            var configFile = ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
 
             // if config file does not exist or is empty
             // return default value for the requested type (means config value is not set)
@@ -103,7 +103,7 @@ namespace AwesomeChatBot.Config
         {
             var fileName = GetFileNameFromDependencies(dependencies);
 
-            var configFile = this.ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
+            var configFile = ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
 
             // if config file does not exist or is empty
             // return default value for the requested type (means config value is not set)
@@ -146,13 +146,15 @@ namespace AwesomeChatBot.Config
             var fileName = GetFileNameFromDependencies(dependencies);
 
             // Get file, create it if it doesnt exist yet
-            var configFile = this.ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
+            var configFile = ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
             if (configFile == null)
             {
-                configFile = new ConfigFile();
-                configFile.Name = fileName.ToLower();
-                configFile.Sections = new List<ConfigSection>();
-                this.ConfigFiles.Add(configFile);
+                configFile = new ConfigFile
+                {
+                    Name = fileName.ToLower(),
+                    Sections = new List<ConfigSection>()
+                };
+                ConfigFiles.Add(configFile);
             }
 
             var dependenciesSorted = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder);
@@ -212,7 +214,7 @@ namespace AwesomeChatBot.Config
         public bool IsCommandActive(Commands.Command command, bool enabledByDefault, params IConfigurationDependency[] dependencies)
         {
             // get "enabled" setting for the command in the given context, using "false" by default
-            var isActive = this.GetConfigValue<bool>("enabled", enabledByDefault, dependencies);
+            var isActive = GetConfigValue($"Command-{command.Name}-Enabled", enabledByDefault, dependencies);
             return isActive;
         }
 
@@ -225,7 +227,7 @@ namespace AwesomeChatBot.Config
         public void EnableCommand(Commands.Command command, params IConfigurationDependency[] dependencies)
         {
             // Enables the command in the config file
-            this.SetConfigValue<bool>("enabled", true, dependencies);
+            SetConfigValue($"Command-{command.Name}-Enabled", true, dependencies);
         }
 
         /// <summary>
@@ -237,7 +239,7 @@ namespace AwesomeChatBot.Config
         public void DisableCommand(Commands.Command command, params IConfigurationDependency[] dependencies)
         {
             // Enables the command in the config file
-            this.SetConfigValue<bool>("enabled", false, dependencies);
+            SetConfigValue($"Command-{command.Name}-Enabled", false, dependencies);
         }
 
         /// <summary>
@@ -246,16 +248,16 @@ namespace AwesomeChatBot.Config
         private void LoadConfigFiles()
         {
             // Create directory if it does not exist
-            if (!Directory.Exists(this.ConfigFolder))
-                Directory.CreateDirectory(this.ConfigFolder);
+            if (!Directory.Exists(ConfigFolder))
+                Directory.CreateDirectory(ConfigFolder);
 
-            var jsonFiles = Directory.GetFiles(this.ConfigFolder, "*.json");
+            var jsonFiles = Directory.GetFiles(ConfigFolder, "*.json");
 
             foreach (var jsonFile in jsonFiles)
             {
                 var parsedConfigFile = JsonConvert.DeserializeObject<ConfigFile>(File.ReadAllText(jsonFile));
                 parsedConfigFile.Name = Path.GetFileNameWithoutExtension(jsonFile);
-                this.ConfigFiles.Add(parsedConfigFile);
+                ConfigFiles.Add(parsedConfigFile);
             }
         }
 
@@ -264,10 +266,9 @@ namespace AwesomeChatBot.Config
         /// </summary>
         private void SaveConfigFile(ConfigFile file)
         {
-            var fileName = file.Name + ".json";
+            var fileName = file.Name;
             var json = JsonConvert.SerializeObject(file);
-            var path = Path.Combine(this.ConfigFolder, fileName);
-            File.WriteAllText(path, json);
+            File.WriteAllText(fileName, json);
         }
 
         /// <summary>
