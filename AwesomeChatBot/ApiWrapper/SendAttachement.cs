@@ -13,13 +13,11 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// The filename of the attachment
         /// </summary>
-        /// <value></value>
         public override string Name { get; set; }
 
         /// <summary>
         /// The byte[] Content of the file attachment
         /// </summary>
-        /// <value></value>
         public override byte[] Content { get; set; }
     }
 }

@@ -111,10 +111,10 @@ namespace AwesomeChatBot.Config
                 return new List<ConfigValue>();
 
             var dependenciesOrdered = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).ToList();
-            var curSection = configFile.Sections.FirstOrDefault(x => x.Id == dependenciesOrdered[0].ConfigId);
+            var curSection = configFile.Sections.FirstOrDefault(x => x.Id == dependenciesOrdered.First().ConfigId);
 
             // Find the config entry section
-            foreach (var dependency in dependenciesOrdered)
+            foreach (var dependency in dependenciesOrdered.Skip(1))
             {
                 // Ignore null entries
                 if (dependency == null)
@@ -172,16 +172,17 @@ namespace AwesomeChatBot.Config
                 // Create section if it doesnt exist yet
                 if (section == null)
                 {
-                    section = new ConfigSection
-                    {
-                        Id = dependency.ConfigId
-                    };
+                    section = new ConfigSection { Id = dependency.ConfigId };
 
                     // Add to parent
                     if (curParentSection == null)
+                    {
                         configFile.Sections.Add(section);
+                    }
                     else
+                    {
                         curParentSection.SubSections.Add(section);
+                    }
                 }
 
                 curParentSection = section;
@@ -195,9 +196,12 @@ namespace AwesomeChatBot.Config
                         Key = key,
                         Value = value?.ToString()
                     };
+                    curParentSection.Config.Add(configEntry);
                 }
                 else
+                {
                     configEntry.Value = value?.ToString();
+                }
             }
 
             // Save the changed config file
@@ -266,28 +270,24 @@ namespace AwesomeChatBot.Config
         /// </summary>
         private void SaveConfigFile(ConfigFile file)
         {
-            var fileName = file.Name;
+            var fileName = file.Name + ".json";
             var json = JsonConvert.SerializeObject(file);
-            File.WriteAllText(fileName, json);
+            var path = Path.Combine(ConfigFolder, fileName);
+            File.WriteAllText(path, json);
         }
 
         /// <summary>
         /// Gets the file name where the configuration for the given dependencies is stored in
         /// </summary>
         /// <param name="dependencies"></param>
-        /// <returns></returns>
         private string GetFileNameFromDependencies(params IConfigurationDependency[] dependencies)
         {
-            var fileName = "";
             if (dependencies == null || dependencies.Length == 0)
-                fileName = "global.json";
-            else
             {
-                fileName = string.Join("-", dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).Select(x => x.GetType().Name.ToLower()));
-                fileName += ".json";
+                return "global";
             }
 
-            return Path.Combine(ConfigFolder, fileName);
+            return string.Join("-", dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).Select(x => x.GetType().Name.ToLower()));
         }
     }
 }

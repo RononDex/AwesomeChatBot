@@ -14,18 +14,19 @@ namespace AwesomeChatBot.ApiWrapper
         /// <returns></returns>
         public SendMessage(string content) : base(null)
         {
-            this.Content = content;
+            Content = content;
         }
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="content">The content of the message</param>
+        /// <param name="attachments">Attachments that are to be sent with the message</param>
         /// <returns></returns>
         public SendMessage(string content, List<Attachment> attachments) : base(null)
         {
-            this.Content = content;
-            this.Attachments = attachments;
+            Content = content;
+            Attachments = attachments;
         }
 
         /// <summary>
