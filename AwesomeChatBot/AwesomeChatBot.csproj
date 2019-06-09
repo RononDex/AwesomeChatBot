@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>RononDex</Authors>
     <Company />
@@ -14,6 +13,10 @@
     <!-- The identifier that must be unique within the hosting gallery -->
     <PackageId>AwesomeChatBot</PackageId>
     <NuspecFile>.nuspec</NuspecFile>
+  </PropertyGroup>
+
+   <PropertyGroup>
+    <NoWarn>CSE0003;CC0038;IDE0008;CC0035;CC0045</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,17 +14,17 @@ namespace AwesomeChatBot
         /// <summary>
         /// The Api Wrapper to use to communicate with the API / Chat network
         /// </summary>
-        public IReadOnlyList<ApiWrapper.ApiWrapper> ApiWrappers { get; private set; }
+        public IReadOnlyList<ApiWrapper.ApiWrapper> ApiWrappers { get; }
 
         /// <summary>
         /// Holds the reference to the command factory
         /// </summary>
-        protected CommandFactory CommandFactory { get; set; }
+        protected CommandFactory CommandFactory { get; }
 
         /// <summary>
         /// A reference to the logger
         /// </summary>
-        public ILoggerFactory LoggerFactory { get; set; }
+        public ILoggerFactory LoggerFactory { get; }
 
         /// <summary>
         /// The settings of this Framework
@@ -34,7 +34,7 @@ namespace AwesomeChatBot
         /// <summary>
         /// The config store used to access the config of this bot
         /// </summary>
-        public Config.ConfigStore ConfigStore { get; set; }
+        public Config.ConfigStore ConfigStore { get; }
 
         /// <summary>
         ///
@@ -50,16 +50,16 @@ namespace AwesomeChatBot
             if (settings == null)
                 throw new ArgumentNullException("No settings provided to AwesomeChatBot");
 
-            #endregion
+            #endregion PRECONDITIONS
 
             ConfigStore = new Config.ConfigStore(settings.ConfigFolderPath, loggerFactory);
             Settings = settings;
 
             var wrappersList = wrappers.ToList();
             ApiWrappers = wrappersList;
-            wrappersList.ForEach(x => x.Initialize(this.ConfigStore));
+            wrappersList.ForEach(x => x.Initialize(ConfigStore));
 
-            CommandFactory = new CommandFactory(this, this.ConfigStore);
+            CommandFactory = new CommandFactory(this, ConfigStore);
             LoggerFactory = loggerFactory;
 
             // Setup Api events

@@ -15,14 +15,14 @@ namespace AwesomeChatBot.Config
         /// <summary>
         /// Path to the folder containing all the config files
         /// </summary>
-        public string ConfigFolder { get; set; }
+        public string ConfigFolder { get; }
 
         /// <summary>
         /// Internal list of all config files
         /// </summary>
-        private List<ConfigFile> ConfigFiles { get; set; } = new List<ConfigFile>();
+        private List<ConfigFile> ConfigFiles { get; } = new List<ConfigFile>();
 
-        private ILoggerFactory LoggerFactory { get; set; }
+        private ILoggerFactory LoggerFactory { get; }
 
         /// <summary>
         ///
@@ -45,8 +45,11 @@ namespace AwesomeChatBot.Config
         /// <summary>
         /// Gets a value from the config store. Returns default value if config value not defined
         /// </summary>
+        /// <param name="key">The key of the configuration value to get</param>
+        /// <param name="defaultValue">The default value to return, if configuration key is not present</param>
+        /// <param name="dependencies">The dependencies of the configuration value</param>
         /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <returns>The value of the requested config</returns>
         public T GetConfigValue<T>(string key, T defaultValue = default(T), params IConfigurationDependency[] dependencies) where T : IConvertible
         {
             var fileName = GetFileNameFromDependencies(dependencies);
@@ -64,7 +67,7 @@ namespace AwesomeChatBot.Config
                 var curSection = configFile.Sections.FirstOrDefault(x => x.Id == dependenciesOrdered[0].ConfigId);
 
                 // Find the config entry section
-                foreach (var dependency in dependenciesOrdered)
+                foreach (var dependency in dependenciesOrdered.Skip(1))
                 {
                     // Ignore null entries
                     if (dependency == null)
@@ -82,7 +85,9 @@ namespace AwesomeChatBot.Config
 
                 var configEntry = curSection.Config.FirstOrDefault(x => x.Key == key);
                 if (configEntry == null)
+                {
                     configNotFound = true;
+                }
                 else
                 {
                     return (T)Convert.ChangeType(configEntry.Value, typeof(T));
@@ -129,9 +134,7 @@ namespace AwesomeChatBot.Config
                 curSection = curSection.SubSections.FirstOrDefault(x => x.Id == dependency.ConfigId);
             }
 
-            var configEntries = curSection.Config;
-
-            return configEntries;
+            return curSection.Config;
         }
 
         /// <summary>
@@ -211,15 +214,12 @@ namespace AwesomeChatBot.Config
         /// <summary>
         /// Determines wether a command is active in the given context
         /// </summary>
-        /// <param name="server"></param>
-        /// <param name="channel"></param>
         /// <param name="command"></param>
         /// <returns></returns>
         public bool IsCommandActive(Commands.Command command, bool enabledByDefault, params IConfigurationDependency[] dependencies)
         {
             // get "enabled" setting for the command in the given context, using "false" by default
-            var isActive = GetConfigValue($"Command-{command.Name}-Enabled", enabledByDefault, dependencies);
-            return isActive;
+            return GetConfigValue($"Command-{command.Name}-Enabled", enabledByDefault, dependencies);
         }
 
         /// <summary>
@@ -255,9 +255,7 @@ namespace AwesomeChatBot.Config
             if (!Directory.Exists(ConfigFolder))
                 Directory.CreateDirectory(ConfigFolder);
 
-            var jsonFiles = Directory.GetFiles(ConfigFolder, "*.json");
-
-            foreach (var jsonFile in jsonFiles)
+            foreach (var jsonFile in Directory.GetFiles(ConfigFolder, "*.json"))
             {
                 var parsedConfigFile = JsonConvert.DeserializeObject<ConfigFile>(File.ReadAllText(jsonFile));
                 parsedConfigFile.Name = Path.GetFileNameWithoutExtension(jsonFile);
@@ -280,7 +278,7 @@ namespace AwesomeChatBot.Config
         /// Gets the file name where the configuration for the given dependencies is stored in
         /// </summary>
         /// <param name="dependencies"></param>
-        private string GetFileNameFromDependencies(params IConfigurationDependency[] dependencies)
+        private static string GetFileNameFromDependencies(params IConfigurationDependency[] dependencies)
         {
             if (dependencies == null || dependencies.Length == 0)
             {
