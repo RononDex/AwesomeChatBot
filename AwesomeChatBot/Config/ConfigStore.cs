@@ -54,7 +54,7 @@ namespace AwesomeChatBot.Config
         {
             var fileName = GetFileNameFromDependencies(dependencies);
             var configNotFound = false;
-            var configFile = ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
+            var configFile = ConfigFiles.Find(x => string.Equals(x.Name, fileName, StringComparison.CurrentCultureIgnoreCase));
 
             // if config file does not exist or is empty
             // return default value for the requested type (means config value is not set)
@@ -64,14 +64,16 @@ namespace AwesomeChatBot.Config
             if (!configNotFound)
             {
                 var dependenciesOrdered = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).ToList();
-                var curSection = configFile.Sections.FirstOrDefault(x => x.Id == dependenciesOrdered[0].ConfigId);
+                var curSection = configFile.Sections.Find(x => x.Id == dependenciesOrdered[0].ConfigId);
 
                 // Find the config entry section
                 foreach (var dependency in dependenciesOrdered.Skip(1))
                 {
                     // Ignore null entries
                     if (dependency == null)
+                    {
                         continue;
+                    }
 
                     // If section was not found, return default value (config value not set)
                     if (curSection == null)
@@ -80,10 +82,10 @@ namespace AwesomeChatBot.Config
                         return defaultValue;
                     }
 
-                    curSection = curSection.SubSections.FirstOrDefault(x => x.Id == dependency.ConfigId);
+                    curSection = curSection.SubSections.Find(x => x.Id == dependency.ConfigId);
                 }
 
-                var configEntry = curSection.Config.FirstOrDefault(x => x.Key == key);
+                var configEntry = curSection.Config.Find(x => x.Key == key);
                 if (configEntry == null)
                 {
                     configNotFound = true;
@@ -99,6 +101,71 @@ namespace AwesomeChatBot.Config
         }
 
         /// <summary>
+        /// Gets the configuration value
+        /// </summary>
+        /// <param name="key">The key of the configuration value</param>
+        /// <param name="dependencies">Dependencies of the configuration value</param>
+        /// <typeparam name="T">Type of the setting</typeparam>
+        /// <returns>Configuration value if found, or NULL else</returns>
+        public T GetConfigValue<T>(string key, params IConfigurationDependency[] dependencies) where T : IConvertible
+        {
+            return GetConfigValue<T>(key, default(T), dependencies);
+        }
+
+        /// <summary>
+        /// Checks whether a given setting is defined
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="dependencies"></param>
+        /// <returns></returns>
+        public bool DoesConfigEntryWithKeyExist(string key, params IConfigurationDependency[] dependencies)
+        {
+            var fileName = GetFileNameFromDependencies(dependencies);
+
+            // Get file, create it if it doesnt exist yet
+            var configFile = ConfigFiles.Find(x => string.Equals(x.Name, fileName, StringComparison.CurrentCultureIgnoreCase));
+            if (configFile == null)
+            {
+                return false;
+            }
+
+            var section = GetConfigSectionOrNull(configFile, dependencies);
+            if (section == null)
+            {
+                return false;
+            }
+
+            return section.Config.Any(x => x.Key == key);
+        }
+
+        /// <summary>
+        /// Removes a given config entry
+        /// </summary>
+        /// <param name="key">The key of the configuration to remove</param>
+        /// <param name="dependencies"></param>
+        public void DeleteConfigEntry(string key, params IConfigurationDependency[] dependencies)
+        {
+            var fileName = GetFileNameFromDependencies(dependencies);
+
+            // Get file, create it if it doesnt exist yet
+            var configFile = ConfigFiles.Find(x => string.Equals(x.Name, fileName, StringComparison.CurrentCultureIgnoreCase));
+
+            if (configFile == null)
+            {
+                return;
+            }
+
+            var section = GetConfigSectionOrNull(configFile, dependencies);
+            if (section == null)
+            {
+                return;
+            }
+
+            section.Config.RemoveAll(x => x.Key == key);
+            SaveConfigFile(configFile);
+        }
+
+        /// <summary>
         /// Gets a list of all currently set config values for given dependencies
         /// </summary>
         /// <param name="dependencies"></param>
@@ -108,33 +175,44 @@ namespace AwesomeChatBot.Config
         {
             var fileName = GetFileNameFromDependencies(dependencies);
 
-            var configFile = ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
+            var configFile = ConfigFiles.Find(x => string.Equals(x.Name, fileName, StringComparison.CurrentCultureIgnoreCase));
 
             // if config file does not exist or is empty
             // return default value for the requested type (means config value is not set)
             if (configFile == null || configFile.Sections == null || configFile.Sections.Count == 0)
+            {
                 return new List<ConfigValue>();
+            }
 
+            var curSection = GetConfigSectionOrNull(configFile, dependencies);
+
+            return curSection != null ? curSection.Config : new List<ConfigValue>();
+        }
+
+        private static ConfigSection GetConfigSectionOrNull(ConfigFile configFile, params IConfigurationDependency[] dependencies)
+        {
             var dependenciesOrdered = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).ToList();
-            var curSection = configFile.Sections.FirstOrDefault(x => x.Id == dependenciesOrdered.First().ConfigId);
+            var curSection = configFile.Sections.Find(x => x.Id == dependenciesOrdered.First().ConfigId);
 
             // Find the config entry section
             foreach (var dependency in dependenciesOrdered.Skip(1))
             {
                 // Ignore null entries
                 if (dependency == null)
+                {
                     continue;
+                }
 
                 // If section was not found, return default value (config value not set)
                 if (curSection == null)
                 {
-                    return new List<ConfigValue>();
+                    return null;
                 }
 
-                curSection = curSection.SubSections.FirstOrDefault(x => x.Id == dependency.ConfigId);
+                curSection = curSection.SubSections.Find(x => x.Id == dependency.ConfigId);
             }
 
-            return curSection.Config;
+            return curSection;
         }
 
         /// <summary>
@@ -149,7 +227,7 @@ namespace AwesomeChatBot.Config
             var fileName = GetFileNameFromDependencies(dependencies);
 
             // Get file, create it if it doesnt exist yet
-            var configFile = ConfigFiles.FirstOrDefault(x => x.Name.ToLower() == fileName.ToLower());
+            var configFile = ConfigFiles.Find(x => string.Equals(x.Name, fileName, StringComparison.CurrentCultureIgnoreCase));
             if (configFile == null)
             {
                 configFile = new ConfigFile
@@ -168,9 +246,13 @@ namespace AwesomeChatBot.Config
             {
                 ConfigSection section = null;
                 if (curParentSection == null)
-                    section = configFile.Sections.FirstOrDefault(x => x.Id == dependency.ConfigId);
+                {
+                    section = configFile.Sections.Find(x => x.Id == dependency.ConfigId);
+                }
                 else
-                    section = curParentSection.SubSections.FirstOrDefault(x => x.Id == dependency.ConfigId);
+                {
+                    section = curParentSection.SubSections.Find(x => x.Id == dependency.ConfigId);
+                }
 
                 // Create section if it doesnt exist yet
                 if (section == null)
@@ -191,7 +273,7 @@ namespace AwesomeChatBot.Config
                 curParentSection = section;
 
                 // Save the config value
-                var configEntry = curParentSection.Config.FirstOrDefault(x => x.Key == key);
+                var configEntry = curParentSection.Config.Find(x => x.Key == key);
                 if (configEntry == null)
                 {
                     configEntry = new ConfigValue
