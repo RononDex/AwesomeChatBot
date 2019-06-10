@@ -11,7 +11,7 @@ namespace AwesomeChatBot
         /// </summary>
         private void SetupEvents()
         {
-            var wrapperList = this.ApiWrappers.ToList();
+            var wrapperList = ApiWrappers.ToList();
             wrapperList.ForEach(x => x.MessageReceived += OnMessageReceived);
             wrapperList.ForEach(x => x.ServerAvailable += OnServerAvailable);
             wrapperList.ForEach(x => x.NewUserJoinedServer += OnNewUserJoinedServer);
@@ -21,8 +21,7 @@ namespace AwesomeChatBot
         /// <summary>
         /// The delegate to use when a message is received
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="server"></param>
+        /// <param name="receivedMessage"></param>
         public delegate void OnMessageReceivedDelegate(ReceivedMessage receivedMessage);
 
         /// <summary>
@@ -36,7 +35,7 @@ namespace AwesomeChatBot
         /// <param name="receivedMessage"></param>
         protected virtual void OnMessageReceived(ReceivedMessage receivedMessage)
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogDebug($"Message received: {receivedMessage.Content})");
+            LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Message received: {receivedMessage.Content})");
             CommandFactory.HandleMessage(receivedMessage);
             MessageReceived?.Invoke(receivedMessage);
         }
@@ -44,7 +43,6 @@ namespace AwesomeChatBot
         /// <summary>
         /// The delegate when a server becomes unavailable
         /// </summary>
-        /// <param name="user"></param>
         /// <param name="server"></param>
         public delegate void OnServerAvailableDelegate(Server server);
 
@@ -66,7 +64,6 @@ namespace AwesomeChatBot
         /// <summary>
         /// The delegate when a server becomes unavailable
         /// </summary>
-        /// <param name="user"></param>
         /// <param name="server"></param>
         public delegate void OnServerUnavailableDelegate(Server server);
 
@@ -81,7 +78,7 @@ namespace AwesomeChatBot
         /// <param name="server"></param>
         protected virtual void OnServerUnavailable(Server server)
         {
-            LoggerFactory.CreateLogger(this.GetType().FullName).LogInformation($"Server now unavailable: {server.ServerName} ({server.ServerID})");
+            LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Server now unavailable: {server.ServerName} ({server.ServerID})");
             ServerUnavailable?.Invoke(server);
         }
 
@@ -100,6 +97,7 @@ namespace AwesomeChatBot
         /// <summary>
         /// When a server becomes unavailable (disconnected)
         /// </summary>
+        /// <param name="user"></param>
         /// <param name="server"></param>
         private void OnNewUserJoinedServer(User user, Server server)
         {

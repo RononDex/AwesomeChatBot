@@ -29,7 +29,7 @@ namespace AwesomeChatBot
         /// <summary>
         /// The settings of this Framework
         /// </summary>
-        public AwesomeChatBotSettings Settings { get; private set; }
+        public AwesomeChatBotSettings Settings { get; }
 
         /// <summary>
         /// The config store used to access the config of this bot
