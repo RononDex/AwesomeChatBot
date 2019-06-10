@@ -5,7 +5,7 @@
     <id>AwesomeChatBot</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.2.1</version>
+    <version>1.3.0</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -34,7 +34,13 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
 
     <!-- Any details about this particular release -->
-    <releaseNotes>Implemented proper exception handling, refactoring</releaseNotes>
+    <releaseNotes>
+      - Many many bugfixes
+      - ConfigStore now works properly
+      - Implemented some more events (UserJoined, ServerAvailable, ...)
+      - Code clean up
+      - Support for multiple wrappers per instance
+    </releaseNotes>
 
     <!--
             The description can be used in package manager UI. Note that the
@@ -44,7 +50,7 @@
       A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
       Allows you to define commands for a chatbot that will work with every chat app (be it Discord, slack, ...).
 
-      Will need an api wrapper per chat app that you intend to use (for example AwesomeChatBot.Discord)
+      Will need an api wrapper per chat app that you intend to use (for example see package AwesomeChatBot.Discord)
 
       See project website for further docuemntation.
     </description>

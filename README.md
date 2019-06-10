@@ -29,7 +29,7 @@ The most important parts for the chat bot developer are
  Here some quick code to initialize the framework:
  ```csharp
 var discordWrapper = new DiscordWrapper(discordToken, loggerFactory);
-var chatbotFramework = new AwesomeChatBot.AwesomeChatBot(discordWrapper, loggerFactory, chatbotSettings);
+var chatbotFramework = new AwesomeChatBot.AwesomeChatBot(new List<ApiWrapper> { discordWrapper }, loggerFactory, chatbotSettings);
 ```
 
 This code initializes the framework using the discord API wrapper. `loggerFactory` is the factory used to create loggers, this allows you to use your logging framework of choice (loggerFactory is of type ILoggerFactory from the Microsoft.Extensions.Logging nuget package).
