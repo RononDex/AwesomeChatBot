@@ -11,12 +11,12 @@ namespace AwesomeChatBot.ApiWrapper
         protected ApiWrapper ApiWrapper { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="wrapper"></param>
-        public Server(ApiWrapper wrapper)
+        protected Server(ApiWrapper wrapper)
         {
-            this.ApiWrapper = wrapper;
+            ApiWrapper = wrapper;
         }
 
         /// <summary>
