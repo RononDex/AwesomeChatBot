@@ -56,5 +56,17 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         /// <returns></returns>
         public abstract string GetMention();
+
+        /// <summary>
+        /// Adds the role with the given name to the user
+        /// </summary>
+        /// <param name="roleName">the name of the role to add</param>
+        public abstract AddRole(string roleName);
+
+        /// <summary>
+        /// Removes the role with the given name from the user
+        /// </summary>
+        /// <param name="roleName">the name of the role to remove</param>
+        public abstract RemoveRole(string roleName);
     }
 }
