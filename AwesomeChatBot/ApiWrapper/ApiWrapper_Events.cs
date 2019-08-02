@@ -76,5 +76,26 @@ namespace AwesomeChatBot.ApiWrapper
         {
             this.NewUserJoinedServer(user, server);
         }
+
+        /// <summary>
+        /// The delegate used for when the bot joins a new server
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="server"></param>
+        public delegate void OnJoinedNewServerDelegate(Server server);
+
+        /// <summary>
+        /// When a new user joins a server
+        /// </summary>
+        public event OnJoinedNewServerDelegate JoinedNewServer;
+
+        /// <summary>
+        /// Raises the "JoinedNewServer" event
+        /// </summary>
+        /// <param name="server">The server which the bot joined</param>
+        protected virtual void OnJoinedNewServer(Server server)
+        {
+            this.JoinedNewServer(server);
+        }
     }
 }
