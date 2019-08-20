@@ -87,7 +87,6 @@ namespace AwesomeChatBot
         /// Registers the given handler with the command factory
         /// </summary>
         /// <param name="handler"></param>
-        /// <returns></returns>
         public void RegisterCommandHandler(CommandHandler handler)
         {
             _ = CommandFactory.RegisterHandler(handler);

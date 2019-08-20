@@ -2,7 +2,6 @@ namespace AwesomeChatBot.ApiWrapper
 {
     public partial class ApiWrapper
     {
-
         /// <summary>
         /// Event that gets raised when a message is received
         /// </summary>
@@ -96,6 +95,46 @@ namespace AwesomeChatBot.ApiWrapper
         protected virtual void OnJoinedNewServer(Server server)
         {
             this.JoinedNewServer(server);
+        }
+
+        /// <summary>
+        /// Delegate for the Connected event
+        /// </summary>
+        /// <param name="wrapper">The wrapper instance that connected to the API</param>
+        public delegate void OnConnectedDelegate(ApiWrapper wrapper);
+
+        /// <summary>
+        /// When the wrapper connects to its API
+        /// </summary>
+        public event OnConnectedDelegate Connected;
+
+        /// <summary>
+        /// Raises the "Connected" event
+        /// </summary>
+        /// <param name="wrapper">The wrapper instance that connected to the API</param>
+        protected virtual void OnConnected(ApiWrapper wrapper)
+        {
+            this.Connected(wrapper);
+        }
+
+        /// <summary>
+        /// Delegate for the disconnected event
+        /// </summary>
+        /// <param name="wrapper">The wrapper instance that connected to the API</param>
+        public delegate void OnDisconnectedDelegate(ApiWrapper wrapper);
+
+        /// <summary>
+        /// When the wrapper connects to its API
+        /// </summary>
+        public event OnDisconnectedDelegate Disconnected;
+
+        /// <summary>
+        /// Raises the "Connected" event
+        /// </summary>
+        /// <param name="wrapper">The wrapper instance that connected to the API</param>
+        protected virtual void OnDisconnected(ApiWrapper wrapper)
+        {
+            this.Disconnected(wrapper);
         }
     }
 }

@@ -29,6 +29,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Initializes the Wrapper (login into API, ...)
         /// </summary>
+        /// <param name="configStore">The configuration store used for the bot instance</param>
         public virtual void Initialize(ConfigStore configStore)
         {
             #region PRECONDITIONS
@@ -44,7 +45,6 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Gets a list of available servers
         /// </summary>
-        /// <returns></returns>
-        public abstract List<Server> GetAvailableServers();
+        public abstract IList<Server> GetAvailableServers();
     }
 }

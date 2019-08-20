@@ -16,6 +16,8 @@ namespace AwesomeChatBot
             wrapperList.ForEach(x => x.ServerAvailable += OnServerAvailable);
             wrapperList.ForEach(x => x.NewUserJoinedServer += OnNewUserJoinedServer);
             wrapperList.ForEach(x => x.ServerUnavailable += OnServerUnavailable);
+            wrapperList.ForEach(x => x.Connected += OnWrapperConnected);
+            wrapperList.ForEach(x => x.Disconnected += OnWrapperDisconnected);
         }
 
         /// <summary>
@@ -105,6 +107,52 @@ namespace AwesomeChatBot
                 .CreateLogger(GetType().FullName)
                 .LogInformation($"{nameof(NewUserJoinedServer)}: User: {user.UniqueUserName} Server: ({server.ServerName})");
             NewUserJoinedServer?.Invoke(user, server);
+        }
+
+        /// <summary>
+        /// Delegate for the OnConnected event
+        /// </summary>
+        /// <param name="wrapper">The wrapper that has connected</param>
+        public delegate void OnConnected(ApiWrapper.ApiWrapper wrapper);
+
+        /// <summary>
+        /// When a new user joins a server
+        /// </summary>
+        public event OnConnected Connected;
+
+        /// <summary>
+        /// When the wrapper / bot has connected to an API
+        /// </summary>
+        /// <param name="wrapper">The wrapper that has connected to the API</param>
+        private void OnWrapperConnected(ApiWrapper.ApiWrapper wrapper)
+        {
+            LoggerFactory
+                .CreateLogger(GetType().FullName)
+                .LogInformation($"{nameof(OnWrapperConnected)}: Wrapper: {wrapper.Name}");
+            Connected?.Invoke(wrapper);
+        }
+
+        /// <summary>
+        /// Delegate for the OnDisconnected event
+        /// </summary>
+        /// <param name="wrapper">The wrapper that has disconnected</param>
+        public delegate void OnDisconnected(ApiWrapper.ApiWrapper wrapper);
+
+        /// <summary>
+        /// When a new user joins a server
+        /// </summary>
+        public event OnDisconnected Disconnected;
+
+        /// <summary>
+        /// When the wrapper / bot has connected to an API
+        /// </summary>
+        /// <param name="wrapper">The wrapper that has connected to the API</param>
+        private void OnWrapperDisconnected(ApiWrapper.ApiWrapper wrapper)
+        {
+            LoggerFactory
+                .CreateLogger(GetType().FullName)
+                .LogInformation($"{nameof(OnWrapperDisconnected)}: Wrapper: {wrapper.Name}");
+            Disconnected?.Invoke(wrapper);
         }
     }
 }
