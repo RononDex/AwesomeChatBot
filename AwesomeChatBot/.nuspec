@@ -5,7 +5,7 @@
     <id>AwesomeChatBot</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.3.2</version>
+    <version>1.4.0</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -35,7 +35,10 @@
 
     <!-- Any details about this particular release -->
     <releaseNotes>
-      - Bugfixes
+      - Several Bugfixes and code cleanups
+      - Added "AddRole()" and "RemoveRole()" methods on users
+      - Added "Connected" and "Disconnected" events on the ApiWrappers
+      - Added new event "JoinedServer", gets raised when the bot gets invited / joins a new server
     </releaseNotes>
 
     <!--
@@ -58,7 +61,7 @@
     <dependencies>
       <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.2.0" />
       <dependency id="Microsoft.Extensions.Logging" version="2.2.0" />
-      <dependency id="Newtonsoft.Json" version="12.0.1" />
+      <dependency id="Newtonsoft.Json" version="12.0.2" />
     </dependencies>
   </metadata>
 
