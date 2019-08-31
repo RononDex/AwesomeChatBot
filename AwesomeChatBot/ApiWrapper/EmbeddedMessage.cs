@@ -16,5 +16,10 @@ namespace AwesomeChatBot.ApiWrapper
         /// Fields to display in the embedded message
         /// </summary>
         public IList<EmbeddedMessageField> Fields { get; } = new List<EmbeddedMessageField>();
+
+        /// <summary>
+        /// Url to the thumbnail
+        /// </summary>
+        public string ThumbnailUrl { get; set; }
     }
 }
