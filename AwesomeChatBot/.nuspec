@@ -5,7 +5,7 @@
     <id>AwesomeChatBot</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.4.0</version>
+    <version>1.5.0</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -35,10 +35,7 @@
 
     <!-- Any details about this particular release -->
     <releaseNotes>
-      - Several Bugfixes and code cleanups
-      - Added "AddRole()" and "RemoveRole()" methods on users
-      - Added "Connected" and "Disconnected" events on the ApiWrappers
-      - Added new event "JoinedServer", gets raised when the bot gets invited / joins a new server
+      - Added support for embedded messages
     </releaseNotes>
 
     <!--
