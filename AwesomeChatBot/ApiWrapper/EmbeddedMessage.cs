@@ -21,5 +21,11 @@ namespace AwesomeChatBot.ApiWrapper
         /// Url to the thumbnail
         /// </summary>
         public string ThumbnailUrl { get; set; }
+
+        /// <summary>
+        /// The descrption of the embedded message
+        /// </summary>
+        /// <value></value>
+        public string Description { get; set; }
     }
 }

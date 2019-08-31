@@ -8,11 +8,6 @@ namespace AwesomeChatBot.Commands.Handlers
 {
     public class RegexCommandHandler : CommandHandler
     {
-        public RegexCommandHandler() : base()
-        {
-            // Nothing to do here
-        }
-
         public override string Name => "RegexHandler";
 
         public override Type CommandType => typeof(IRegexCommand);
@@ -22,7 +17,7 @@ namespace AwesomeChatBot.Commands.Handlers
         /// </summary>
         /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
-        /// <returns></returns>
+        /// <param name="parameters"></param>
         public override Task<bool> ExecuteCommand(ReceivedMessage receivedMessage, Command command, object parameters)
         {
             #region PRECONDITIONS
