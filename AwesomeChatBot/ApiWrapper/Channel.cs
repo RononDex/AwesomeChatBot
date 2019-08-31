@@ -13,7 +13,7 @@ namespace AwesomeChatBot.ApiWrapper
         ///
         /// </summary>
         /// <param name="wrapper"></param>
-        public Channel(ApiWrapper wrapper)
+        protected Channel(ApiWrapper wrapper)
         {
             this.ApiWrapper = wrapper;
         }
@@ -64,7 +64,16 @@ namespace AwesomeChatBot.ApiWrapper
         /// <returns></returns>
         public Task SendMessageAsync(string message)
         {
-            return this.SendMessageAsync(new SendMessage(message));
+            return SendMessageAsync(new SendMessage(message));
+        }
+
+        /// <summary>
+        /// Send an embedded message
+        /// </summary>
+        /// <param name="embeddedMessage">The embedded message to send</param>
+        public Task SendMessageAsync(EmbeddedMessage embeddedMessage)
+        {
+            return SendMessageAsync(new SendMessage(embeddedMessage));
         }
 
         /// <summary>

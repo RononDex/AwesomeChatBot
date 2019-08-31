@@ -8,11 +8,6 @@ namespace AwesomeChatBot.Commands.Handlers
 {
     public class RegexCommandHandler : CommandHandler
     {
-        public RegexCommandHandler() : base()
-        {
-            // Nothing to do here
-        }
-
         public override string Name => "RegexHandler";
 
         public override Type CommandType => typeof(IRegexCommand);
@@ -22,7 +17,7 @@ namespace AwesomeChatBot.Commands.Handlers
         /// </summary>
         /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
-        /// <returns></returns>
+        /// <param name="parameters"></param>
         public override Task<bool> ExecuteCommand(ReceivedMessage receivedMessage, Command command, object parameters)
         {
             #region PRECONDITIONS
@@ -34,8 +29,8 @@ namespace AwesomeChatBot.Commands.Handlers
 
             #endregion
 
-
-            return (command as IRegexCommand).ExecuteRegexCommand(receivedMessage, parameters as Match);
+            var task = (command as IRegexCommand)?.ExecuteRegexCommand(receivedMessage, parameters as Match);
+            return task;
         }
 
         /// <summary>
@@ -43,7 +38,6 @@ namespace AwesomeChatBot.Commands.Handlers
         /// </summary>
         /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
-        /// <returns></returns>
         public override (bool shouldExecute, object parameter) ShouldExecute(ReceivedMessage receivedMessage, Command command)
         {
             if (!(command is IRegexCommand regexCommand))
