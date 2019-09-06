@@ -38,7 +38,7 @@ namespace AwesomeChatBot
         protected virtual void OnMessageReceived(ReceivedMessage receivedMessage)
         {
             LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Message received: {receivedMessage.Content})");
-            CommandFactory.HandleMessage(receivedMessage);
+            CommandFactory.HandleMessageAsync(receivedMessage);
             MessageReceived?.Invoke(receivedMessage);
         }
 
