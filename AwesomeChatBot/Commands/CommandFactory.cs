@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace AwesomeChatBot.Commands
@@ -56,7 +57,7 @@ namespace AwesomeChatBot.Commands
         /// </summary>
         /// <param name="receivedMessage"></param>
         /// <returns></returns>
-        public async void HandleMessage(ApiWrapper.ReceivedMessage receivedMessage)
+        public async Task HandleMessageAsync(ApiWrapper.ReceivedMessage receivedMessage)
         {
             try
             {
@@ -74,9 +75,7 @@ namespace AwesomeChatBot.Commands
                         if (!shouldExecute.shouldExecute)
                             continue;
 
-                        var commandResult = await handler.ExecuteCommand(receivedMessage, command, shouldExecute.parameter);
-                        if (commandResult)
-                            return;
+                        var commandResult = handler.ExecuteCommand(receivedMessage, command, shouldExecute.parameter);
                     }
                 }
             }
