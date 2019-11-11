@@ -35,6 +35,12 @@ namespace AwesomeChatBot.ApiWrapper
         public abstract bool IsAdmin { get; }
 
         /// <summary>
+        /// Get a string to mention this role
+        /// </summary>
+        /// <value></value>
+        public abstract string GetMention();
+
+        /// <summary>
         /// Id in config files
         /// </summary>
         /// <value></value>

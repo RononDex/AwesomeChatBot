@@ -57,6 +57,12 @@ namespace AwesomeChatBot.ApiWrapper
         /// Gets a list of all to the bot available channels
         /// </summary>
         /// <returns></returns>
-        public abstract Task<List<Channel>> GetAllChannelsAsync();
+        public abstract Task<IList<Channel>> GetAllChannelsAsync();
+
+        /// <summary>
+        /// Gets a list of available user roles on the server
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task<IList<UserRole>> GetAvailableUserRolesAsync();
     }
 }
