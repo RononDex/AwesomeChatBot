@@ -5,7 +5,7 @@
     <id>AwesomeChatBot</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.5.2</version>
+    <version>1.5.3</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -35,7 +35,8 @@
 
     <!-- Any details about this particular release -->
     <releaseNotes>
-      - Fix some async execution of messages
+	    - Add GetUserRoles() on server object
+	    - Add GetMention() to UserRole
     </releaseNotes>
 
     <!--
