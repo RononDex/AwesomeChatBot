@@ -1,4 +1,5 @@
 # AwesomeChatBot
+Master Status: ![.NET Core](https://github.com/RononDex/AwesomeChatBot/workflows/.NET%20Core/badge.svg)
 
 Nuget package: https://www.nuget.org/packages/AwesomeChatBot/
 
