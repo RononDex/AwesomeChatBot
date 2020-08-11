@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Install dependencies
-      run: dotnet restore ./AwesomeChatBox/AwesomeChatBot.csproj
+      run: dotnet restore ./AwesomeChatBot/AwesomeChatBot.csproj
     - name: Build
-      run: dotnet build ./AwesomeChatBox/AwesomeChatBot.csproj --configuration Release --no-restore
+      run: dotnet build ./AwesomeChatBot/AwesomeChatBot.csproj --configuration Release --no-restore
     - name: Test
-      run: dotnet test ./AwesomeChatBox/AwesomeChatBot.csproj --no-restore --verbosity normal
+      run: dotnet test ./AwesomeChatBot/AwesomeChatBot.csproj --no-restore --verbosity normal
