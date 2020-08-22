@@ -36,6 +36,8 @@
     <!-- Any details about this particular release -->
     <releaseNotes>
     - Upgrade to netstandard2.1
+	    - Add GetUserRoles() on server object
+	    - Add GetMention() to UserRole
     </releaseNotes>
 
     <!--
