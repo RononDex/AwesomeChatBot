@@ -1,5 +1,5 @@
 # AwesomeChatBot
-![.NET Core](https://github.com/RononDex/AwesomeChatBot/workflows/.NET%20Core/badge.svg)
+![.NET Core](https://github.com/RononDex/AwesomeChatBot/workflows/.NET%20Core/badge.svg)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Nuget package: https://www.nuget.org/packages/AwesomeChatBot/
 
