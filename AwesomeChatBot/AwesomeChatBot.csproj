@@ -4,7 +4,6 @@
         <Authors>RononDex</Authors>
         <Company />
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <FileVersion>1.6.0.0</FileVersion>
         <Version>1.6.0</Version>
     </PropertyGroup>
