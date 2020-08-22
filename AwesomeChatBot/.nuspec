@@ -27,12 +27,6 @@
     <!-- The icon is used in Visual Studio's package manager UI -->
     <!--<iconUrl>http://github.com/contoso/UsefulStuff/nuget_icon.png</iconUrl>-->
 
-    <!--
-            If true, this value prompts the user to accept the license when
-            installing the package.
-        -->
-    <requireLicenseAcceptance>true</requireLicenseAcceptance>
-
     <!-- Any details about this particular release -->
     <releaseNotes>
     - Upgrade to netstandard2.1
