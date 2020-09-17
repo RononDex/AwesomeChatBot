@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace AwesomeChatBot.Config
 {
@@ -63,6 +63,11 @@ namespace AwesomeChatBot.Config
 
             if (!configNotFound)
             {
+                if (dependencies == null || dependencies.Length == 0)
+                {
+                    return GetConfigValue<T>(configFile.Sections.First(), key, defaultValue);
+                }
+
                 var dependenciesOrdered = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).ToList();
                 var curSection = configFile.Sections.Find(x => x.Id == dependenciesOrdered[0].ConfigId);
 
@@ -83,21 +88,25 @@ namespace AwesomeChatBot.Config
                     }
 
                     curSection = curSection.SubSections.Find(x => x.Id == dependency.ConfigId);
-                }
-
-                var configEntry = curSection.Config.Find(x => x.Key == key);
-                if (configEntry == null)
-                {
-                    configNotFound = true;
-                }
-                else
-                {
-                    return (T)Convert.ChangeType(configEntry.Value, typeof(T));
+                    return GetConfigValue<T>(curSection, key, defaultValue);
                 }
             }
 
             // If section was not found, return default value (config value not set)
             return defaultValue;
+        }
+
+        private static T GetConfigValue<T>(ConfigSection section, string key, T defaultValue) where T : IConvertible
+        {
+            var configEntry = section.Config.Find(x => x.Key == key);
+            if (configEntry == null)
+            {
+                return defaultValue;
+            }
+            else
+            {
+                return (T)Convert.ChangeType(configEntry.Value, typeof(T));
+            }
         }
 
         /// <summary>
@@ -191,6 +200,11 @@ namespace AwesomeChatBot.Config
 
         private static ConfigSection GetConfigSectionOrNull(ConfigFile configFile, params IConfigurationDependency[] dependencies)
         {
+            if (dependencies == null || dependencies.Length == 0)
+            {
+                return configFile.Sections.First();
+            }
+
             var dependenciesOrdered = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).ToList();
             var curSection = configFile.Sections.Find(x => x.Id == dependenciesOrdered.First().ConfigId);
 
@@ -241,6 +255,24 @@ namespace AwesomeChatBot.Config
             var dependenciesSorted = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder);
             ConfigSection curParentSection = null;
 
+            if (dependencies == null || dependencies.Length == 0)
+            {
+                ConfigSection section = null;
+
+                if (configFile.Sections.Count == 0)
+                {
+                    section = new ConfigSection { Id = "global" };
+                    configFile.Sections.Add(section);
+                }
+                else
+                {
+                    section = configFile.Sections.First();
+                }
+
+                SetConfigValue(key, value, section);
+                SaveConfigFile(configFile);
+            }
+
             // Find the section
             foreach (var dependency in dependenciesSorted)
             {
@@ -273,24 +305,28 @@ namespace AwesomeChatBot.Config
                 curParentSection = section;
 
                 // Save the config value
-                var configEntry = curParentSection.Config.Find(x => x.Key == key);
-                if (configEntry == null)
-                {
-                    configEntry = new ConfigValue
-                    {
-                        Key = key,
-                        Value = value?.ToString()
-                    };
-                    curParentSection.Config.Add(configEntry);
-                }
-                else
-                {
-                    configEntry.Value = value?.ToString();
-                }
+                SetConfigValue(key, value, curParentSection);
             }
 
-            // Save the changed config file
             SaveConfigFile(configFile);
+        }
+
+        private static void SetConfigValue<T>(string key, T value, ConfigSection section) where T : IConvertible
+        {
+            var configEntry = section.Config.Find(x => x.Key == key);
+            if (configEntry == null)
+            {
+                configEntry = new ConfigValue
+                {
+                    Key = key,
+                    Value = value?.ToString()
+                };
+                section.Config.Add(configEntry);
+            }
+            else
+            {
+                configEntry.Value = value?.ToString();
+            }
         }
 
         /// <summary>
@@ -313,7 +349,7 @@ namespace AwesomeChatBot.Config
         public void EnableCommand(Commands.Command command, params IConfigurationDependency[] dependencies)
         {
             // Enables the command in the config file
-            SetConfigValue($"Command-{command.Name}-Enabled", true, dependencies);
+            SetConfigValue($"Command-{command.Name}-Enabled", value: true, dependencies);
         }
 
         /// <summary>
@@ -325,7 +361,7 @@ namespace AwesomeChatBot.Config
         public void DisableCommand(Commands.Command command, params IConfigurationDependency[] dependencies)
         {
             // Enables the command in the config file
-            SetConfigValue($"Command-{command.Name}-Enabled", false, dependencies);
+            SetConfigValue($"Command-{command.Name}-Enabled", value: false, dependencies);
         }
 
         /// <summary>
