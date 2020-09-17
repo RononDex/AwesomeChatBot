@@ -4,11 +4,20 @@
     <Authors>RononDex</Authors>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.6.2.0</FileVersion>
-    <Version>1.6.2</Version>
+    <FileVersion>1.6.3.0</FileVersion>
+    <Version>1.6.3</Version>
     <PackageReleaseNotes>
       - Fixed an issue that caused global settings in the ConfigStore to not be loaded and set
     </PackageReleaseNotes>
+    <PackageDescription>
+A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
+Allows you to define commands for a chatbot that will work with every chat app (be it Discord, slack, ...).
+
+Will need an api wrapper per chat app that you intend to use (for example see package AwesomeChatBot.Discord)
+
+See project website for further docuemntation.
+    </PackageDescription>
+    <PackageProjectUrl>https://github.com/RononDex/AwesomeChatBot</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup>
