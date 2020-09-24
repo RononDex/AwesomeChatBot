@@ -71,6 +71,11 @@ namespace AwesomeChatBot.Config
                 var dependenciesOrdered = dependencies.Where(x => x != null).OrderBy(x => x.ConfigOrder).ToList();
                 var curSection = configFile.Sections.Find(x => x.Id == dependenciesOrdered[0].ConfigId);
 
+                if (dependenciesOrdered.Count == 1)
+                {
+                    return GetConfigValue<T>(curSection, key, defaultValue);
+                }
+
                 // Find the config entry section
                 foreach (var dependency in dependenciesOrdered.Skip(1))
                 {
