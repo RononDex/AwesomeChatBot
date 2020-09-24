@@ -4,10 +4,10 @@
     <Authors>RononDex</Authors>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.6.3.0</FileVersion>
-    <Version>1.6.3</Version>
+    <FileVersion>1.6.4.0</FileVersion>
+    <Version>1.6.4</Version>
     <PackageReleaseNotes>
-      - Fixed an issue that caused global settings in the ConfigStore to not be loaded and set
+      - Fixed an issue with the config store, always loading default values
     </PackageReleaseNotes>
     <PackageDescription>
 A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
