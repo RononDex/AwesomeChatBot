@@ -21,23 +21,39 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Event that gets raised when a message is deleted
         /// </summary>
-        /// <param name="message"></param>
-        public delegate void OnMessageDeletedDelegate(ReceivedMessage deletedMessage);
+        /// <param name="deletedMessage"></param>
+        public delegate void OnMessageDeletedDelegate(ChatMessage deletedMessage);
 
         /// <summary>
         /// This event is used to communicate that a message was received to the framework
         /// </summary>
         public event OnMessageDeletedDelegate MessageDeleted;
 
-        protected virtual void OnMessageDeleted(ReceivedMessage message)
+        protected virtual void OnMessageDeleted(ChatMessage message)
         {
             this.MessageDeleted(message);
         }
 
         /// <summary>
+        /// The delegate to use when a reaction is added
+        /// </summary>
+        /// <param name="addedReaction"></param>
+        public delegate void OnMessageReactionAddedDelegate(Reaction addedReaction);
+
+        /// <summary>
+        /// When a reaction is added
+        /// </summary>
+        public event OnMessageReactionAddedDelegate ReactionAdded;
+
+        protected virtual void OnReactionAdded(Reaction reaction)
+        {
+            this.ReactionAdded(reaction);
+        }
+
+        /// <summary>
         /// Event that gets raised when a message is received
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="server"></param>
         public delegate void OnServerAvailableDelegate(Server server);
 
         /// <summary>

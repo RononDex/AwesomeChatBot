@@ -4,10 +4,10 @@
     <Authors>RononDex</Authors>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.6.4.0</FileVersion>
-    <Version>1.6.4</Version>
+    <FileVersion>1.7.0.0</FileVersion>
+    <Version>1.7.0</Version>
     <PackageReleaseNotes>
-      - Fixed an issue with the config store, always loading default values
+      - Added ReactionAdded and MessageDeleted events
     </PackageReleaseNotes>
     <PackageDescription>
 A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
