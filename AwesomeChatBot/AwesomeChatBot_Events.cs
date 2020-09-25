@@ -13,6 +13,8 @@ namespace AwesomeChatBot
         {
             var wrapperList = ApiWrappers.ToList();
             wrapperList.ForEach(x => x.MessageReceived += OnMessageReceived);
+            wrapperList.ForEach(x => x.MessageDeleted += OnMessageDeleted);
+            wrapperList.ForEach(x => x.ReactionAdded += OnReactionAdded);
             wrapperList.ForEach(x => x.ServerAvailable += OnServerAvailable);
             wrapperList.ForEach(x => x.NewUserJoinedServer += OnNewUserJoinedServer);
             wrapperList.ForEach(x => x.ServerUnavailable += OnServerUnavailable);
@@ -40,6 +42,47 @@ namespace AwesomeChatBot
             LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Message received: {receivedMessage.Content})");
             CommandFactory.HandleMessageAsync(receivedMessage);
             MessageReceived?.Invoke(receivedMessage);
+        }
+
+        /// <summary>
+        /// The delegate to use when a message is deleted
+        /// </summary>
+        /// <param name="deletedMessage"></param>
+        public delegate void OnMessageDeletedDelegate(ChatMessage deletedMessage);
+
+        /// <summary>
+        /// When e message is deleted
+        /// </summary>
+        public event OnMessageDeletedDelegate MessageDeleted;
+
+        /// <summary>
+        /// Will be fired when the ApiWrapper reports that a message was deleted
+        /// </summary>
+        /// <param name="deletedMessage"></param>
+        protected virtual void OnMessageDeleted(ChatMessage deletedMessage)
+        {
+            LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Message deleted: {deletedMessage.Content})");
+            MessageDeleted?.Invoke(deletedMessage);
+        }
+
+        /// <summary>
+        /// The delegate to use when a reaction is added
+        /// </summary>
+        /// <param name="addedReaction"></param>
+        public delegate void OnMessageReactionAddedDelegate(Reaction addedReaction);
+
+        /// <summary>
+        /// When a reaction is added
+        /// </summary>
+        public event OnMessageReactionAddedDelegate ReactionAdded;
+
+        /// <summary>
+        /// Will be fired when a reaction was added
+        /// </summary>
+        /// <param name="reaction"></param>
+        protected virtual void OnReactionAdded(Reaction reaction)
+        {
+            ReactionAdded?.Invoke(reaction);
         }
 
         /// <summary>
