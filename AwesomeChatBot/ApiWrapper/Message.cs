@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AwesomeChatBot.ApiWrapper
 {
@@ -30,5 +31,10 @@ namespace AwesomeChatBot.ApiWrapper
         /// Formatted text message
         /// </summary>
         public abstract string Content { get; set; }
+
+        /// <summary>
+        /// Publishes a message to subscribers, if supported
+        /// </summary>
+        public abstract Task PublishAsync();
     }
 }
