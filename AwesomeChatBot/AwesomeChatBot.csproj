@@ -4,10 +4,10 @@
     <Authors>RononDex</Authors>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.7.1.0</FileVersion>
-    <Version>1.7.1</Version>
+    <FileVersion>1.7.2.0</FileVersion>
+    <Version>1.7.2</Version>
     <PackageReleaseNotes>
-      - Added ReactionAdded and MessageDeleted events
+      - Added Publish functionality to messages
     </PackageReleaseNotes>
     <PackageDescription>
 A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
