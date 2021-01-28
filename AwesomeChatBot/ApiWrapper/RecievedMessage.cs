@@ -1,4 +1,6 @@
-﻿namespace AwesomeChatBot.ApiWrapper
+﻿using System.Threading.Tasks;
+
+namespace AwesomeChatBot.ApiWrapper
 {
     /// <summary>
     /// Represents a received message, used when receiving a message
@@ -20,5 +22,10 @@
         /// </summary>
         /// <value></value>
         public abstract bool IsBotMentioned { get; }
+
+        /// <summary>
+        /// Publishes a message to subscribers, if supported
+        /// </summary>
+        public abstract Task PublishAsync();
     }
 }
