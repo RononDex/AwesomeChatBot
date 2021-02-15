@@ -61,12 +61,12 @@ namespace AwesomeChatBot.ApiWrapper
         /// Adds the role with the given name to the user
         /// </summary>
         /// <param name="roleName">the name of the role to add</param>
-        public abstract void AddRole(string roleName);
+        public abstract Task AddRoleAsync(string roleName);
 
         /// <summary>
         /// Removes the role with the given name from the user
         /// </summary>
         /// <param name="roleName">the name of the role to remove</param>
-        public abstract void RemoveRole(string roleName);
+        public abstract Task RemoveRoleAsync(string roleName);
     }
 }

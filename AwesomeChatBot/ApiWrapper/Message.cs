@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AwesomeChatBot.ApiWrapper
 {
@@ -24,7 +25,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// A list of attachments on the message (if any)
         /// </summary>
-        public abstract List<Attachment> Attachments { get; set; }
+        public abstract Task<IList<Attachment>> Attachments { get; set; }
 
         /// <summary>
         /// Formatted text message

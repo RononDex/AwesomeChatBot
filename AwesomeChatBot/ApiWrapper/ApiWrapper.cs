@@ -45,6 +45,6 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Gets a list of available servers
         /// </summary>
-        public abstract IList<Server> GetAvailableServers();
+        public abstract Task<IList<Server>> GetAvailableServersAsync();
     }
 }

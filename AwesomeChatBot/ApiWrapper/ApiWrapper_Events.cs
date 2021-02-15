@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace AwesomeChatBot.ApiWrapper
 {
     public partial class ApiWrapper
@@ -13,9 +15,9 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         public event OnMessageReceivedDelegate MessageReceived;
 
-        protected virtual void OnMessageReceived(ReceivedMessage message)
+        protected virtual Task OnMessageReceivedAsync(ReceivedMessage message)
         {
-            this.MessageReceived(message);
+            return Task.Run(() => MessageReceived?.Invoke(message));
         }
 
         /// <summary>
@@ -29,9 +31,9 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         public event OnMessageDeletedDelegate MessageDeleted;
 
-        protected virtual void OnMessageDeleted(ChatMessage message)
+        protected virtual Task OnMessageDeletedAsync(ChatMessage message)
         {
-            this.MessageDeleted(message);
+            return Task.Run(() => MessageDeleted?.Invoke(message));
         }
 
         /// <summary>
@@ -45,9 +47,9 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         public event OnMessageReactionAddedDelegate ReactionAdded;
 
-        protected virtual void OnReactionAdded(Reaction reaction)
+        protected virtual Task OnReactionAddedAsync(Reaction reaction)
         {
-            this.ReactionAdded(reaction);
+            return Task.Run(() => ReactionAdded?.Invoke(reaction));
         }
 
         /// <summary>
@@ -61,15 +63,15 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         public event OnServerAvailableDelegate ServerAvailable;
 
-        protected virtual void OnServerAvailable(Server server)
+        protected virtual Task OnServerAvailableAsync(Server server)
         {
-            this.ServerAvailable(server);
+            return Task.Run(() => ServerAvailable?.Invoke(server));
         }
 
         /// <summary>
         /// Event that gets raised when a message is received
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="server"></param>
         public delegate void OnServerUnavailableDelegate(Server server);
 
         /// <summary>
@@ -81,9 +83,9 @@ namespace AwesomeChatBot.ApiWrapper
         /// Raises the OnServerUnavailable event
         /// </summary>
         /// <param name="server"></param>
-        protected virtual void OnServerUnavailable(Server server)
+        protected virtual Task OnServerUnavailableAsync(Server server)
         {
-            this.ServerUnavailable(server);
+            return Task.Run(() => ServerUnavailable?.Invoke(server));
         }
 
         /// <summary>
@@ -103,15 +105,14 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         /// <param name="user"></param>
         /// <param name="server"></param>
-        protected virtual void OnNewUserJoinedServer(User user, Server server)
+        protected virtual Task OnNewUserJoinedServerAsync(User user, Server server)
         {
-            this.NewUserJoinedServer(user, server);
+            return Task.Run(() => NewUserJoinedServer?.Invoke(user, server));
         }
 
         /// <summary>
         /// The delegate used for when the bot joins a new server
         /// </summary>
-        /// <param name="user"></param>
         /// <param name="server"></param>
         public delegate void OnJoinedNewServerDelegate(Server server);
 
@@ -124,9 +125,9 @@ namespace AwesomeChatBot.ApiWrapper
         /// Raises the "JoinedNewServer" event
         /// </summary>
         /// <param name="server">The server which the bot joined</param>
-        protected virtual void OnJoinedNewServer(Server server)
+        protected virtual Task OnJoinedNewServerAsync(Server server)
         {
-            this.JoinedNewServer(server);
+            return Task.Run(() => JoinedNewServer?.Invoke(server));
         }
 
         /// <summary>
@@ -144,9 +145,9 @@ namespace AwesomeChatBot.ApiWrapper
         /// Raises the "Connected" event
         /// </summary>
         /// <param name="wrapper">The wrapper instance that connected to the API</param>
-        protected virtual void OnConnected(ApiWrapper wrapper)
+        protected virtual Task OnConnectedAsync(ApiWrapper wrapper)
         {
-            this.Connected(wrapper);
+            return Task.Run(() => Connected?.Invoke(wrapper));
         }
 
         /// <summary>
@@ -164,9 +165,9 @@ namespace AwesomeChatBot.ApiWrapper
         /// Raises the "Connected" event
         /// </summary>
         /// <param name="wrapper">The wrapper instance that connected to the API</param>
-        protected virtual void OnDisconnected(ApiWrapper wrapper)
+        protected virtual Task OnDisconnectedAsync(ApiWrapper wrapper)
         {
-            this.Disconnected(wrapper);
+            return Task.Run(() => Disconnected?.Invoke(wrapper));
         }
     }
 }
