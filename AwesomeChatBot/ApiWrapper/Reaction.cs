@@ -5,7 +5,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Internal reference to the ApiWrapper
         /// </summary>
-        public ApiWrapper ApiWrapper { get; private set; }
+        public ApiWrapper ApiWrapper { get; }
 
         /// <summary>
         ///
@@ -13,7 +13,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// <param name="wrapper"></param>
         protected Reaction(ApiWrapper wrapper)
         {
-            this.ApiWrapper = wrapper;
+            ApiWrapper = wrapper;
         }
 
         /// <summary>

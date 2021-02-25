@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AwesomeChatBot.Config;
 
 namespace AwesomeChatBot.ApiWrapper
@@ -17,34 +18,31 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// The formatter used to format messages
         /// </summary>
-        /// <value></value>
         public abstract MessageFormatter MessageFormatter { get; }
 
         /// <summary>
         /// The internal reference to the config store
         /// </summary>
-        /// <value></value>
         public ConfigStore ConfigStore { get; private set; }
 
         /// <summary>
         /// Initializes the Wrapper (login into API, ...)
         /// </summary>
         /// <param name="configStore">The configuration store used for the bot instance</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public virtual void Initialize(ConfigStore configStore)
         {
-            #region PRECONDITIONS
-
-            if (configStore == null)
-                throw new ArgumentNullException("Parameter \"configStore\" can not be null!");
-
-            #endregion
-
-            this.ConfigStore = configStore;
+            ConfigStore = configStore ?? throw new ArgumentNullException(nameof(configStore));
         }
 
         /// <summary>
         /// Gets a list of available servers
         /// </summary>
         public abstract Task<IList<Server>> GetAvailableServersAsync();
+
+        /// <summary>
+        /// An internal reference to the botFramework instance
+        /// </summary>
+        internal AwesomeChatBot BotFramework { get; set; }
     }
 }

@@ -37,32 +37,27 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// The Id used to identify this server in config files
         /// </summary>
-        /// <returns></returns>
         public string ConfigId => $"Server_{this.ServerID}";
 
         /// <summary>
         /// The server is usually one of the highest up in hierarchy, having an order of 10
         /// </summary>
-        /// <returns></returns>
         public int ConfigOrder => 10;
 
         /// <summary>
         /// Resolves a channel given its name
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
         public abstract Task<Channel> ResolveChannelAsync(string name);
 
         /// <summary>
         /// Gets a list of all to the bot available channels
         /// </summary>
-        /// <returns></returns>
         public abstract Task<IList<Channel>> GetAllChannelsAsync();
 
         /// <summary>
         /// Gets a list of available user roles on the server
         /// </summary>
-        /// <returns></returns>
         public abstract Task<IList<UserRole>> GetAvailableUserRolesAsync();
     }
 }

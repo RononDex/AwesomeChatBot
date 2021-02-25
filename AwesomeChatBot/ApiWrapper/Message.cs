@@ -17,15 +17,15 @@ namespace AwesomeChatBot.ApiWrapper
         ///
         /// </summary>
         /// <param name="wrapper"></param>
-        public Message(ApiWrapper wrapper)
+        protected Message(ApiWrapper wrapper)
         {
-            this.ApiWrapper = wrapper;
+            ApiWrapper = wrapper;
         }
 
         /// <summary>
         /// A list of attachments on the message (if any)
         /// </summary>
-        public abstract Task<IList<Attachment>> Attachments { get; set; }
+        public abstract IList<Attachment> Attachments { get; set; }
 
         /// <summary>
         /// Formatted text message

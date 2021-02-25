@@ -15,7 +15,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// <param name="wrapper"></param>
         protected Channel(ApiWrapper wrapper)
         {
-            this.ApiWrapper = wrapper;
+            ApiWrapper = wrapper;
         }
 
         /// <summary>

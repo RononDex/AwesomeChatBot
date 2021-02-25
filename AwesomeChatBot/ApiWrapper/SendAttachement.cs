@@ -5,7 +5,7 @@ namespace AwesomeChatBot.ApiWrapper
     /// </summary>
     public class SendAttachment : Attachment
     {
-        public SendAttachment() : base(null)
+        public SendAttachment() : base(wrapper: null)
         {
 
         }

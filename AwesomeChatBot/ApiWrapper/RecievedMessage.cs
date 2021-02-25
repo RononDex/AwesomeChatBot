@@ -12,7 +12,7 @@ namespace AwesomeChatBot.ApiWrapper
         ///
         /// </summary>
         /// <param name="wrapper"></param>
-        public ReceivedMessage(ApiWrapper wrapper) : base(wrapper)
+        protected ReceivedMessage(ApiWrapper wrapper) : base(wrapper)
         {
             // Nothing to do here
         }
@@ -20,7 +20,6 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// true if the bot was mentioned in the message
         /// </summary>
-        /// <value></value>
         public abstract bool IsBotMentioned { get; }
 
         /// <summary>

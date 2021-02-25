@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using AwesomeChatBot.Commands;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
@@ -44,11 +43,11 @@ namespace AwesomeChatBot
             #region PRECONDITIONS
 
             if (wrappers == null || wrappers.Count == 0)
-                throw new ArgumentNullException("No ApiWrapper provided to AwesomeChatBot");
+                throw new ArgumentNullException(nameof(wrappers));
             if (loggerFactory == null)
-                throw new ArgumentNullException("No loggerFactory provided to AwesomeChatBot");
+                throw new ArgumentNullException(nameof(loggerFactory));
             if (settings == null)
-                throw new ArgumentNullException("No settings provided to AwesomeChatBot");
+                throw new ArgumentNullException(nameof(settings));
 
             #endregion PRECONDITIONS
 
@@ -57,13 +56,11 @@ namespace AwesomeChatBot
 
             var wrappersList = wrappers.ToList();
             ApiWrappers = wrappersList;
+            wrappersList.ForEach(x => x.BotFramework = this);
             wrappersList.ForEach(x => x.Initialize(ConfigStore));
 
             CommandFactory = new CommandFactory(this, ConfigStore);
             LoggerFactory = loggerFactory;
-
-            // Setup Api events
-            SetupEvents();
 
             loggerFactory
                 .CreateLogger(GetType().FullName)

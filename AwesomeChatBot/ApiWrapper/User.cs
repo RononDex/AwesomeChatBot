@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace AwesomeChatBot.ApiWrapper
 {
     public abstract class User : Config.IConfigurationDependency
@@ -12,7 +14,7 @@ namespace AwesomeChatBot.ApiWrapper
         ///
         /// </summary>
         /// <param name="wrapper"></param>
-        public User(ApiWrapper wrapper)
+        protected User(ApiWrapper wrapper)
         {
             ApiWrapper = wrapper;
         }
@@ -36,25 +38,21 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Roles of the user
         /// </summary>
-        /// <value></value>
         public abstract IReadOnlyList<UserRole> Roles { get; }
 
         /// <summary>
         /// The Id that is used to identify this object in config files
         /// </summary>
-        /// <returns></returns>
         public string ConfigId => $"User_{this.UserID}";
 
         /// <summary>
         /// A user setting is usually server dependent, so in this case we want it to be higher than server, but lower than channel
         /// </summary>
-        /// <returns></returns>
         public int ConfigOrder => 100;
 
         /// <summary>
         /// Get a string that is used to mention this user
         /// </summary>
-        /// <returns></returns>
         public abstract string GetMention();
 
         /// <summary>

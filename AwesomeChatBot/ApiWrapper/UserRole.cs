@@ -5,14 +5,13 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Protected Wrapper for internal access
         /// </summary>
-        /// <value></value>
         protected ApiWrapper Wrapper { get; }
 
         /// <summary>
         /// ApiWrapper for reference
         /// </summary>
         /// <param name="wrapper"></param>
-        public UserRole(ApiWrapper wrapper)
+        protected UserRole(ApiWrapper wrapper)
         {
             Wrapper = wrapper;
         }
@@ -20,13 +19,11 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// A unique id to identify the role
         /// </summary>
-        /// <value></value>
         public abstract string RoleId { get; }
 
         /// <summary>
         /// The display name of the role
         /// </summary>
-        /// <value></value>
         public abstract string Name { get; }
 
         /// <summary>
@@ -37,13 +34,11 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Get a string to mention this role
         /// </summary>
-        /// <value></value>
         public abstract string GetMention();
 
         /// <summary>
         /// Id in config files
         /// </summary>
-        /// <value></value>
         public string ConfigId => $"Role_{RoleId}";
 
         /// <summary>

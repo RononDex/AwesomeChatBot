@@ -25,7 +25,6 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// The descrption of the embedded message
         /// </summary>
-        /// <value></value>
         public string Description { get; set; }
     }
 }
