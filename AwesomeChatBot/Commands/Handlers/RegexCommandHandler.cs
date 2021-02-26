@@ -18,7 +18,7 @@ namespace AwesomeChatBot.Commands.Handlers
         /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
         /// <param name="parameters"></param>
-        public override Task<bool> ExecuteCommand(ReceivedMessage receivedMessage, Command command, object parameters)
+        public override Task<bool> ExecuteCommandAsync(ReceivedMessage receivedMessage, Command command, object parameters)
         {
             #region PRECONDITIONS
 
