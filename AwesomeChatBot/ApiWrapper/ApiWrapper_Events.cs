@@ -79,10 +79,9 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Raises the "Connected" event
         /// </summary>
-        /// <param name="wrapper">The wrapper instance that connected to the API</param>
-        protected virtual Task OnDisconnectedAsync(ApiWrapper wrapper)
+        protected virtual Task OnDisconnectedAsync()
         {
-            return BotFramework.OnWrapperDisconnectedAsync(wrapper);
+            return BotFramework.OnWrapperDisconnectedAsync(this);
         }
     }
 }
