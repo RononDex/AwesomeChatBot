@@ -29,8 +29,9 @@ namespace AwesomeChatBot.Commands.Handlers
 
             #endregion
 
-            var task = (command as IRegexCommand)?.ExecuteRegexCommand(receivedMessage, parameters as Match);
-            return task;
+            return command is IRegexCommand regexCommand
+                ? regexCommand.ExecuteRegexCommandAsync(receivedMessage, parameters as Match)
+                : Task.FromResult(false);
         }
 
         /// <summary>
@@ -72,7 +73,6 @@ namespace AwesomeChatBot.Commands.Handlers
         /// </summary>
         /// <param name="receivedMessage"></param>
         /// <param name="regexMatch"></param>
-        /// <returns></returns>
-        Task<bool> ExecuteRegexCommand(ReceivedMessage receivedMessage, Match regexMatch);
+        Task<bool> ExecuteRegexCommandAsync(ReceivedMessage receivedMessage, Match regexMatch);
     }
 }

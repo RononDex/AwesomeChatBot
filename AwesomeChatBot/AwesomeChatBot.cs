@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using AwesomeChatBot.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using AwesomeChatBot.Commands;
 using Microsoft.Extensions.Logging;
 
 namespace AwesomeChatBot
