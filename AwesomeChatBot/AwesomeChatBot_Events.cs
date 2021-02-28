@@ -1,4 +1,5 @@
-using System.Linq;
+using System;
+using System.Threading.Tasks;
 using AwesomeChatBot.ApiWrapper;
 using Microsoft.Extensions.Logging;
 
@@ -7,195 +8,168 @@ namespace AwesomeChatBot
     public partial class AwesomeChatBot
     {
         /// <summary>
-        /// Sets up the events for the wrappers
-        /// </summary>
-        private void SetupEvents()
-        {
-            var wrapperList = ApiWrappers.ToList();
-            wrapperList.ForEach(x => x.MessageReceived += OnMessageReceived);
-            wrapperList.ForEach(x => x.MessageDeleted += OnMessageDeleted);
-            wrapperList.ForEach(x => x.ReactionAdded += OnReactionAdded);
-            wrapperList.ForEach(x => x.ServerAvailable += OnServerAvailable);
-            wrapperList.ForEach(x => x.NewUserJoinedServer += OnNewUserJoinedServer);
-            wrapperList.ForEach(x => x.ServerUnavailable += OnServerUnavailable);
-            wrapperList.ForEach(x => x.Connected += OnWrapperConnected);
-            wrapperList.ForEach(x => x.Disconnected += OnWrapperDisconnected);
-        }
-
-        /// <summary>
-        /// The delegate to use when a message is received
-        /// </summary>
-        /// <param name="receivedMessage"></param>
-        public delegate void OnMessageReceivedDelegate(ReceivedMessage receivedMessage);
-
-        /// <summary>
         /// When e message is received
         /// </summary>
-        public event OnMessageReceivedDelegate MessageReceived;
+        public event Func<ReceivedMessage, Task> MessageReceived;
 
         /// <summary>
         /// Will be fired when the ApiWrapper reports a new message
         /// </summary>
         /// <param name="receivedMessage"></param>
-        protected virtual void OnMessageReceived(ReceivedMessage receivedMessage)
+        internal async Task OnMessageReceivedAsync(ReceivedMessage receivedMessage)
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Message received: {receivedMessage.Content})");
-            CommandFactory.HandleMessageAsync(receivedMessage);
+            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Message received: {receivedMessage.Content})");
+            await CommandFactory.HandleMessageAsync(receivedMessage).ConfigureAwait(false);
             MessageReceived?.Invoke(receivedMessage);
         }
 
         /// <summary>
-        /// The delegate to use when a message is deleted
-        /// </summary>
-        /// <param name="deletedMessage"></param>
-        public delegate void OnMessageDeletedDelegate(ChatMessage deletedMessage);
-
-        /// <summary>
         /// When e message is deleted
         /// </summary>
-        public event OnMessageDeletedDelegate MessageDeleted;
+        public event Func<ChatMessage, Task> MessageDeleted;
 
         /// <summary>
         /// Will be fired when the ApiWrapper reports that a message was deleted
         /// </summary>
         /// <param name="deletedMessage"></param>
-        protected virtual void OnMessageDeleted(ChatMessage deletedMessage)
+        internal Task OnMessageDeletedAsync(ChatMessage deletedMessage)
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Message deleted: {deletedMessage.Content})");
-            MessageDeleted?.Invoke(deletedMessage);
+            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Message deleted: {deletedMessage.Content})");
+            return MessageDeleted != null
+                ? MessageDeleted.Invoke(deletedMessage)
+                : Task.CompletedTask;
         }
-
-        /// <summary>
-        /// The delegate to use when a reaction is added
-        /// </summary>
-        /// <param name="addedReaction"></param>
-        public delegate void OnMessageReactionAddedDelegate(Reaction addedReaction);
 
         /// <summary>
         /// When a reaction is added
         /// </summary>
-        public event OnMessageReactionAddedDelegate ReactionAdded;
+        public event Func<Reaction, Task> ReactionAdded;
 
         /// <summary>
         /// Will be fired when a reaction was added
         /// </summary>
         /// <param name="reaction"></param>
-        protected virtual void OnReactionAdded(Reaction reaction)
+        internal Task OnReactionAddedAsync(Reaction reaction)
         {
-            ReactionAdded?.Invoke(reaction);
+            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Reaction was added: {reaction.Content}");
+            return ReactionAdded != null
+                ? ReactionAdded.Invoke(reaction)
+                : Task.CompletedTask;
         }
-
-        /// <summary>
-        /// The delegate when a server becomes unavailable
-        /// </summary>
-        /// <param name="server"></param>
-        public delegate void OnServerAvailableDelegate(Server server);
 
         /// <summary>
         /// When a server becomes unavailable
         /// </summary>
-        public event OnServerAvailableDelegate ServerAvailable;
+        public event Func<Server, Task> ServerAvailable;
 
         /// <summary>
         /// When a server becomes available (connected)
         /// </summary>
         /// <param name="server"></param>
-        protected virtual void OnServerAvailable(Server server)
+        internal Task OnServerAvailableAsync(Server server)
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Server now available: {server.ServerName} ({server.ServerID})");
-            ServerAvailable?.Invoke(server);
+            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Server now available: {server.ServerName} ({server.ServerID})");
+            return ServerAvailable != null
+                ? ServerAvailable.Invoke(server)
+                : Task.CompletedTask;
         }
-
-        /// <summary>
-        /// The delegate when a server becomes unavailable
-        /// </summary>
-        /// <param name="server"></param>
-        public delegate void OnServerUnavailableDelegate(Server server);
 
         /// <summary>
         /// When a server becomes unavailable
         /// </summary>
-        public event OnServerUnavailableDelegate ServerUnavailable;
+        public event Func<Server, Task> ServerUnavailable;
 
         /// <summary>
         /// When a server becomes unavailable (disconnected)
         /// </summary>
         /// <param name="server"></param>
-        protected virtual void OnServerUnavailable(Server server)
+        internal Task OnServerUnavailableAsync(Server server)
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogInformation($"Server now unavailable: {server.ServerName} ({server.ServerID})");
-            ServerUnavailable?.Invoke(server);
+            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Server now unavailable: {server.ServerName} ({server.ServerID})");
+            return ServerUnavailable != null
+                ? ServerUnavailable.Invoke(server)
+                : Task.CompletedTask;
         }
-
-        /// <summary>
-        /// The delegate for the new user joined server event
-        /// </summary>
-        /// <param name="user"></param>
-        /// <param name="server"></param>
-        public delegate void OnNewUserJoinedServerDelegate(User user, Server server);
 
         /// <summary>
         /// When a new user joins a server
         /// </summary>
-        public event OnNewUserJoinedServerDelegate NewUserJoinedServer;
+        public event Func<User, Server, Task> NewUserJoinedServer;
 
         /// <summary>
         /// When a server becomes unavailable (disconnected)
         /// </summary>
         /// <param name="user"></param>
         /// <param name="server"></param>
-        private void OnNewUserJoinedServer(User user, Server server)
+        internal Task OnNewUserJoinedServerAsync(User user, Server server)
         {
             LoggerFactory
                 .CreateLogger(GetType().FullName)
-                .LogInformation($"{nameof(NewUserJoinedServer)}: User: {user.UniqueUserName} Server: ({server.ServerName})");
-            NewUserJoinedServer?.Invoke(user, server);
+                .LogTrace($"{nameof(NewUserJoinedServer)}: User: {user.UniqueUserName} Server: ({server.ServerName})");
+
+            return NewUserJoinedServer != null
+                ? NewUserJoinedServer.Invoke(user, server)
+                : Task.CompletedTask;
         }
 
         /// <summary>
-        /// Delegate for the OnConnected event
+        /// When a new server is joined
         /// </summary>
-        /// <param name="wrapper">The wrapper that has connected</param>
-        public delegate void OnConnected(ApiWrapper.ApiWrapper wrapper);
+        public event Func<Server, Task> NewServerJoined;
+
+        /// <summary>
+        /// When the bot user joins a new server
+        /// </summary>
+        /// <param name="server"></param>
+        internal Task OnNewServerJoinedAsync(Server server)
+        {
+            LoggerFactory
+                .CreateLogger(GetType().FullName)
+                .LogTrace($"{nameof(NewServerJoined)}: Server: ({server.ServerName})");
+
+            return NewServerJoined != null
+                ? NewServerJoined.Invoke(server)
+                : Task.CompletedTask;
+        }
 
         /// <summary>
         /// When a new user joins a server
         /// </summary>
-        public event OnConnected Connected;
+        public event Func<ApiWrapper.ApiWrapper, Task> Connected;
 
         /// <summary>
         /// When the wrapper / bot has connected to an API
         /// </summary>
         /// <param name="wrapper">The wrapper that has connected to the API</param>
-        private void OnWrapperConnected(ApiWrapper.ApiWrapper wrapper)
+        internal Task OnWrapperConnectedAsync(ApiWrapper.ApiWrapper wrapper)
         {
             LoggerFactory
                 .CreateLogger(GetType().FullName)
-                .LogInformation($"{nameof(OnWrapperConnected)}: Wrapper: {wrapper.Name}");
-            Connected?.Invoke(wrapper);
-        }
+                .LogTrace($"{nameof(Connected)}: Wrapper: {wrapper.Name}");
 
-        /// <summary>
-        /// Delegate for the OnDisconnected event
-        /// </summary>
-        /// <param name="wrapper">The wrapper that has disconnected</param>
-        public delegate void OnDisconnected(ApiWrapper.ApiWrapper wrapper);
+            return Connected != null
+                ? Connected.Invoke(wrapper)
+                : Task.CompletedTask;
+        }
 
         /// <summary>
         /// When a new user joins a server
         /// </summary>
-        public event OnDisconnected Disconnected;
+        public event Func<ApiWrapper.ApiWrapper, Task> Disconnected;
 
         /// <summary>
         /// When the wrapper / bot has connected to an API
         /// </summary>
         /// <param name="wrapper">The wrapper that has connected to the API</param>
-        private void OnWrapperDisconnected(ApiWrapper.ApiWrapper wrapper)
+        internal Task OnWrapperDisconnectedAsync(ApiWrapper.ApiWrapper wrapper)
         {
             LoggerFactory
                 .CreateLogger(GetType().FullName)
-                .LogInformation($"{nameof(OnWrapperDisconnected)}: Wrapper: {wrapper.Name}");
-            Disconnected?.Invoke(wrapper);
+                .LogTrace($"{nameof(Disconnected)}: Wrapper: {wrapper.Name}");
+
+            return Disconnected != null
+                ? Disconnected.Invoke(wrapper)
+                : Task.CompletedTask;
         }
     }
 }

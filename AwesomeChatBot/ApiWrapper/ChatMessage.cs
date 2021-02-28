@@ -13,7 +13,7 @@ namespace AwesomeChatBot.ApiWrapper
         ///
         /// </summary>
         /// <param name="wrapper"></param>
-        public ChatMessage(ApiWrapper wrapper) : base(wrapper)
+        protected ChatMessage(ApiWrapper wrapper) : base(wrapper)
         {
             // Nothing to do here
         }

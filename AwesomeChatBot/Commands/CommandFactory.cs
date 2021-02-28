@@ -75,7 +75,7 @@ namespace AwesomeChatBot.Commands
                         if (!shouldExecute.shouldExecute)
                             continue;
 
-                        var commandResult = handler.ExecuteCommand(receivedMessage, command, shouldExecute.parameter);
+                        var commandResult = await handler.ExecuteCommandAsync(receivedMessage, command, shouldExecute.parameter).ConfigureAwait(false);
                     }
                 }
             }

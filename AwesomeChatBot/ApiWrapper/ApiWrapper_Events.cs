@@ -1,172 +1,87 @@
+using System.Threading.Tasks;
+
 namespace AwesomeChatBot.ApiWrapper
 {
     public partial class ApiWrapper
     {
         /// <summary>
-        /// Event that gets raised when a message is received
+        /// When a message was received by the api wrapper
         /// </summary>
-        /// <param name="message"></param>
-        public delegate void OnMessageReceivedDelegate(ReceivedMessage message);
-
-        /// <summary>
-        /// This event is used to communicate that a message was received to the framework
-        /// </summary>
-        public event OnMessageReceivedDelegate MessageReceived;
-
-        protected virtual void OnMessageReceived(ReceivedMessage message)
+        /// <param name="message">The materialized received message</param>
+        protected Task OnMessageReceivedAsync(ReceivedMessage message)
         {
-            this.MessageReceived(message);
+            return BotFramework.OnMessageReceivedAsync(message);
         }
 
         /// <summary>
-        /// Event that gets raised when a message is deleted
+        /// When a message was deleted
         /// </summary>
-        /// <param name="deletedMessage"></param>
-        public delegate void OnMessageDeletedDelegate(ChatMessage deletedMessage);
-
-        /// <summary>
-        /// This event is used to communicate that a message was received to the framework
-        /// </summary>
-        public event OnMessageDeletedDelegate MessageDeleted;
-
-        protected virtual void OnMessageDeleted(ChatMessage message)
+        /// <param name="message">The materialized message</param>
+        protected Task OnMessageDeletedAsync(ChatMessage message)
         {
-            this.MessageDeleted(message);
+            return BotFramework.OnMessageDeletedAsync(message);
         }
 
         /// <summary>
-        /// The delegate to use when a reaction is added
+        /// When a reaction was added
         /// </summary>
-        /// <param name="addedReaction"></param>
-        public delegate void OnMessageReactionAddedDelegate(Reaction addedReaction);
-
-        /// <summary>
-        /// When a reaction is added
-        /// </summary>
-        public event OnMessageReactionAddedDelegate ReactionAdded;
-
-        protected virtual void OnReactionAdded(Reaction reaction)
+        /// <param name="reaction">The materialized reaction</param>
+        protected Task OnReactionAddedAsync(Reaction reaction)
         {
-            this.ReactionAdded(reaction);
+            return BotFramework.OnReactionAddedAsync(reaction);
         }
 
         /// <summary>
-        /// Event that gets raised when a message is received
+        /// When a server became available
         /// </summary>
-        /// <param name="server"></param>
-        public delegate void OnServerAvailableDelegate(Server server);
-
-        /// <summary>
-        /// This event is used to communicate that a message was received to the framework
-        /// </summary>
-        public event OnServerAvailableDelegate ServerAvailable;
-
-        protected virtual void OnServerAvailable(Server server)
+        /// <param name="server">The materialized server that became available</param>
+        protected Task OnServerAvailableAsync(Server server)
         {
-            this.ServerAvailable(server);
+            return BotFramework.OnServerAvailableAsync(server);
         }
 
         /// <summary>
-        /// Event that gets raised when a message is received
+        /// When a server became unavailable
         /// </summary>
-        /// <param name="message"></param>
-        public delegate void OnServerUnavailableDelegate(Server server);
-
-        /// <summary>
-        /// This event is used to communicate that a message was received to the framework
-        /// </summary>
-        public event OnServerUnavailableDelegate ServerUnavailable;
-
-        /// <summary>
-        /// Raises the OnServerUnavailable event
-        /// </summary>
-        /// <param name="server"></param>
-        protected virtual void OnServerUnavailable(Server server)
+        /// <param name="server">The materialized server that became unavailable</param>
+        protected Task OnServerUnavailableAsync(Server server)
         {
-            this.ServerUnavailable(server);
+            return BotFramework.OnServerUnavailableAsync(server);
         }
-
-        /// <summary>
-        /// The delegate for the new user joined server event
-        /// </summary>
-        /// <param name="user"></param>
-        /// <param name="server"></param>
-        public delegate void OnNewUserJoinedServerDelegate(User user, Server server);
-
-        /// <summary>
-        /// When a new user joins a server
-        /// </summary>
-        public event OnNewUserJoinedServerDelegate NewUserJoinedServer;
 
         /// <summary>
         /// Raises the "NewUserJoined" event
         /// </summary>
         /// <param name="user"></param>
         /// <param name="server"></param>
-        protected virtual void OnNewUserJoinedServer(User user, Server server)
+        protected Task OnNewUserJoinedServerAsync(User user, Server server)
         {
-            this.NewUserJoinedServer(user, server);
+            return BotFramework.OnNewUserJoinedServerAsync(user, server);
         }
-
-        /// <summary>
-        /// The delegate used for when the bot joins a new server
-        /// </summary>
-        /// <param name="user"></param>
-        /// <param name="server"></param>
-        public delegate void OnJoinedNewServerDelegate(Server server);
-
-        /// <summary>
-        /// When a new user joins a server
-        /// </summary>
-        public event OnJoinedNewServerDelegate JoinedNewServer;
 
         /// <summary>
         /// Raises the "JoinedNewServer" event
         /// </summary>
         /// <param name="server">The server which the bot joined</param>
-        protected virtual void OnJoinedNewServer(Server server)
+        protected Task OnJoinedNewServerAsync(Server server)
         {
-            this.JoinedNewServer(server);
+            return BotFramework.OnNewServerJoinedAsync(server);
         }
-
-        /// <summary>
-        /// Delegate for the Connected event
-        /// </summary>
-        /// <param name="wrapper">The wrapper instance that connected to the API</param>
-        public delegate void OnConnectedDelegate(ApiWrapper wrapper);
-
-        /// <summary>
-        /// When the wrapper connects to its API
-        /// </summary>
-        public event OnConnectedDelegate Connected;
 
         /// <summary>
         /// Raises the "Connected" event
         /// </summary>
-        /// <param name="wrapper">The wrapper instance that connected to the API</param>
-        protected virtual void OnConnected(ApiWrapper wrapper)
+        protected Task OnConnectedAsync()
         {
-            this.Connected(wrapper);
+            return BotFramework.OnWrapperConnectedAsync(this);
         }
-
-        /// <summary>
-        /// Delegate for the disconnected event
-        /// </summary>
-        /// <param name="wrapper">The wrapper instance that connected to the API</param>
-        public delegate void OnDisconnectedDelegate(ApiWrapper wrapper);
-
-        /// <summary>
-        /// When the wrapper connects to its API
-        /// </summary>
-        public event OnDisconnectedDelegate Disconnected;
 
         /// <summary>
         /// Raises the "Connected" event
         /// </summary>
-        /// <param name="wrapper">The wrapper instance that connected to the API</param>
-        protected virtual void OnDisconnected(ApiWrapper wrapper)
+        protected virtual Task OnDisconnectedAsync()
         {
-            this.Disconnected(wrapper);
+            return BotFramework.OnWrapperDisconnectedAsync(this);
         }
     }
 }

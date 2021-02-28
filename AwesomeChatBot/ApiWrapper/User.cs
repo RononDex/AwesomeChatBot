@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace AwesomeChatBot.ApiWrapper
 {
     public abstract class User : Config.IConfigurationDependency
@@ -12,7 +14,7 @@ namespace AwesomeChatBot.ApiWrapper
         ///
         /// </summary>
         /// <param name="wrapper"></param>
-        public User(ApiWrapper wrapper)
+        protected User(ApiWrapper wrapper)
         {
             ApiWrapper = wrapper;
         }
@@ -36,37 +38,33 @@ namespace AwesomeChatBot.ApiWrapper
         /// <summary>
         /// Roles of the user
         /// </summary>
-        /// <value></value>
         public abstract IReadOnlyList<UserRole> Roles { get; }
 
         /// <summary>
         /// The Id that is used to identify this object in config files
         /// </summary>
-        /// <returns></returns>
         public string ConfigId => $"User_{this.UserID}";
 
         /// <summary>
         /// A user setting is usually server dependent, so in this case we want it to be higher than server, but lower than channel
         /// </summary>
-        /// <returns></returns>
         public int ConfigOrder => 100;
 
         /// <summary>
         /// Get a string that is used to mention this user
         /// </summary>
-        /// <returns></returns>
         public abstract string GetMention();
 
         /// <summary>
         /// Adds the role with the given name to the user
         /// </summary>
         /// <param name="roleName">the name of the role to add</param>
-        public abstract void AddRole(string roleName);
+        public abstract Task AddRoleAsync(string roleName);
 
         /// <summary>
         /// Removes the role with the given name from the user
         /// </summary>
         /// <param name="roleName">the name of the role to remove</param>
-        public abstract void RemoveRole(string roleName);
+        public abstract Task RemoveRoleAsync(string roleName);
     }
 }

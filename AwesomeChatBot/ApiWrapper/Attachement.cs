@@ -11,9 +11,9 @@
         /// 
         /// </summary>
         /// <param name="wrapper"></param>
-        public Attachment(ApiWrapper wrapper)
+        protected Attachment(ApiWrapper wrapper)
         {
-            this.ApiWrapper = wrapper;
+            ApiWrapper = wrapper;
         }
 
         /// <summary>
