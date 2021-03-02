@@ -22,7 +22,7 @@ namespace AwesomeChatBot.ApiWrapper
         /// </summary>
         /// <param name="content">The content of the message</param>
         /// <param name="attachments">Attachments that are to be sent with the message</param>
-        public SendMessage(string content, List<Attachment> attachments) : base(wrapper: null)
+        public SendMessage(string content, IList<Attachment> attachments) : base(wrapper: null)
         {
             Content = content;
             Attachments = attachments;

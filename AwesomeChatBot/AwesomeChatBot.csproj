@@ -4,10 +4,10 @@
     <Authors>RononDex</Authors>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.8.0.0</FileVersion>
-    <Version>1.8.0</Version>
+    <FileVersion>1.8.1.0</FileVersion>
+    <Version>1.8.1</Version>
     <PackageReleaseNotes>
-      - Refactored the API to be async compatible (breaking change)
+      - Use IList instead of List in SendMessage
     </PackageReleaseNotes>
     <PackageDescription>
 A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
