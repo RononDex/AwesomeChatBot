@@ -23,9 +23,9 @@ namespace AwesomeChatBot.Commands
         /// </summary>
         public abstract Type CommandType { get; }
 
-        public EventHandler(CommandFactory factory)
+        protected EventHandler(CommandFactory factory)
         {
-            this.CommandFactory = factory;
+            CommandFactory = factory;
         }
     }
 }
