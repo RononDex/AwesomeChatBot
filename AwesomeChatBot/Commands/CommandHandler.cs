@@ -34,7 +34,7 @@ namespace AwesomeChatBot.Commands
         /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
         /// <param name="parameters"></param>
-        /// <returns>true if command was executed, false if not</returns>
+        /// <returns>true if command was executed (and no other command should be executed), false if not</returns>
         public abstract Task<bool> ExecuteCommandAsync(ReceivedMessage receivedMessage, Command command, object parameters);
     }
 }
