@@ -1,7 +1,5 @@
 # AwesomeChatBot
-![.NET Core](https://github.com/RononDex/AwesomeChatBot/workflows/.NET%20Core/badge.svg)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-Nuget package: https://www.nuget.org/packages/AwesomeChatBot/
+![.NET Core](https://github.com/RononDex/AwesomeChatBot/workflows/.NET%20Core/badge.svg)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Nuget](https://img.shields.io/nuget/v/AwesomeChatBot.svg)](https://www.nuget.org/packages/AwesomeChatBot/) 
 
 AwesomeChatBot is a chat bot framework that can work with any chat program.
 It is built on .net core, and thus OS independent.
