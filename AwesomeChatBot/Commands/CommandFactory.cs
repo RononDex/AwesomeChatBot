@@ -64,6 +64,7 @@ namespace AwesomeChatBot.Commands
                 var configContext = new Config.IConfigurationDependency[] { receivedMessage.Channel.ParentServer, receivedMessage.Channel };
 
                 // Iterate through all commands and check if one of them gets triggered
+                var commandExecuted = false;
                 foreach (var command in Commands)
                 {
                     foreach (var handler in Handlers.Where(x => ConfigStore.IsCommandActive(command, BotFramework.Settings.CommandsEnabledByDefault, configContext)
@@ -75,13 +76,19 @@ namespace AwesomeChatBot.Commands
                         if (!shouldExecute.shouldExecute)
                             continue;
 
-                        var commandResult = await handler.ExecuteCommandAsync(receivedMessage, command, shouldExecute.parameter).ConfigureAwait(false);
+                        commandExecuted = await handler.ExecuteCommandAsync(receivedMessage, command, shouldExecute.parameter).ConfigureAwait(false);
+
+                        if (commandExecuted)
+                            break;
                     }
+
+                    if (commandExecuted)
+                        break;
                 }
             }
             catch (Exception ex)
             {
-                BotFramework.LoggerFactory.CreateLogger(this.GetType().Name).LogError($"Error processing message {receivedMessage.Content}: {ex}");
+                BotFramework.LoggerFactory.CreateLogger(GetType().Name).LogError($"Error processing message {receivedMessage.Content}: {ex}");
                 await receivedMessage.Channel.SendMessageAsync($"Oh no! Something caused me to crash: {ex.Message}");
             }
         }

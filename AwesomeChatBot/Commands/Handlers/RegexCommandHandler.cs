@@ -42,7 +42,7 @@ namespace AwesomeChatBot.Commands.Handlers
         public override (bool shouldExecute, object parameter) ShouldExecute(ReceivedMessage receivedMessage, Command command)
         {
             if (!(command is IRegexCommand regexCommand))
-                return (false, null);
+                return (shouldExecute: false, parameter: null);
 
             foreach (var pattern in regexCommand.Regex)
             {
@@ -50,11 +50,11 @@ namespace AwesomeChatBot.Commands.Handlers
 
                 var match = regex.Match(receivedMessage.Content);
                 if (match.Success)
-                    return (true, match);
+                    return (shouldExecute: true, parameter: match);
             }
 
             // If not regex matches, then this command should not execute
-            return (false, null);
+            return (shouldExecute: false, parameter: null);
         }
     }
 

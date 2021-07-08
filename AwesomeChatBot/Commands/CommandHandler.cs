@@ -18,11 +18,6 @@ namespace AwesomeChatBot.Commands
         /// </summary>
         public abstract Type CommandType { get; }
 
-        public CommandHandler()
-        {
-
-        }
-
         /// <summary>
         /// Determines wether the given command should be executed
         /// Returns a boolean saying wether the command should execute,
@@ -39,7 +34,7 @@ namespace AwesomeChatBot.Commands
         /// <param name="receivedMessage"></param>
         /// <param name="command"></param>
         /// <param name="parameters"></param>
-        /// <returns></returns>
+        /// <returns>true if command was executed (and no other command should be executed), false if not</returns>
         public abstract Task<bool> ExecuteCommandAsync(ReceivedMessage receivedMessage, Command command, object parameters);
     }
 }
