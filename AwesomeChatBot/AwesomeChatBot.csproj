@@ -4,10 +4,10 @@
     <Authors>RononDex</Authors>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.8.2.0</FileVersion>
-    <Version>1.8.2</Version>
+    <FileVersion>1.8.3.0</FileVersion>
+    <Version>1.8.3</Version>
     <PackageReleaseNotes>
-- Listen to returned boolean from ExecuteCommandAsync and only continue running if returned boolean is false
+- Add a GetUsersOnServer() to the server object
     </PackageReleaseNotes>
     <PackageDescription>
 A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
