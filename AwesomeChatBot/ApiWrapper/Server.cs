@@ -59,5 +59,10 @@ namespace AwesomeChatBot.ApiWrapper
         /// Gets a list of available user roles on the server
         /// </summary>
         public abstract Task<IList<UserRole>> GetAvailableUserRolesAsync();
+
+        /// <summary>
+        /// Gets a list of all users on the server
+        /// </summary>
+        public abstract Task<IList<User>> GetUserseOnServer();
     }
 }
