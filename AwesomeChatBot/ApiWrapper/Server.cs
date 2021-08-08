@@ -64,5 +64,11 @@ namespace AwesomeChatBot.ApiWrapper
         /// Gets a list of all users on the server
         /// </summary>
         public abstract Task<IList<User>> GetUserseOnServer();
+
+
+        /// <summary>
+        /// Gets the number of users on the server
+        /// </summary>
+        public abstract Task<int> GetNumberOfUsersAsync();
     }
 }
