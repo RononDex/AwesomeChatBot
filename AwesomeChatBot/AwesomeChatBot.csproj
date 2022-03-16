@@ -4,10 +4,10 @@
     <Authors>RononDex</Authors>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.8.6.0</FileVersion>
-    <Version>1.8.6</Version>
+    <FileVersion>1.8.7.0</FileVersion>
+    <Version>1.8.7</Version>
     <PackageReleaseNotes>
-- Add a GetNumberOfUsersAsync() to the server object
+- Attempted bugfix: Don't await message handlers to keep main thread and bot responsive
     </PackageReleaseNotes>
     <PackageDescription>
 A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
