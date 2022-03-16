@@ -19,7 +19,7 @@ namespace AwesomeChatBot
         internal async Task OnMessageReceivedAsync(ReceivedMessage receivedMessage)
         {
             LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Message received: {receivedMessage.Content})");
-            await CommandFactory.HandleMessageAsync(receivedMessage).ConfigureAwait(false);
+            CommandFactory.HandleMessageAsync(receivedMessage).ConfigureAwait(false);
             MessageReceived?.Invoke(receivedMessage);
         }
 
