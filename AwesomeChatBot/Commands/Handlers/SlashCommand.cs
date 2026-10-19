@@ -56,6 +56,46 @@ namespace AwesomeChatBot.Commands.Handlers
         public SlashOptionType Type { get; set; }
 
         public bool Required { get; set; }
+
+        /// <summary>
+        /// Fixed values the user picks from. Only for String, Integer and Number options; null or empty allows any value
+        /// </summary>
+        public IReadOnlyList<SlashCommandChoice> Choices { get; set; }
+    }
+
+    /// <summary>
+    /// A predefined value of a slash command option. Create it as <see cref="SlashCommandChoice{T}"/>
+    /// </summary>
+    public abstract class SlashCommandChoice
+    {
+        /// <summary>
+        /// Name shown to the user
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Value passed to the command, as string, long or double
+        /// </summary>
+        public object Value => GetValue();
+
+        protected abstract object GetValue();
+    }
+
+    /// <summary>
+    /// A predefined value of a slash command option. T must match the option type: string, long or double
+    /// </summary>
+    public class SlashCommandChoice<T> : SlashCommandChoice
+    {
+        static SlashCommandChoice()
+        {
+            // Invocation option values are only ever string, long or double, so e.g. an int choice could never be read back
+            if (typeof(T) != typeof(string) && typeof(T) != typeof(long) && typeof(T) != typeof(double))
+                throw new System.NotSupportedException($"Slash command choices must be string, long or double, not {typeof(T).Name}");
+        }
+
+        public new T Value { get; set; }
+
+        protected override object GetValue() => Value;
     }
 
     /// <summary>
