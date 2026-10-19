@@ -18,19 +18,28 @@ namespace AwesomeChatBot
         /// <param name="receivedMessage"></param>
         internal async Task OnMessageReceivedAsync(ReceivedMessage receivedMessage)
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Message received: {receivedMessage.Content})");
-            // Fire-and-forget so a slow command doesn't block the bot
-            _ = CommandFactory.HandleMessageAsync(receivedMessage);
-            MessageReceived?.Invoke(receivedMessage);
+            if (!string.IsNullOrEmpty(receivedMessage.Content))
+            {
+                LoggerFactory
+                    .CreateLogger(GetType().FullName)
+                    .LogTrace($"Message received: {receivedMessage.Content}");
+                // Fire-and-forget so a slow command doesn't block the bot
+                _ = CommandFactory.HandleMessageAsync(receivedMessage);
+                MessageReceived?.Invoke(receivedMessage);
+            }
         }
 
         /// <summary>
         /// Will be fired when the ApiWrapper reports a slash command invocation
         /// </summary>
         /// <param name="invocation"></param>
-        internal Task OnSlashCommandReceivedAsync(Commands.Handlers.SlashCommandInvocation invocation)
+        internal Task OnSlashCommandReceivedAsync(
+            Commands.Handlers.SlashCommandInvocation invocation
+        )
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Slash command received: /{invocation.CommandName}");
+            LoggerFactory
+                .CreateLogger(GetType().FullName)
+                .LogTrace($"Slash command received: /{invocation.CommandName}");
             return CommandFactory.HandleSlashCommandAsync(invocation);
         }
 
@@ -45,7 +54,9 @@ namespace AwesomeChatBot
         /// <param name="deletedMessage"></param>
         internal Task OnMessageDeletedAsync(ChatMessage deletedMessage)
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Message deleted: {deletedMessage.Content})");
+            LoggerFactory
+                .CreateLogger(GetType().FullName)
+                .LogTrace($"Message deleted: {deletedMessage.Content})");
             return MessageDeleted != null
                 ? MessageDeleted.Invoke(deletedMessage)
                 : Task.CompletedTask;
@@ -62,10 +73,10 @@ namespace AwesomeChatBot
         /// <param name="reaction"></param>
         internal Task OnReactionAddedAsync(Reaction reaction)
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Reaction was added: {reaction.Content}");
-            return ReactionAdded != null
-                ? ReactionAdded.Invoke(reaction)
-                : Task.CompletedTask;
+            LoggerFactory
+                .CreateLogger(GetType().FullName)
+                .LogTrace($"Reaction was added: {reaction.Content}");
+            return ReactionAdded != null ? ReactionAdded.Invoke(reaction) : Task.CompletedTask;
         }
 
         /// <summary>
@@ -79,10 +90,10 @@ namespace AwesomeChatBot
         /// <param name="server"></param>
         internal Task OnServerAvailableAsync(Server server)
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Server now available: {server.ServerName} ({server.ServerID})");
-            return ServerAvailable != null
-                ? ServerAvailable.Invoke(server)
-                : Task.CompletedTask;
+            LoggerFactory
+                .CreateLogger(GetType().FullName)
+                .LogTrace($"Server now available: {server.ServerName} ({server.ServerID})");
+            return ServerAvailable != null ? ServerAvailable.Invoke(server) : Task.CompletedTask;
         }
 
         /// <summary>
@@ -96,7 +107,9 @@ namespace AwesomeChatBot
         /// <param name="server"></param>
         internal Task OnServerUnavailableAsync(Server server)
         {
-            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Server now unavailable: {server.ServerName} ({server.ServerID})");
+            LoggerFactory
+                .CreateLogger(GetType().FullName)
+                .LogTrace($"Server now unavailable: {server.ServerName} ({server.ServerID})");
             return ServerUnavailable != null
                 ? ServerUnavailable.Invoke(server)
                 : Task.CompletedTask;
@@ -116,7 +129,9 @@ namespace AwesomeChatBot
         {
             LoggerFactory
                 .CreateLogger(GetType().FullName)
-                .LogTrace($"{nameof(NewUserJoinedServer)}: User: {user.UniqueUserName} Server: ({server.ServerName})");
+                .LogTrace(
+                    $"{nameof(NewUserJoinedServer)}: User: {user.UniqueUserName} Server: ({server.ServerName})"
+                );
 
             return NewUserJoinedServer != null
                 ? NewUserJoinedServer.Invoke(user, server)
@@ -138,9 +153,7 @@ namespace AwesomeChatBot
                 .CreateLogger(GetType().FullName)
                 .LogTrace($"{nameof(NewServerJoined)}: Server: ({server.ServerName})");
 
-            return NewServerJoined != null
-                ? NewServerJoined.Invoke(server)
-                : Task.CompletedTask;
+            return NewServerJoined != null ? NewServerJoined.Invoke(server) : Task.CompletedTask;
         }
 
         /// <summary>
@@ -158,9 +171,7 @@ namespace AwesomeChatBot
                 .CreateLogger(GetType().FullName)
                 .LogTrace($"{nameof(Connected)}: Wrapper: {wrapper.Name}");
 
-            return Connected != null
-                ? Connected.Invoke(wrapper)
-                : Task.CompletedTask;
+            return Connected != null ? Connected.Invoke(wrapper) : Task.CompletedTask;
         }
 
         /// <summary>
@@ -178,9 +189,7 @@ namespace AwesomeChatBot
                 .CreateLogger(GetType().FullName)
                 .LogTrace($"{nameof(Disconnected)}: Wrapper: {wrapper.Name}");
 
-            return Disconnected != null
-                ? Disconnected.Invoke(wrapper)
-                : Task.CompletedTask;
+            return Disconnected != null ? Disconnected.Invoke(wrapper) : Task.CompletedTask;
         }
     }
 }
