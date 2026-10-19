@@ -28,7 +28,8 @@ jobs:
           fi
 
       - name: Pack
-        run: dotnet pack AwesomeChatBot/AwesomeChatBot.csproj --configuration Release --output nupkg
+        # GeneratePackageOnBuild in the csproj makes pack run inside its own build, before the dll exists (NU5026)
+        run: dotnet pack AwesomeChatBot/AwesomeChatBot.csproj --configuration Release --output nupkg -p:GeneratePackageOnBuild=false
 
       - name: NuGet login
         id: login
