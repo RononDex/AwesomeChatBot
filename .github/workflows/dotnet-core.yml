@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: dotnet build ./AwesomeChatBot/AwesomeChatBot.csproj --configuration Release --no-restore
     - name: Test
-      run: dotnet test ./AwesomeChatBot.Tests/AwesomeChatBot.Tests.csproj --no-restore --verbosity normal
+      run: dotnet test --project ./AwesomeChatBot.Tests/AwesomeChatBot.Tests.csproj --no-restore
