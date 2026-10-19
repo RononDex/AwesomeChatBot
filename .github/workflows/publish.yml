@@ -10,6 +10,7 @@ jobs:
   publish:
     name: build, pack & publish
     runs-on: ubuntu-latest
+    environment: release # must match the environment in the nuget.org Trusted Publishing policy
     steps:
       - uses: actions/checkout@v7
 
