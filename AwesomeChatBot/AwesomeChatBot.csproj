@@ -18,10 +18,16 @@
 			See project website for further docuemntation.
 		</PackageDescription>
 		<PackageProjectUrl>https://github.com/RononDex/AwesomeChatBot</PackageProjectUrl>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 	<PropertyGroup>
 		<NoWarn>CSE0003;CC0038;IDE0008;CC0035;CC0045;CC0042;CC0076</NoWarn>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../LICENSE" Pack="true" PackagePath="/"/>
+		<None Include="../README.md" Pack="true" PackagePath="/"/>
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.13"/>
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.13"/>
