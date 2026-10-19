@@ -4,10 +4,10 @@
 		<Authors>RononDex</Authors>
 		<Company/>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<FileVersion>1.9.1.0</FileVersion>
-		<Version>1.9.1</Version>
+		<FileVersion>1.9.2.0</FileVersion>
+		<Version>1.9.2</Version>
 		<PackageReleaseNotes>
-			- Add support for Slash command choices
+			- Bugfix: Do not pass on empty messages
 		</PackageReleaseNotes>
 		<PackageDescription>
 			A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
