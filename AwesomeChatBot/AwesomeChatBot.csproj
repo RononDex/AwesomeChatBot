@@ -4,8 +4,8 @@
 		<Authors>RononDex</Authors>
 		<Company/>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<FileVersion>1.9.0.0</FileVersion>
-		<Version>1.9.0</Version>
+		<FileVersion>1.9.1.0</FileVersion>
+		<Version>1.9.1</Version>
 		<PackageReleaseNotes>
 			- Add support for Slash command choices
 		</PackageReleaseNotes>
