@@ -7,9 +7,7 @@
 		<FileVersion>1.9.0.0</FileVersion>
 		<Version>1.9.0</Version>
 		<PackageReleaseNotes>
-			- Native slash command support (ISlashCommand, SlashCommandFilter)
-			- Updated dependencies (Microsoft.Extensions 10, Newtonsoft.Json 13.0.4)
-			- Upgrade to target dotnet 10.0
+			- Add support for Slash command choices
 		</PackageReleaseNotes>
 		<PackageDescription>
 			A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
