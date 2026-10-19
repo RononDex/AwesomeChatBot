@@ -22,7 +22,7 @@ For starters and a quick reference, check my own bot https://github.com/RononDex
 
 The most important parts for the chat bot developer are
  - ApiWrappers
- - CommandHandlers
+ - CommandHandlers (Regex and Slash Commands)
  - Commands
 
  Here some quick code to initialize the framework:
@@ -50,6 +50,9 @@ Every command handler has a corresponding interface type, that a command has to 
 
 As an example, see the RegexCommandHandler implementation here:
 https://github.com/RononDex/AwesomeChatBot/blob/master/AwesomeChatBot/Commands/Handlers/RegexCommandHandler.cs
+
+Or SlashCommand implementation here:
+https://github.com/RononDex/AwesomeChatBot/blob/master/AwesomeChatBot/Commands/Handlers/SlashCommand.cs
 
 ## Commands
 And last but not least the commands. Every command represents an action or several actions that a user can trigger. To create a new command, simply create a new class, and derive it from `AwesomeChatBot.Commands.Command` (which will only add a "Name" property for the command) and also from every command handler type that you want the command to be triggered from. For example:

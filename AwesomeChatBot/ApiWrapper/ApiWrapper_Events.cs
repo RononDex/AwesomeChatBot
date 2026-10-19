@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AwesomeChatBot.ApiWrapper
@@ -11,6 +12,23 @@ namespace AwesomeChatBot.ApiWrapper
         protected Task OnMessageReceivedAsync(ReceivedMessage message)
         {
             return BotFramework.OnMessageReceivedAsync(message);
+        }
+
+        /// <summary>
+        /// When a slash command was invoked
+        /// </summary>
+        /// <param name="invocation">The materialized invocation</param>
+        protected Task OnSlashCommandReceivedAsync(Commands.Handlers.SlashCommandInvocation invocation)
+        {
+            return BotFramework.OnSlashCommandReceivedAsync(invocation);
+        }
+
+        /// <summary>
+        /// All registered commands that should be registered as slash commands with the chat app
+        /// </summary>
+        protected IEnumerable<Commands.Handlers.ISlashCommand> GetSlashCommands()
+        {
+            return BotFramework.SlashCommands;
         }
 
         /// <summary>

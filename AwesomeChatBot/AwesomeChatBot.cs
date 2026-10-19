@@ -37,6 +37,17 @@ namespace AwesomeChatBot
         public Config.ConfigStore ConfigStore { get; }
 
         /// <summary>
+        /// Optional check that runs before every slash command. Return false to stop the command
+        /// (the filter is responsible for replying to the invocation in that case)
+        /// </summary>
+        public Func<Commands.Handlers.SlashCommandInvocation, System.Threading.Tasks.Task<bool>> SlashCommandFilter { get; set; }
+
+        /// <summary>
+        /// All registered commands that can be invoked as slash commands
+        /// </summary>
+        internal IEnumerable<Commands.Handlers.ISlashCommand> SlashCommands => CommandFactory.SlashCommands;
+
+        /// <summary>
         ///
         /// </summary>
         public AwesomeChatBot(IReadOnlyList<ApiWrapper.ApiWrapper> wrappers, ILoggerFactory loggerFactory, AwesomeChatBotSettings settings)

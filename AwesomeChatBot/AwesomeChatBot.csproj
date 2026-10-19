@@ -1,38 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <Authors>RononDex</Authors>
-    <Company />
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>1.8.7.0</FileVersion>
-    <Version>1.8.7</Version>
-    <PackageReleaseNotes>
-- Attempted bugfix: Don't await message handlers to keep main thread and bot responsive
-    </PackageReleaseNotes>
-    <PackageDescription>
-A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
-Allows you to define commands for a chatbot that will work with every chat app (be it Discord, slack, ...).
-
-Will need an api wrapper per chat app that you intend to use (for example see package AwesomeChatBot.Discord)
-
-See project website for further docuemntation.
-    </PackageDescription>
-    <PackageProjectUrl>https://github.com/RononDex/AwesomeChatBot</PackageProjectUrl>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <NoWarn>CSE0003;CC0038;IDE0008;CC0035;CC0045;CC0042;CC0076</NoWarn>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System">
-      <HintPath>System</HintPath>
-    </Reference>
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Authors>RononDex</Authors>
+		<Company/>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<FileVersion>1.9.0.0</FileVersion>
+		<Version>1.9.0</Version>
+		<PackageReleaseNotes>
+			- Native slash command support (ISlashCommand, SlashCommandFilter)
+			- Updated dependencies (Microsoft.Extensions 10, Newtonsoft.Json 13.0.4)
+			- Upgrade to target dotnet 10.0
+		</PackageReleaseNotes>
+		<PackageDescription>
+			A fully featured chat bot framework, that can be used to setup your own chatbot with ease.
+			Allows you to define commands for a chatbot that will work with every chat app (be it Discord, slack, ...).
+			Will need an api wrapper per chat app that you intend to use (for example see package AwesomeChatBot.Discord)
+			See project website for further docuemntation.
+		</PackageDescription>
+		<PackageProjectUrl>https://github.com/RononDex/AwesomeChatBot</PackageProjectUrl>
+	</PropertyGroup>
+	<PropertyGroup>
+		<NoWarn>CSE0003;CC0038;IDE0008;CC0035;CC0045;CC0042;CC0076</NoWarn>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12"/>
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.12"/>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4"/>
+	</ItemGroup>
 </Project>

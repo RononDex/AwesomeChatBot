@@ -19,8 +19,19 @@ namespace AwesomeChatBot
         internal async Task OnMessageReceivedAsync(ReceivedMessage receivedMessage)
         {
             LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Message received: {receivedMessage.Content})");
-            CommandFactory.HandleMessageAsync(receivedMessage).ConfigureAwait(false);
+            // Fire-and-forget so a slow command doesn't block the bot
+            _ = CommandFactory.HandleMessageAsync(receivedMessage);
             MessageReceived?.Invoke(receivedMessage);
+        }
+
+        /// <summary>
+        /// Will be fired when the ApiWrapper reports a slash command invocation
+        /// </summary>
+        /// <param name="invocation"></param>
+        internal Task OnSlashCommandReceivedAsync(Commands.Handlers.SlashCommandInvocation invocation)
+        {
+            LoggerFactory.CreateLogger(GetType().FullName).LogTrace($"Slash command received: /{invocation.CommandName}");
+            return CommandFactory.HandleSlashCommandAsync(invocation);
         }
 
         /// <summary>

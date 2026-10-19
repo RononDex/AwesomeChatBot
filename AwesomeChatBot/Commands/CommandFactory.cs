@@ -94,6 +94,45 @@ namespace AwesomeChatBot.Commands
         }
 
         /// <summary>
+        /// All registered commands that can be invoked as slash commands
+        /// </summary>
+        public IEnumerable<Handlers.ISlashCommand> SlashCommands => Commands.OfType<Handlers.ISlashCommand>();
+
+        /// <summary>
+        /// Handles a slash command invocation
+        /// </summary>
+        /// <param name="invocation"></param>
+        public async Task HandleSlashCommandAsync(Handlers.SlashCommandInvocation invocation)
+        {
+            try
+            {
+                var command = SlashCommands.FirstOrDefault(x => x.SlashName == invocation.CommandName);
+                if (command == null)
+                {
+                    await invocation.RespondAsync("Unknown command").ConfigureAwait(false);
+                    return;
+                }
+
+                var configContext = new Config.IConfigurationDependency[] { invocation.Channel?.ParentServer, invocation.Channel };
+                if (!ConfigStore.IsCommandActive((Command)command, BotFramework.Settings.CommandsEnabledByDefault, configContext))
+                {
+                    await invocation.RespondAsync("This command is disabled here").ConfigureAwait(false);
+                    return;
+                }
+
+                if (BotFramework.SlashCommandFilter != null && !await BotFramework.SlashCommandFilter(invocation).ConfigureAwait(false))
+                    return;
+
+                await command.ExecuteSlashCommandAsync(invocation).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                BotFramework.LoggerFactory.CreateLogger(GetType().Name).LogError($"Error processing slash command /{invocation.CommandName}: {ex}");
+                await invocation.RespondAsync($"Oh no! Something caused me to crash: {ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// Registers a handler with the command factory
         /// </summary>
         /// <param name="handler"></param>

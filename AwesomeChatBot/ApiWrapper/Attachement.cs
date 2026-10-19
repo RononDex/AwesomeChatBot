@@ -25,5 +25,13 @@
         /// The byte contents of the attachment
         /// </summary>
         public abstract byte[] Content { get; set; }
+
+        /// <summary>
+        /// Gets the byte contents without blocking, override when the content has to be downloaded first
+        /// </summary>
+        public virtual System.Threading.Tasks.Task<byte[]> GetContentAsync()
+        {
+            return System.Threading.Tasks.Task.FromResult(Content);
+        }
     }
 }
